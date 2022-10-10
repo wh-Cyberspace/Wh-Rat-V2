@@ -20,11 +20,11 @@ Usage of WH-Cyberspace Hacking Tool for attacking targets without prior mutual c
 
 [+] Files Manager ____________________________ [+] Live Key log
 
-[+] Contacts Manager _______________________ [+] Download Apk
+[+] Contacts Manager ________________________ [+] Download Apk
 
-[+] Calls History ______________________________ [+] Send Pop-Pop Sms
+[+] Calls History _____________________________ [+] Send Pop-Pop Sms
 
-[+] Call / USSD ______________________________ [+] System Clipboard
+[+] Call / USSD _______________________________ [+] System Clipboard
 
 [+] Sms View _________________________________ [+] Open Link
 
