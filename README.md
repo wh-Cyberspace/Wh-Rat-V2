@@ -1,5 +1,5 @@
 <p align="center">
-<img src="https://github.com/wh-Cyberspace/Spymax-V2-Payload-inject-Builder/blob/main/img/spymax-v2.0-downloadw.png?raw=true" height="170"><br>
+<img src="https://github.com/wh-Cyberspace/Wh-Rat-V2/blob/main/img/c7.png?raw=true" height="170"><br>
   
 <h1 align="center">  WH RAT - v2 remote administration framework</h1> 
 
