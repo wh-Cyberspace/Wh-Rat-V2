@@ -16,25 +16,31 @@ Usage of WH-Cyberspace Hacking Tool for attacking targets without prior mutual c
 
 
 
-About this item features
+#About this item features
 
-[+] Files Manager                 [+] Live Key log
+[+] Files Manager ____________________________ [+] Live Key log
 
-[+] Contacts Manager
+[+] Contacts Manager _________________________ [+] Download Apk
 
-[+] Calls History
+[+] Calls History ____________________________ [+] Send Pop-Pop Sms
 
-[+] Call / USSD
+[+] Call / USSD ______________________________ [+] System Clipboard
 
-[+] Sms View
+[+] Sms View _________________________________ [+] Open Link
 
-[+] Camera Manager
-[+] MicroPhone Control
-[+] Accounts View
-[+] Applications
-[+] Live Screen Control
-[+] Live Location
-[+] victim reboot connection
+[+] Camera Manager ___________________________ [+] Notifications
+
+[+] MicroPhone Control _______________________ [+] Phone info
+
+[+] Accounts View ____________________________ [+] Command Prompt
+
+[+] Applications _____________________________ [+] phishing attack
+
+[+] Live Screen Control ______________________ [+] victim Rename
+
+[+] Live Location ____________________________ [+] Edit Victim Soket
+
+[+] victim reboot connection _________________ [+] Quit Connection
 
 
 
@@ -57,15 +63,13 @@ or
 
 ### How To Use ?
 
-
-
 [+] Download Zip (https://whcyberspace.com)
 
 [+] Unzip File
 
 [+] Make Sure No [ ] space in Path Location
 
-[+] Click [Spymaxv2 Payload inject Builder.exe]
+[+] Click [Wh Rat.exe]
 
 And Run 
 
@@ -85,15 +89,15 @@ And Run
 
 <p align="center">
 
-[![IMAGE 1](https://github.com/wh-Cyberspace/Spymax-V2-Payload-inject-Builder/blob/main/img/img1.png)](https://www.youtube.com/channel/UCj6ekUzjItnjP6T7I9r1WMA?sub_confirmation=1 "Don't upload payload inbuilt Antivirus website")
+[![IMAGE 1](https://github.com/wh-Cyberspace/Wh-Rat-V2/blob/main/img/img1.png)](https://www.youtube.com/channel/UCj6ekUzjItnjP6T7I9r1WMA?sub_confirmation=1 "Don't upload payload inbuilt Antivirus website")
 
-[![IMAGE 1](https://github.com/wh-Cyberspace/Spymax-V2-Payload-inject-Builder/blob/main/img/img2.png)](https://www.youtube.com/channel/UCj6ekUzjItnjP6T7I9r1WMA?sub_confirmation=1 "Don't upload payload inbuilt Antivirus website")
+[![IMAGE 1](https://github.com/wh-Cyberspace/Wh-Rat-V2/blob/main/img/img2.png)](https://www.youtube.com/channel/UCj6ekUzjItnjP6T7I9r1WMA?sub_confirmation=1 "Don't upload payload inbuilt Antivirus website")
 
 
-[![IMAGE 1](https://github.com/wh-Cyberspace/Spymax-V2-Payload-inject-Builder/blob/main/img/img3.png)](https://www.youtube.com/channel/UCj6ekUzjItnjP6T7I9r1WMA?sub_confirmation=1 "Don't upload payload inbuilt Antivirus website")
+[![IMAGE 1](https://github.com/wh-Cyberspace/Wh-Rat-V2/blob/main/img/img3.png)](https://www.youtube.com/channel/UCj6ekUzjItnjP6T7I9r1WMA?sub_confirmation=1 "Don't upload payload inbuilt Antivirus website")
 
 # ℹ INFO
-Framwork version : 1.0.1.0
+Framwork version : 2.0.1.0
 
 POWER BY >> WH-Cyberspace  
 
