@@ -20,9 +20,9 @@ Usage of WH-Cyberspace Hacking Tool for attacking targets without prior mutual c
 
 [+] Files Manager ____________________________ [+] Live Key log
 
-[+] Contacts Manager _________________________ [+] Download Apk
+[+] Contacts Manager _______________________ [+] Download Apk
 
-[+] Calls History ____________________________ [+] Send Pop-Pop Sms
+[+] Calls History ______________________________ [+] Send Pop-Pop Sms
 
 [+] Call / USSD ______________________________ [+] System Clipboard
 
@@ -41,6 +41,15 @@ Usage of WH-Cyberspace Hacking Tool for attacking targets without prior mutual c
 [+] Live Location ____________________________ [+] Edit Victim Soket
 
 [+] victim reboot connection _________________ [+] Quit Connection
+
+
+
+
+
+
+
+
+
 
 
 
