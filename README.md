@@ -18,6 +18,9 @@ Usage of WH-Cyberspace Hacking Tool for attacking targets without prior mutual c
 
 
 # About this item features
+[+] Uninstall app ____________________________ [+] self Uninstal > ( coming soon )
+
+[+] Send Sms ____________________________ [+] Device administrator mode > ( coming soon )
 
 [+] Files Manager ____________________________ [+] Live Key log
 
