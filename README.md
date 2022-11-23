@@ -20,11 +20,11 @@ Usage of WH-Cyberspace Hacking Tool for attacking targets without prior mutual c
 # About this item features
 [+] Uninstall app ____________________________ [+] self Uninstall > ( coming soon )
 
-[+] Send Sms _______________________________ [+] Device administrator mode > ( coming soon )
+[+] Send Sms ________________________________[+] Device administrator mode > ( coming soon )
 
-[+] Files Manager ____________________________ [+] Live Key log
+[+] Files Manager ____________________________[+] Live Key log
 
-[+] Contacts Manager ________________________ [+] Download Apk
+[+] Contacts Manager ________________________[+] Download Apk
 
 [+] Calls History _____________________________ [+] Send Pop-Pop Sms
 
