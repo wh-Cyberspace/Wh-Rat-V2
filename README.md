@@ -18,9 +18,9 @@ Usage of WH-Cyberspace Hacking Tool for attacking targets without prior mutual c
 
 
 # About this item features
-[+] Uninstall app ____________________________ [+] self Uninstall > ( coming soon )
+[+] Uninstall app > ( New )_____________________ [+] self Uninstall > ( New )
 
-[+] Send Sms ________________________________[+] Device administrator mode > ( coming soon )
+[+] Send Sms > ( New ) __________________________[+] Device administrator mode > ( New )
 
 [+] Files Manager ____________________________[+] Live Key log
 
@@ -110,7 +110,7 @@ And Run
 [![IMAGE 1](https://github.com/wh-Cyberspace/Wh-Rat-V2/blob/main/img/img3.png)](https://www.youtube.com/channel/UCj6ekUzjItnjP6T7I9r1WMA?sub_confirmation=1 "Don't upload payload inbuilt Antivirus website")
 
 # ℹ INFO
-Framwork version : 2.0.1.0
+Framwork version : 2.2.0.1
 
 POWER BY >> WH-Cyberspace  
 
