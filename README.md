@@ -21,15 +21,19 @@ Usage of WH-Cyberspace Hacking Tool for attacking targets without prior mutual c
 
 # ----> Wh Rat V2.1 TO V2.4 New Updates
 
-[+] Uninstall app > ( New )_____________________ [+] self Uninstall 
+[+] Uninstall app > ( New )
 
-[+] Send Sms > ( New ) __________________________[+] Device administrator mode
+[+] self Uninstall > ( New )
 
-[+] Disable any App in Applications tab 
+[+] Send Sms > ( New )
 
-[+] Enable App in Applications tab 
+[+] Device administrator mode > ( New )
 
-[+]	Factory Data reset  
+[+] Disable any App in Applications tab > ( New )
+
+[+] Enable App in Applications tab > ( New )
+
+[+]	Factory Data reset > ( New )
 
 
 
