@@ -26,6 +26,8 @@ Usage of WH-Cyberspace Hacking Tool for attacking targets without prior mutual c
 
 [+] Enable App in Applications tab > ( New )
 
+[+]	Factory Data reset  > ( New )
+
 [+] Files Manager ____________________________[+] Live Key log
 
 [+] Contacts Manager ________________________[+] Download Apk
