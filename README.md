@@ -22,7 +22,9 @@ Usage of WH-Cyberspace Hacking Tool for attacking targets without prior mutual c
 
 [+] Send Sms > ( New ) __________________________[+] Device administrator mode > ( New )
 
-[+] Disable any App in Applications tab > ( New ) __________________________[+] Enable App in Applications tab > ( New )
+[+] Disable any App in Applications tab > ( New ) 
+
+[+] Enable App in Applications tab > ( New )
 
 [+] Files Manager ____________________________[+] Live Key log
 
