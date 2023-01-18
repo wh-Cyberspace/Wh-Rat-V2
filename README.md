@@ -19,7 +19,7 @@ Usage of WH-Cyberspace Hacking Tool for attacking targets without prior mutual c
 
 # About this item features
 
-# ----> Wh Rat V2.1 TO V2.4 New Updates
+# ----> Wh Rat V2.1 TO V2.4 New Updates features
 
 [+] Uninstall app > ( New )
 
@@ -37,7 +37,7 @@ Usage of WH-Cyberspace Hacking Tool for attacking targets without prior mutual c
 
 
 
-# ----> WWh Rat V2.1 First Release 
+# ----> WWh Rat V2.1 First Release features
 
 [+] Files Manager ____________________________[+] Live Key log
 
