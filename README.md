@@ -23,7 +23,8 @@ Usage of WH-Cyberspace Hacking Tool for attacking targets without prior mutual c
 [+] Features :
 
 
-1: File Manager : Delete , Download ,
+1: File Manager : 
+                            Delete , Download ,
 
                             Launch Files ,Go through 
                             
@@ -32,7 +33,8 @@ Usage of WH-Cyberspace Hacking Tool for attacking targets without prior mutual c
                             Back ,Move File to Bin
   
 
-2: Encryption : Can encrypt | decrypt files
+2: Encryption : 
+                        Can encrypt | decrypt files
 
                         in files manager with custom
                         
@@ -41,15 +43,14 @@ Usage of WH-Cyberspace Hacking Tool for attacking targets without prior mutual c
                         Salsa20 , Cast6 , TwoFish )
   
   
-3: Passwords Recovery : Currenly Supports 
-
-                                           most Chromium.
-                                           
-                                           Web Browsers
+3: Passwords Recovery :  
+                                    Currenly Supports most Chromium. Web Browsers
                                            
   
   
-4: Tasks Manager : Kill Tasks , Refresh ,
+4: Tasks Manager : 
+                
+                          Kill Tasks , Refresh ,
 
                                      Get Information
                                      
@@ -67,25 +68,33 @@ Usage of WH-Cyberspace Hacking Tool for attacking targets without prior mutual c
 6: Change Wallpaper
   
   
-7: TaskBar : Hide , Show ,Hide Apps , 
+7: TaskBar :
+
+Hide , Show ,Hide Apps , 
 
                         SHow Apps
   
   
-8: Mouse : Swap Mouse Button , Lock Left 
+8: Mouse :
+
+Swap Mouse Button , Lock Left 
 
                    Click ,Lock Right Click , Lock 
                    
                    Movements ,Lock All , Unlock All
   
   
-9: Keyboard : Lock , Unlock
+9: Keyboard : 
+
+Lock , Unlock
   
   
 10: Message
   
   
-11: Computer Power : Log Out , Reboot , 
+11: Computer Power : 
+
+Log Out , Reboot , 
 
                                     Shutdown , Hibernate,
                                     
@@ -97,13 +106,19 @@ Usage of WH-Cyberspace Hacking Tool for attacking targets without prior mutual c
 13: DDOS : UDP
   
   
-14: OS INFORMATION : Get Precious Information about OS
+14: OS INFORMATION :
+
+Get Precious Information about OS
   
   
-15: Client : Close , Close And Delete
+15: Client : 
+
+Close , Close And Delete
   
   
-16: Client Size : 20KB at least (depending 
+16: Client Size :
+
+20KB at least (depending 
 
                            on the options you add) => 
                            
@@ -111,7 +126,9 @@ Usage of WH-Cyberspace Hacking Tool for attacking targets without prior mutual c
                            
   
   
-17: Builder : X86 ,X64 (Default is 
+17: Builder : 
+
+X86 ,X64 (Default is 
 
                       AnyCPU) , Stealth Mode , 
                       
@@ -133,7 +150,9 @@ Usage of WH-Cyberspace Hacking Tool for attacking targets without prior mutual c
 22: Add Client To Startup
   
   
-23: RED VIRUS : Block Keyboard , Block 
+23: RED VIRUS :
+
+Block Keyboard , Block 
 
                                Mouse , add a watchdog 
                                
@@ -147,13 +166,17 @@ Usage of WH-Cyberspace Hacking Tool for attacking targets without prior mutual c
   
 24: Fork Bomb
 
-25: vProcess INFO: Handle , FilePath , ID , 
+25: vProcess INFO:
+
+Handle , FilePath , ID , 
 
           BaseAddress , Priority , 
           
           Handle Window , Window title
   
-26: Delete Files On Desktop , Delete Files 
+26: Delete : 
+
+    Delete Files On Desktop , Delete Files 
 
               On Desktop + Reboot
   
@@ -164,10 +187,13 @@ Usage of WH-Cyberspace Hacking Tool for attacking targets without prior mutual c
 29: Injection Exe (NOT NATIVE)
   
   
-30:Auto Execute File In memory : BE SURE IT IS A .NET EXE ,not native
+30:Auto Execute File In memory :
+
+    BE SURE IT IS A .NET EXE ,not native
   
   
-31:Monitor Rotation : 0 , 90 ,180 , 270
+31:Monitor Rotation : 
+                     0 , 90 ,180 , 270
   
   
 32:Empty Bin | Trash
