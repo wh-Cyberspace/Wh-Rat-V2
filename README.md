@@ -83,7 +83,9 @@ Lock , Unlock
 12: BSOD
   
   
-13: DDOS : UDP
+13: DDOS :
+
+          UDP
   
   
 14: OS INFORMATION :
@@ -109,7 +111,7 @@ Lock , Unlock
                  Spread , Add To Startup
   
   
-18: Currently DOESN'T SUPPORT DNS
+18: Empty Bin | Trash
   
   
 19: Show and Hide Desktop Icons
@@ -159,24 +161,29 @@ Lock , Unlock
                     0 , 90 ,180 , 270
   
   
-32:Empty Bin | Trash
+
    
    
   
   
-[+] More Update in android Section :
-  ->[Update] Better & Faster Keylogger 
-  ->[Update] Screen Monitor Faster
-  ->[Update] Optimize apk 
- ->[Update] Add/Remove Permission in injection 
+<b>[+] More Update in android Section :</b>
 
-
-[+] More Update in Application Section :
-  ->Security update 
-  ->Gui Update and improve
-  ->Optimize Wh Rat
-  ->Auto Application update in new version
+           -> [Update] Better & Faster Keylogger 
   
+           -> [Update] Screen Monitor Faster
+  
+           -> [Update] Optimize apk 
+  
+           -> [Update] Add/Remove Permission in injection 
+
+
+<b>[+] More Update in Application Section :</b>
+
+          ->Security update 
+          ->Gui Update and improve
+          ->Optimize Wh Rat
+          ->Auto Application update in new version
+
 
 [+] Uninstall app > ( New )
 
