@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ProjectSchemaDefinitions xmlns="http://schemas.microsoft.com/build/2009/properties">
+
+    <ContentType Name="Default" DisplayName="Default file type" ItemType="Content" />
+    <ContentType Name="AppxManifest" DisplayName="App Manifest" ItemType="AppxManifest" />
+    <ContentType Name="PackageLayout" DisplayName="Package Layout" ItemType="PackageLayout" />
+    <ContentType Name="Text" DisplayName="Text file" ItemType="None" />
+    <ContentType Name="Resource" DisplayName="Resource file" ItemType="PRIResource" />
+
+    <ItemType Name="Content" DisplayName="Content" />
+    <ItemType Name="None" DisplayName="Does not participate in build"/>
+    <ItemType Name="AppxManifest" DisplayName="App Manifest" />
+    <ItemType Name="PackageLayout" DisplayName="Package Layout" />
+    <ItemType Name="PRIResource" DisplayName="Resource" />
+
+    <FileExtension Name=".txt" ContentType="Text"/>
+    <FileExtension Name=".appxmanifest" ContentType="AppxManifest" />
+    <FileExtension Name=".packagelayout" ContentType="PackageLayout" />
+
+</ProjectSchemaDefinitions>

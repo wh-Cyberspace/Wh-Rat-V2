@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information. -->
+<Rule Name="ProjectDebugPropertyPage" Description="Propriedades associadas à inicialização e à depuração da saída do projeto." DisplayName="Projeto" PageTemplate="commandNameBasedDebugger" xmlns:sys="clr-namespace:System;assembly=mscorlib" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <Rule.Metadata>
+    <sys:String x:Key="CommandName">Project</sys:String>
+    <!-- KnownImageIds.ImageCatalogGuid -->
+    <sys:Guid x:Key="ImageMonikerGuid">AE27A6B0-E345-4288-96DF-5EAF394EE369</sys:Guid>
+    <!-- KnownImageIds.Application -->
+    <sys:Int32 x:Key="ImageMonikerId">165</sys:Int32>
+  </Rule.Metadata>
+  <Rule.DataSource>
+    <DataSource Persistence="LaunchProfile" HasConfigurationCondition="False" ItemType="LaunchProfile" />
+  </Rule.DataSource>
+  <StringProperty Name="CommandLineArguments" DisplayName="Argumentos da linha de comando" Description="Argumentos da linha de comando a serem passados para o executável." />
+  <StringProperty Name="WorkingDirectory" DisplayName="Diretório de trabalho" Description="Caminho para o diretório de trabalho em que o processo será iniciado." Subtype="folder" />
+  <BoolProperty Name="RemoteDebugEnabled" DisplayName="Usar computador remoto" Description="Indica que o depurador deve ser anexado a um processo em um computador remoto." />
+  <StringProperty Name="RemoteDebugMachine" DisplayName="Nome do computador remoto" Description="O nome e o número da porta do computador remoto no formato 'name:port'.">
+    <StringProperty.Metadata>
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>(has-evaluated-value "Project" "RemoteDebugEnabled" true)</NameValuePair.Value>
+      </NameValuePair>
+      <NameValuePair Name="DependsOn" Value="Project::RemoteDebugMachine" />
+    </StringProperty.Metadata>
+  </StringProperty>
+  <DynamicEnumProperty Name="AuthenticationMode" DisplayName="Modo de autenticação" Description="O esquema de autenticação a ser usado durante a conexão com o computador remoto." EnumProvider="AuthenticationModeEnumProvider">
+    <DynamicEnumProperty.Metadata>
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>(has-evaluated-value "Project" "RemoteDebugEnabled" true)</NameValuePair.Value>
+      </NameValuePair>
+      <NameValuePair Name="DependsOn" Value="Project::RemoteDebugMachine" />
+    </DynamicEnumProperty.Metadata>
+  </DynamicEnumProperty>
+  <StringProperty Name="EnvironmentVariables" DisplayName="Variáveis de ambiente" Description="As variáveis de ambiente a serem definidas antes da execução do processo. As variáveis são separadas por uma vírgula (,) e os valores e os nomes de variáveis são separados por um sinal de igual (=). Exemplo: var1=value1,var2=value2,var3=value3. As vírgulas e os sinais de igual que aparecem dentro de uma variável podem ter uma barra (/) como escape." />
+  <BoolProperty Name="HotReloadEnabled" DisplayName="Habilitar o Recarga Dinâmica" Description="Aplicar mudanças de código na aplicação em execução.">
+    <BoolProperty.Metadata>
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>
+          (and
+            (has-project-capability "SupportsHotReload")
+            (not (has-evaluated-value "Project" "RemoteDebugEnabled" true)))</NameValuePair.Value>
+      </NameValuePair>
+    </BoolProperty.Metadata>
+  </BoolProperty>
+  <BoolProperty Name="NativeDebugging" DisplayName="Habilitar depuração de código nativo" Description="Permitir a depuração de código gerenciado e nativo em conjunto, também conhecida como depuração de modo misto." />
+  <BoolProperty Name="SqlDebugging" DisplayName="Habilitar a depuração do SQL Server" Description="Habilitar a depuração de scripts SQL e de procedimentos armazenados." />
+  <BoolProperty Name="WebView2Debugging" DisplayName="Habilitar a depuração do WebView2" Description="Habilitar o depurador JavaScript para WebView2 baseado no Microsoft Edge (Chromium). Requer o componente Diagnósticos de JavaScript." />
+</Rule>

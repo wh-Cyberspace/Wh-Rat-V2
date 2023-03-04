@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information. -->
+<Rule Name="AssemblyReference" Description="程序集引用属性" DisplayName="程序集引用" PageTemplate="generic" xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <Rule.DataSource>
+    <DataSource HasConfigurationCondition="False" ItemType="Reference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+  </Rule.DataSource>
+  <StringListProperty Name="Aliases" Description="此引用的别名的逗号分隔列表。" DisplayName="别名" Separator="," />
+  <BoolProperty Name="CopyLocal" Description="指示是否将引用复制到输出目录。" DisplayName="复制本地">
+    <BoolProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="Reference" PersistedName="Private" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+  <BoolProperty Name="EmbedInteropTypes" Description="指示是否将此程序集中定义的类型嵌入目标程序集。" DisplayName="嵌入互操作类型" />
+  <StringProperty Name="HintPath" Visible="false" />
+  <StringProperty Name="Identity" Description="所引用程序集的安全标识(参见 System.Reflection.Assembly.Evidence 或 System.Security.Policy.Evidence)。" DisplayName="标识" ReadOnly="True">
+    <StringProperty.DataSource>
+      <DataSource PersistedName="{}{Identity}" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="ImageRuntime" ReadOnly="True" Visible="False" />
+  <StringProperty Name="IsImplicitlyDefined" ReadOnly="True" Visible="False" />
+  <BoolProperty Name="IsWinMDFile" Visible="false" />
+  <StringProperty Name="RequiredTargetFramework" Visible="False" />
+  <StringProperty Name="ResolvedPath" Description="所引用的文件的位置。" DisplayName="路径" ReadOnly="True">
+    <StringProperty.DataSource>
+      <DataSource PersistedName="Identity" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="SDKName" Visible="false" />
+  <BoolProperty Name="SpecificVersion" Description="指示是否可以解析此程序集，无论程序集解析的多定向规则是什么。" DisplayName="特定版本">
+    <BoolProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="Reference" Persistence="AssemblyReference" SourceOfDefaultValue="AfterContext" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+  <StringProperty Name="Version" Description="引用的版本。" DisplayName="版本" ReadOnly="True" />
+  <BoolProperty Name="Visible" ReadOnly="True" Visible="False" />
+  <BoolProperty Name="TreatAsUsed" Description="指示应将此引用看作是已被使用一样。" DisplayName="视为已使用" Visible="True" ReadOnly="True" />
+</Rule>

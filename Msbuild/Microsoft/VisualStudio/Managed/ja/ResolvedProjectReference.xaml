@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information. -->
+<Rule Name="ResolvedProjectReference" Description="プロジェクト参照プロパティ" DisplayName="プロジェクト参照" PageTemplate="generic" xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <Rule.DataSource>
+    <DataSource HasConfigurationCondition="False" ItemType="ProjectReference" MSBuildTarget="ResolveProjectReferencesDesignTime2" Persistence="ResolvedReference" SourceOfDefaultValue="AfterContext" SourceType="TargetResults" />
+  </Rule.DataSource>
+  <StringListProperty Name="Aliases" Description="この参照へのエイリアスのコンマ区切りのリストです。" DisplayName="エイリアス" Separator=",">
+    <StringListProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="ProjectReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </StringListProperty.DataSource>
+  </StringListProperty>
+  <StringProperty Name="BrowsePath" ReadOnly="True" Visible="False">
+    <StringProperty.DataSource>
+      <DataSource ItemType="ProjectReference" PersistedName="Identity" Persistence="Intrinsic" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <BoolProperty Name="CopyLocal" Description="参照が出力ディレクトリにコピーされるかどうかを示します。" DisplayName="ローカルにコピー">
+    <BoolProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="ProjectReference" PersistedName="Private" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+  <BoolProperty Name="CopyLocalSatelliteAssemblies" Description="参照先のサテライト アセンブリをこのプロジェクトの出力ディレクトリにコピーする必要があるかどうかを示します。" DisplayName="ローカルのサテライト アセンブリをコピー">
+    <BoolProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="ProjectReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+  <StringProperty Name="Culture" Description="アセンブリ メタデータの Culture フィールドの値です。" DisplayName="カルチャ" ReadOnly="True" />
+  <StringProperty Name="Description" Description="アセンブリ メタデータの Title フィールドの値です。" DisplayName="説明" ReadOnly="True" />
+  <StringProperty Name="DiagnosticLevel" ReadOnly="True" Visible="False" />
+  <BoolProperty Name="EmbedInteropTypes" Description="このアセンブリ内で定義される型をターゲット アセンブリに埋め込むかどうかを示します。" DisplayName="相互運用型の埋め込み">
+    <BoolProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="ProjectReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+  <StringProperty Name="ExcludeAssets" Description="この参照から除外する資産。" DisplayName="アセットを除外">
+    <StringProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="ProjectReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <EnumProperty Name="FileType" ReadOnly="True" Visible="False">
+    <EnumValue Name="Assembly" />
+    <EnumValue Name="ActiveX" />
+    <EnumValue Name="Native Assembly" />
+  </EnumProperty>
+  <StringProperty Name="FusionName" ReadOnly="True" Visible="False" />
+  <StringProperty Name="HintPath" Visible="false" />
+  <StringProperty Name="Identity" Description="参照されたアセンブリのセキュリティ ID です。System.Reflection.Assembly.Evidence または System.Security.Policy.Evidence を参照してください。" DisplayName="ID" ReadOnly="True">
+    <StringProperty.DataSource>
+      <DataSource PersistedName="{}{Identity}" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="IncludeAssets" Description="この参照で含める資産。" DisplayName="アセットを含める">
+    <StringProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="ProjectReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="IsImplicitlyDefined" ReadOnly="True" Visible="False" />
+  <BoolProperty Name="IsWinMDFile" Visible="false" />
+  <StringProperty Name="Name" ReadOnly="True" Visible="false" />
+  <StringProperty Name="OriginalItemSpec" ReadOnly="True" Visible="False" />
+  <StringProperty Name="PrivateAssets" Description="この参照で非公開の資産。" DisplayName="個人用アセット">
+    <StringProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="ProjectReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="Project" Visible="False" />
+  <BoolProperty Name="ReferenceOutputAssembly" Description="コンパイラに対象プロジェクトのプライマリ出力アセンブリへの参照が含まれているかどうかを示す値です。" DisplayName="参照出力アセンブリ">
+    <BoolProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="ProjectReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+  <StringProperty Name="RequiredTargetFramework" Visible="False" />
+  <StringProperty Name="ResolvedPath" Description="参照されているファイルの場所です。" DisplayName="パス" ReadOnly="True">
+    <StringProperty.DataSource>
+      <DataSource PersistedName="Identity" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="RuntimeVersion" ReadOnly="True" Visible="False" />
+  <StringProperty Name="SDKIdentity" Visible="false" />
+  <BoolProperty Name="SpecificVersion" Visible="False" />
+  <BoolProperty Name="StrongName" ReadOnly="True" Visible="False" />
+  <StringProperty Name="Version" Description="参照のバージョンです。" DisplayName="バージョン" ReadOnly="True" />
+  <BoolProperty Name="Visible" ReadOnly="True" Visible="False" />
+  <BoolProperty Name="WinMDFile" ReadOnly="True" Visible="false" />
+  <BoolProperty Name="TreatAsUsed" Description="この参照を使用済みであるかのように扱う必要があることを示しています。" DisplayName="使用済みとして扱う" ReadOnly="True" Visible="True" />
+</Rule>

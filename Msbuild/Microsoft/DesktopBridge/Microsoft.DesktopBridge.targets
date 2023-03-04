@@ -1,0 +1,924 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <WapProjDir>$(MSBuildThisFileDirectory)</WapProjDir>
+    <WapProjTaskAssembly>$(WapProjDir)\Microsoft.Build.DesktopBridge.Tasks.dll</WapProjTaskAssembly>
+    <WapProjRulesDir>$(MSBuildThisFileDirectory)Rules\</WapProjRulesDir>
+    <WapBuildFile Condition="'$(WapBuildFile)'==''">$(MSBuildProjectFile).LastBuild.txt</WapBuildFile>
+  </PropertyGroup>
+
+  <!-- Import the Microsoft.NET.Sdk and load the shim project, Sdk.NuGet.targets, that points to the .NET Sdk targets needed to populate the dependency tree. -->
+  <PropertyGroup>
+    <MicrosoftDotNetNuGetTargets  Condition="'$(MicrosoftDotNetNuGetTargets)' == ''">Sdk.NuGet.targets</MicrosoftDotNetNuGetTargets>
+  </PropertyGroup>
+
+  <Import Sdk="Microsoft.NET.Sdk" Project="$(MicrosoftDotNetNuGetTargets)" Condition="'$(SkipImportNetSdk)' == ''" />
+
+  <UsingTask AssemblyFile="$(WapProjTaskAssembly)" TaskName="Microsoft.Build.DesktopBridge.GenerateDesktopBridgeAppxManifest" />
+  <UsingTask AssemblyFile="$(WapProjTaskAssembly)" TaskName="Microsoft.Build.DesktopBridge.TargetPlatformMinVersionCheck" />
+  <UsingTask AssemblyFile="$(WapProjTaskAssembly)" TaskName="Microsoft.Build.DesktopBridge.ResolveReferencedVCLibVersions" />
+  <UsingTask AssemblyFile="$(WapProjTaskAssembly)" TaskName="Microsoft.Build.DesktopBridge.ValidateTargetFrameworkReferenceVersion" />
+  <UsingTask AssemblyFile="$(WapProjTaskAssembly)" TaskName="Microsoft.Build.DesktopBridge.CreateWapProjPackageFiles" />
+  <UsingTask AssemblyFile="$(WapProjTaskAssembly)" TaskName="Microsoft.Build.DesktopBridge.UWPReferencesCheck" />
+  <UsingTask AssemblyFile="$(WapProjTaskAssembly)" TaskName="Microsoft.Build.DesktopBridge.AddProjectMetadata" />
+  <UsingTask AssemblyFile="$(WapProjTaskAssembly)" TaskName="Microsoft.Build.DesktopBridge.ConvertToAbsolutePaths" />
+  <UsingTask AssemblyFile="$(WapProjTaskAssembly)" TaskName="Microsoft.Build.DesktopBridge.SetPublishProperties" />
+  <UsingTask AssemblyFile="$(WapProjTaskAssembly)" TaskName="Microsoft.Build.DesktopBridge.CheckReferencedTargetPlatformMinVersion" />
+  <UsingTask AssemblyFile="$(WapProjTaskAssembly)" TaskName="Microsoft.Build.DesktopBridge.ValidateRuntimeIdentifiers" />
+  <UsingTask AssemblyFile="$(WapProjTaskAssembly)" TaskName="Microsoft.Build.DesktopBridge.DeterminePriPackageFiles" />
+  <UsingTask AssemblyFile="$(WapProjTaskAssembly)" TaskName="Microsoft.Build.DesktopBridge.GetDetailedPriXmlItems" />
+  <UsingTask AssemblyFile="$(WapProjTaskAssembly)" TaskName="Microsoft.Build.DesktopBridge.DumpPriFileToDetailedXml" />
+  <UsingTask AssemblyFile="$(WapProjTaskAssembly)" TaskName="Microsoft.Build.DesktopBridge.RemoveDuplicatesOnTargetPath" />
+  <UsingTask AssemblyFile="$(WapProjTaskAssembly)" TaskName="Microsoft.Build.DesktopBridge.CreateSolutionBuildDependencies" />
+
+  <PropertyGroup>
+    <DisableNetFrameworkResolutionTargets Condition="'$(DisableNetFrameworkResolutionTargets)'==''">$(MSBuildExtensionsPath)\Microsoft\DesktopBridge\Microsoft.NET.DisableStandardFrameworkResolution.targets</DisableNetFrameworkResolutionTargets>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AppxManifestMetadata Include="$(WapProjTaskAssembly)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectCapability Include="WapProj" />
+    <ProjectCapability Include="ProjectConfigurationsDeclaredAsItems"/>
+    <ProjectCapability Include="WindowsAppContainer" />
+    <ProjectCapability Include="AppDesigner" />
+    <ProjectCapability Include="ImageSet"/>
+
+    <!-- DependenciesTree capability lights up a Dependencies tree node and its sub node providers-->
+    <ProjectCapability Include="DependenciesTree" />
+    <ProjectCapability Include="ReferenceManagerProjects" />
+    <ProjectCapability Include="PackageReferences" />
+    <ProjectCapability Include="ProjectReference" />
+    <ProjectCapability Include="ProjectReferences" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PropertyPageSchema Include="$(WapProjRulesDir)$(LangID)\ResolvedCompilationReference.xaml"/>
+    <PropertyPageSchema Include="$(WapProjRulesDir)$(LangID)\ProjectItemsSchema.xaml"/>
+    <PropertyPageSchema Include="$(WapProjRulesDir)$(LangID)\scc.xaml">
+      <Context>Invisible</Context>
+    </PropertyPageSchema>
+    <!-- general is equivalent to the Project System's configurationgeneral.xaml and is used by the DependenciesTree -->
+    <PropertyPageSchema Include="$(WapProjRulesDir)$(LangID)\general.xaml;
+                                 $(WapProjRulesDir)$(LangID)\debugger.general.xaml;
+                                 $(WapProjRulesDir)$(LangID)\debuggerlocal.xaml;
+                                 $(WapProjRulesDir)$(LangID)\debuggerremote.xaml;
+                                 $(MSBuildExtensionsPath)\Microsoft\Universal\$(LangID)\WindowsAppEmulatorDebugger.xaml">
+      <Context>Project</Context>
+    </PropertyPageSchema>
+    <PropertyPageSchema Include="$(WapProjRulesDir)$(LangID)\general_file.xaml">
+      <Context>File</Context>
+    </PropertyPageSchema>
+    <PropertyPageSchema Include="$(WapProjRulesDir)$(LangID)\general.browseobject.xaml;">
+      <Context>BrowseObject</Context>
+    </PropertyPageSchema>
+    <PropertyPageSchema Include=
+                        "$(WapProjRulesDir)$(LangID)\folder.xaml;
+                         $(WapProjRulesDir)$(LangID)\none.xaml;
+                         $(WapProjRulesDir)$(LangID)\appxmanifest.xaml;
+                         $(WapProjRulesDir)$(LangID)\packagelayout.xaml;
+                         $(WapProjRulesDir)$(LangID)\content.xaml;
+                         $(WapProjRulesDir)$(LangID)\priresource.xaml;">
+      <Context>File;BrowseObject</Context>
+    </PropertyPageSchema>
+    <PropertyPageSchema Include="$(WapProjRulesDir)$(LangID)\AssemblyReference.xaml">
+      <Context>Project;BrowseObject</Context>
+    </PropertyPageSchema>
+    <PropertyPageSchema Include="$(WapProjRulesDir)$(LangID)\ResolvedAssemblyReference.xaml">
+      <Context>ProjectSubscriptionService;BrowseObject</Context>
+    </PropertyPageSchema>
+    <PropertyPageSchema Include="$(WapProjRulesDir)$(LangID)\ProjectReference.xaml">
+      <Context>Project;BrowseObject</Context>
+    </PropertyPageSchema>
+    <PropertyPageSchema Include="$(WapProjRulesDir)$(LangID)\ResolvedProjectReference.xaml">
+      <Context>ProjectSubscriptionService;BrowseObject</Context>
+    </PropertyPageSchema>
+    <PropertyPageSchema Include="$(WapProjRulesDir)$(LangID)\PackageReference.xaml">
+      <Context>Project;BrowseObject</Context>
+    </PropertyPageSchema>
+    <PropertyPageSchema Include="$(WapProjRulesDir)$(LangID)\ResolvedPackageReference.xaml">
+      <Context>ProjectSubscriptionService;BrowseObject</Context>
+    </PropertyPageSchema>
+    <PropertyPageSchema Include="$(WapProjRulesDir)$(LangID)\UpToDateCheckBuilt.xaml"/>
+    <PropertyPageSchema Include="$(WapProjRulesDir)$(LangID)\UpToDateCheckInput.xaml"/>
+    <PropertyPageSchema Include="$(WapProjRulesDir)$(LangID)\UpToDateCheckOutput.xaml"/>
+  </ItemGroup>
+
+  <!-- Declare compatibility with net6.0-windows10.0.nnnnn projects and any other net6.0 Windows projects -->
+  <!-- This needs to be done here because the TargetPlatformVersion property is -->
+  <!-- defined in the project file after Microsoft.DesktopBridge.props is imported. -->
+  <PropertyGroup>
+    <AssetTargetFallback>$(AssetTargetFallback);net6.0-windows$(TargetPlatformVersion)</AssetTargetFallback>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <IncludeCopyWinMDArtifactsOutputGroup>false</IncludeCopyWinMDArtifactsOutputGroup>
+    <IncludeBuiltProjectOutputGroup>false</IncludeBuiltProjectOutputGroup>
+    <IncludeDebugSymbolsProjectOutputGroup>false</IncludeDebugSymbolsProjectOutputGroup>
+    <IncludeDocumentationProjectOutputGroup>false</IncludeDocumentationProjectOutputGroup>
+    <IncludeSatelliteDllsProjectOutputGroup>false</IncludeSatelliteDllsProjectOutputGroup>
+    <IncludeSourceFilesProjectOutputGroup>false</IncludeSourceFilesProjectOutputGroup>
+    <IncludeSGenFilesOutputGroup>false</IncludeSGenFilesOutputGroup>
+    <IncludeComFilesOutputGroup>false</IncludeComFilesOutputGroup>
+    <IncludeSDKRedistOutputGroup>false</IncludeSDKRedistOutputGroup>
+    <IncludeCustomOutputGroupForPackaging>true</IncludeCustomOutputGroupForPackaging>
+    <IncludeCopyLocalFilesOutputGroup>true</IncludeCopyLocalFilesOutputGroup>
+    <SkipAppxManifestValidation>true</SkipAppxManifestValidation>
+    <OneAppCapabilities>Application</OneAppCapabilities>
+    <SkipUnionWinmd Condition="'$(SkipUnionWinmd)' == ''">true</SkipUnionWinmd>
+    <AppDesignerFolder Condition="'$(AppDesignerFolder)' == ''">Properties</AppDesignerFolder>
+    <WapAlwaysBuildDependentProjects Condition="'$(WapAlwaysBuildDependentProjects)' == ''">false</WapAlwaysBuildDependentProjects>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <DefaultContentType Condition="$(DefaultContentType) == ''">Default</DefaultContentType>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <OutputType>package</OutputType>
+    <AvailablePlatforms>x86,x64,ARM,ARM64,AnyCPU</AvailablePlatforms>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <BuildProjectReferences Condition="'$(BuildProjectReferences)' == ''">false</BuildProjectReferences>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <_VCLibCurrentVersion>14.0</_VCLibCurrentVersion>
+  </PropertyGroup>
+
+  <Import Project="$(MSBuildBinPath)\Microsoft.Common.targets" />
+  <!-- This will override some targets that get defined in Microsoft.Common so this needs to be imported after -->
+  <Import Condition="Exists('$(DisableNetFrameworkResolutionTargets)') and '$(SkipImportDisableNetFrameworkResolutionTargets)' != 'true'" Project="$(DisableNetFrameworkResolutionTargets)" />
+
+  <PropertyGroup>
+    <!-- We don't target any framework, so clear what the Microsoft.Common.targets sets. -->
+    <AddAdditionalExplicitAssemblyReferences>false</AddAdditionalExplicitAssemblyReferences>
+    <TargetPlatformSdkPath>$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft SDKs\Windows\v10.0', InstallationFolder, null, RegistryView.Registry32, RegistryView.Default))</TargetPlatformSdkPath>
+    <TargetPlatformSdkMetadataLocation Condition="'$(TargetPlatformSdkMetadataLocation)' == '' and Exists('$(TargetPlatformSdkPath)')">$(TargetPlatformSdkPath)UnionMetadata</TargetPlatformSdkMetadataLocation>
+    <TargetPlatformWinMDLocation>$(TargetPlatformSdkMetadataLocation)</TargetPlatformWinMDLocation>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="Exists('$(MSBuildProjectFullPath)')">$(MSBuildAllProjects);$(MSBuildProjectFullPath)</MSBuildAllProjects>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <WapProjBeforeGenerateAppxManifestDependsOn>
+      $(WapProjBeforeGenerateAppxManifestDependsOn);
+      _RemoveAllNonWapUWPItems
+    </WapProjBeforeGenerateAppxManifestDependsOn>
+  </PropertyGroup>
+
+  <Target Name="_RemoveAllNonWapUWPItems">
+    <ItemGroup>
+      <!-- Remove outputs from all other UWP projects that the WapProj is referencing -->
+      <AppxPackagePayload Remove="@(AppxPackagePayload)" Condition="'%(AppxPackagePayload.ProjectName)' != '' AND '%(AppxPackagePayload.ProjectName)' != '$(ProjectName)'"/>
+      <AppxPackagePayload Include="@(WapProjPackageFile)"/>
+
+      <AppxUploadPackagePayload Remove="@(AppxUploadPackagePayload)" Condition="'%(AppxUploadPackagePayload.ProjectName)' != '' AND '%(AppxUploadPackagePayload.ProjectName)' != '$(ProjectName)'"/>
+      <AppxUploadPackagePayload Include="@(UploadWapProjPackageFile)"/>
+    </ItemGroup>
+  </Target>
+
+  <PropertyGroup>
+    <_GenerateProjectPriFileDependsOn>
+      _ValidateRuntimeIdentifiers;
+      _ValidateTargetFrameworkReferenceVersion;
+      _DetermineExecutableTrust;
+      _ConvertItems;
+      _CopyPackageFiles;
+      _CopyUploadPackageFiles;
+      $(_GenerateProjectPriFileDependsOn);
+    </_GenerateProjectPriFileDependsOn>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <WapProjAfterGenerateAppxManifestDependsOn>
+      _GenerateDesktopBridgeAppxManifest;
+      _ValidateAppxManifest;
+      _WritePayloadFiles;
+      $(WapProjAfterGenerateAppxManifestDependsOn)
+    </WapProjAfterGenerateAppxManifestDependsOn>
+  </PropertyGroup>
+
+  <Target Name="_WritePayloadFiles">
+    <WriteLinesToFile File="$(IntermediateOutputPath)$(WapBuildFile)" Lines="@(AppxPackagePayload)" Overwrite="true" />
+
+    <ItemGroup>
+      <FileWrites Include="$(IntermediateOutputPath)$(WapBuildFile)" />
+    </ItemGroup>
+  </Target>
+
+  <Target Name="CustomOutputGroupForPackaging" Returns="@(CustomOutputGroupForPackagingOutput)">
+    <ItemGroup>
+      <CustomOutputGroupForPackagingOutput Include="@(File)"/>
+    </ItemGroup>
+  </Target>
+
+  <Target Name="_ValidateRuntimeIdentifiers" DependsOnTargets="_WapProjGetProjectClosure">
+    <ValidateRuntimeIdentifiers AppReferences="@(_NonWapProjProjectReference)" VsTelemetrySession="$(VsTelemetrySession)" />
+  </Target>
+
+  <Target Name="_ValidateTargetFrameworkReferenceVersion">
+    <ValidateTargetFrameworkReferenceVersion AppReferences="@(_NonWapProjProjectReference)" VsTelemetrySession="$(VsTelemetrySession)"/>
+  </Target>
+
+  <Target Name="_UWPReferencesCheck" DependsOnTargets="GetReferenceTargetPlatformMonikers">
+    <UWPReferencesCheck ResolvedProjectReferencePaths="@(TargetPathWithTargetPlatformMoniker)" VsTelemetrySession="$(VsTelemetrySession)"/>
+  </Target>
+
+  <PropertyGroup Condition="'$(EntryPointProjectUniqueName)' != ''">
+    <EntryPointProjectFullPathRooted>$([System.IO.Path]::IsPathRooted($(EntryPointProjectUniqueName)))</EntryPointProjectFullPathRooted>
+    <EntryPointProjectFullPath Condition="'$(EntryPointProjectFullPathRooted)' == 'False'">$([System.IO.Path]::GetFullPath($(MSBuildProjectDirectory)\$(EntryPointProjectUniqueName)))</EntryPointProjectFullPath>
+    <EntryPointProjectFullPath Condition="'$(EntryPointProjectFullPathRooted)' == 'True'">$(EntryPointProjectUniqueName)</EntryPointProjectFullPath>
+  </PropertyGroup>
+
+  <Target Name="_DetermineExecutableTrust">
+    <PropertyGroup>
+      <EntryTrustLevel Condition="'%(ProjectReference.Identity)'=='$(EntryPointProjectUniqueName)'">%(ProjectReference.TrustLevel)</EntryTrustLevel>
+    </PropertyGroup>
+  </Target>
+
+  <Target Name="_GenerateDesktopBridgeAppxManifest">
+
+    <!-- We need to remove extra resources.pri from other UWP projects as they could potentially overwrite the WAP resources.pri which should be merged together. We cannot
+         remove all extra .pri files as .netcore might have it listed in the deps.json -->
+    <ItemGroup>
+      <AppxPackagePayload Remove="@(_NonWapPriFile)" Condition="'%(_NonWapPriFile.Filename)%(_NonWapPriFile.Extension)' == 'resources.pri'" />
+      <AppxUploadPackagePayload Remove="@(_NonWapPriFile)" Condition="'%(_NonWapPriFile.Filename)%(_NonWapPriFile.Extension)' == 'resources.pri'" />
+    </ItemGroup>
+
+    <PropertyGroup>
+      <SkipAppxManifestValidation>false</SkipAppxManifestValidation>
+    </PropertyGroup>
+
+    <GenerateDesktopBridgeAppxManifest
+      Projects="@(ProjectReferenceWithExtraMetadata)"
+      MainAppxManifestInput="%(FinalAppxManifest.Identity)"
+      EntryPointProjectUniqueName="$(EntryPointProjectUniqueName)"      
+      EntryPointProjectFullPath="$(EntryPointProjectFullPath)"
+      EntryPointExe="$(EntryPointExe)"
+      TrustLevel="$(EntryTrustLevel)"
+      FrameworkDependencies="@(FrameworkSdkPackage)"
+      TargetPlatformMinVersion="$(TargetPlatformMinVersion)"
+      TargetPlatformVersion="$(TargetPlatformVersion)"
+      OSMinVersionReplaceManifestVersion="$(AppxOSMinVersionReplaceManifestVersion)"
+      OSMaxVersionTestedReplaceManifestVersion="$(AppxOSMaxVersionTestedReplaceManifestVersion)"
+      AdditionalAppxManifestInputs="@(AdditionalAppxManifests)"
+      VsTelemetrySession="$(VsTelemetrySession)"/>
+  </Target>
+
+  <Target Name="BeforeGenerateAppxManifest" DependsOnTargets="$(WapProjBeforeGenerateAppxManifestDependsOn)"/>
+  <Target Name="AfterGenerateAppxManifest" DependsOnTargets="$(WapProjAfterGenerateAppxManifestDependsOn)"/>
+
+  <Target Name="CoreCompile"/>
+  <Target Name="CreateManifestResourceNames" />
+
+  <PropertyGroup>
+    <BuildDependsOn>
+      _TargetPlatformVersionCheck;
+      _UWPReferencesCheck;
+      _ResolveVCLibDependencies;
+      _BuildDependentProjects;
+      $(BuildDependsOn)
+    </BuildDependsOn>
+  </PropertyGroup>
+
+  <Target Name="_TargetPlatformVersionCheck">
+    <TargetPlatformMinVersionCheck TargetPlatformMinVersion="$(TargetPlatformMinVersion)" ProjectToCheck="$(MSBuildProjectFile)" VsTelemetrySession="$(VsTelemetrySession)"/>
+  </Target>
+
+  <Target Name="_ResolveVCLibDependencies" DependsOnTargets="_WapProjGetProjectClosure">
+    <PropertyGroup>
+      <_PlatformTargetForVCLibs Condition="'$(PlatformTarget)'!='AnyCPU'">$(PlatformTarget)</_PlatformTargetForVCLibs>
+      <_PlatformTargetForVCLibs Condition="'$(PlatformTarget)'=='AnyCPU'">x86</_PlatformTargetForVCLibs>
+    </PropertyGroup>
+
+    <GetInstalledSDKLocations
+       SDKDirectoryRoots="$(SDKReferenceDirectoryRoot)"
+       SDKExtensionDirectoryRoots="$(SDKExtensionDirectoryRoot)"
+       SDKRegistryRoot="$(SDKReferenceRegistryRoot)"
+       TargetPlatformVersion="$(TargetPlatformVersion)"
+       TargetPlatformIdentifier="$(TargetPlatformIdentifier)"
+       Condition="'@(InstalledSDKLocations)' == ''">
+      <Output TaskParameter="InstalledSDKs" ItemName="InstalledSDKLocations"/>
+    </GetInstalledSDKLocations>
+
+    <ResolveReferencedVCLibVersions
+      ProjectFiles="@(_NonWapProjProjectReference)"
+      CurrentVersion="$(_VCLibCurrentVersion)"
+      VsTelemetrySession="$(VsTelemetrySession)">
+      <Output TaskParameter="VCLibVersions" ItemName="VCLibTargets"/>
+    </ResolveReferencedVCLibVersions>
+
+    <ResolveSDKReference
+      SDKReferences="@(VCLibTargets)"
+      TargetPlatformVersion="$(TargetPlatformVersion)"
+      TargetPlatformIdentifier="$(TargetPlatformIdentifier)"
+      TargetedSDKConfiguration="$(TargetedSDKConfiguration)"
+      TargetedSDKArchitecture="%(VCLibTargets.PlatformTarget)"
+      ProjectName="$(ProjectName)"
+      InstalledSDKs ="@(InstalledSDKLocations)">
+      <Output TaskParameter="ResolvedSDKReferences" ItemName="ResolvedVCLibsDependenciesSDKs"/>
+    </ResolveSDKReference>
+
+    <GetFrameworkSdkPackages FrameworkSdkReferences="@(ResolvedVCLibsDependenciesSDKs)" TargetPlatformIdentifier="$(TargetPlatformIdentifier)">
+      <Output TaskParameter="FrameworkSdkPackages" ItemName="FrameworkPackageDependencies" />
+    </GetFrameworkSdkPackages>
+
+    <ItemGroup>
+      <FrameworkSdkPackage Include="@(FrameworkPackageDependencies)" Condition="'%(Architecture)' == '$(_PlatformTargetForVCLibs)'" />
+    </ItemGroup>
+  </Target>
+
+  <!-- PrepareProjectReferencesDependsOn calls AssignProjectConfiguration and creates _MSBuildProjectReferenceExistent items -->
+  <PropertyGroup>
+    <PrepareProjectReferencesDependsOn>
+      $(PrepareProjectReferencesDependsOn);
+      CheckForUWPReference;
+    </PrepareProjectReferencesDependsOn>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <_TargetsToBuild Condition="'$(_Rebuilding)' != 'true'">build</_TargetsToBuild>
+    <_TargetsToBuild Condition="'$(_Rebuilding)' == 'true'">rebuild</_TargetsToBuild>
+    <_IsBuildingInsideVisualStudio Condition="'$(BuildingInsideVisualStudio)' == '' OR '$(BuildingInsideVisualStudio)' != 'true'">false</_IsBuildingInsideVisualStudio>
+    <_IsBuildingInsideVisualStudio Condition="'$(BuildingInsideVisualStudio)' == 'true'">true</_IsBuildingInsideVisualStudio>
+    <_IsGeneratingAppxPackage Condition="'$(_IsWapPublish)' == 'true' OR '$(GenerateAppxPackageOnBuild)' == 'true'">true</_IsGeneratingAppxPackage>
+    <_IsGeneratingAppxPackage Condition="'$(_IsGeneratingAppxPackage)' == ''">false</_IsGeneratingAppxPackage>
+  </PropertyGroup>
+
+  <!-- Need to check if any project references have a UWP head package so that we can set GenerateAppxPackageOnBuild=false or we get circular .sln builds -->
+  <!-- There is no guarantee that _MSBuidlProjectReferenceExistent is set at this point.  Instead, use ProjectReferenceWithConfiguration -->
+  <Target Name="CheckForUWPReference" Condition="'$(_IsGeneratingAppxPackage)' == 'true'" Inputs="%(ProjectReferenceWithConfiguration.Identity)" Outputs="fake">
+    <MSBuild
+      Projects="@(ProjectReferenceWithConfiguration)"
+      Properties="%(ProjectReferenceWithConfiguration.SetConfiguration);%(ProjectReferenceWithConfiguration.SetPlatform)"
+      Targets="_CheckForGenerateAppxPackageOnBuild"
+      SkipNonexistentTargets="true">
+      <Output TaskParameter="TargetOutputs" PropertyName="IsUWPReference" />
+    </MSBuild>
+
+    <ItemGroup Condition="'$(IsUWPReference)' == 'true'">
+      <_MSBuildProjectReferenceExistentTemp Include="@(ProjectReferenceWithConfiguration)">
+        <HasUwpReference>true</HasUwpReference>
+      </_MSBuildProjectReferenceExistentTemp>
+
+      <_MSBuildProjectReferenceExistent Remove="@(_MSBuildProjectReferenceExistent)"/>
+      <_MSBuildProjectReferenceExistent Include="@(_MSBuildProjectReferenceExistentTemp)"/>
+      <_MSBuildProjectReferenceExistentTemp Remove="@(_MSBuildProjectReferenceExistentTemp)"/>
+    </ItemGroup>
+  </Target>
+
+  <!-- Call SetProjectReferenceProperties immediately after AssignProjectConfiguration to set the Project metadata early enough to avoid RuntimeIdentifier errors like in Bug1333386. -->
+  <Target Name="SetProjectReferenceProperties" AfterTargets="_SplitProjectReferencesByFileExistence"  Returns="@(ProjectReferenceWithExtraMetadata)">
+    <ItemGroup>
+      <!-- There is no guarantee that _MSBuidlProjectReferenceExistent is set at this point.  Instead, use ProjectReferenceWithConfiguration -->
+      <_ProjectReferenceClosure Include="@(ProjectReferenceWithConfiguration->'%(Identity)')">
+        <DependencyKind>Direct</DependencyKind>
+      </_ProjectReferenceClosure>
+    </ItemGroup>
+
+    <ItemGroup>
+      <_WapReferenceProps Include="%(ProjectReferenceWithConfiguration.SetConfiguration)" />
+      <_WapReferenceProps Include="%(ProjectReferenceWithConfiguration.SetPlatform)" />
+    </ItemGroup>
+
+    <!-- Projects can specify additional projects -->
+    <MSBuild
+      Targets="GetDeployableContentReferenceOutputs"
+      Projects="@(ProjectReferenceWithConfiguration)"
+      Properties="@(_WapReferenceProps)"
+      SkipNonexistentTargets="true">
+      <Output TaskParameter="TargetOutputs" ItemName="_DeployableContentProjectReferences" />
+    </MSBuild>
+
+    <ItemGroup>
+      <_ProjectReferenceClosure Include="@(_DeployableContentProjectReferences->'%(Identity)')" Condition="Exists('%(Identity)')">
+        <DependencyKind>Direct</DependencyKind>
+        <DeployableContentReference>True</DeployableContentReference>
+      </_ProjectReferenceClosure>
+    </ItemGroup>
+
+    <AddProjectMetadata
+      Projects="@(_ProjectReferenceClosure)"
+      SolutionDir="$(SolutionDir)"
+      ParentConfiguration="$(Configuration)"
+      ParentPlatform="$(Platform)"
+      VsTelemetrySession="$(VsTelemetrySession)"
+      OriginalTargetDir="$(OriginalTargetDir)"
+      RequestingProject="$(RequestingProject)">
+      <Output TaskParameter="ProjectReferenceWithExtraMetadata" ItemName="ProjectReferenceWithExtraMetadata"/>
+    </AddProjectMetadata>
+
+    <SetPublishProperties
+      Projects="@(ProjectReferenceWithExtraMetadata)"
+      BuildingInsideVisualStudio="$(_IsBuildingInsideVisualStudio)"
+      IsGeneratingAppxPackage="$(_IsGeneratingAppxPackage)">
+      <Output TaskParameter="ProjectReferenceWithPublishProps" ItemName="ProjectReferenceWithPublishProps"/>
+    </SetPublishProperties>
+
+    <!-- We need to replace these items as we have now potentially altered output paths with the publish properties and RAR will fail to find dependencies -->
+    <ItemGroup>
+      <_MSBuildProjectReferenceExistent Remove="@(_MSBuildProjectReferenceExistent)" />
+      <_MSBuildProjectReferenceExistent Include="@(ProjectReferenceWithPublishProps)" />
+    </ItemGroup>
+
+    <!-- Desktop WinUI Apps build using UAP but don't set WindowsAppContainer to true, so treat them like Windows .-->
+    <ItemGroup>
+      <ProjectReferenceWithExtraMetadata Update="@(ProjectReferenceWithExtraMetadata)" Condition="'%(TargetPlatformIdentifier)'=='UAP' AND ('%(OutputType)'=='Exe' OR '%(OutputType)'=='WinExe') AND '%(WindowsAppContainer)'!='true'">
+        <TargetPlatformIdentifier>Windows</TargetPlatformIdentifier>
+      </ProjectReferenceWithExtraMetadata>
+    </ItemGroup>
+  </Target>
+
+  <Target Name="_WapProjGetProjectClosure" DependsOnTargets="ResolveProjectReferences" Inputs="@(_MSBuildProjectReferenceExistent)" Outputs="fake" Returns="@(ProjectReferenceWithIdentifier)">
+    <CheckReferencedTargetPlatformMinVersion Condition="'$(CheckReferencedTpmv)' == '' OR '$(CheckReferencedTpmv)' != 'false'" Projects="@(ProjectReferenceWithIdentifier)" TargetPlatformMinVersionOfHeadProject="$(TargetPlatformMinVersion)"/>
+
+    <ItemGroup>
+      <!-- Split direct and indirect project dependencies -->
+      <_WapProjProjectReferenceClosure Include="@(ProjectReferenceWithExtraMetadata)" Condition="'%(ProjectReferenceWithExtraMetadata.Extension)' == '.wapproj'" />
+      <_NonWapProjProjectReferenceClosure Include="@(ProjectReferenceWithExtraMetadata)" Condition="'%(ProjectReferenceWithExtraMetadata.Extension)' != '.wapproj'" />
+
+      <!-- Split direct project dependencies -->
+      <_WapProjProjectReference Include="@(_WapProjProjectReferenceClosure)" Condition="'%(DependencyKind)' == 'Direct'" />
+      <_NonWapProjProjectReference Include="@(_NonWapProjProjectReferenceClosure)" Condition="'%(DependencyKind)' == 'Direct'" />
+      <_NonWapProjProjectReferenceFiltered Include="@(_NonWapProjProjectReference)" Condition="'%(_NonWapProjProjectReference.TargetPlatformIdentifier)' != 'UAP' OR ('%(_NonWapProjProjectReference.TargetPlatformIdentifier)' == 'UAP' AND '%(_NonWapProjProjectReference.OutputType)' != 'AppContainerExe' AND '%(_NonWapProjProjectReference.OutputType)' != 'Exe')"/>
+    </ItemGroup>
+  </Target>
+
+  <!-- Override the default target so we can clean our referenced projects after turning off BuildProjectReferences -->
+  <Target Name="CleanReferencedProjects" DependsOnTargets="PrepareProjectReferences">
+    <MSBuild
+      Projects="@(_MSBuildProjectReferenceExistent)"
+      Targets="Clean"
+      Properties="%(_MSBuildProjectReferenceExistent.SetConfiguration); %(_MSBuildProjectReferenceExistent.SetPlatform); %(_MSBuildProjectReferenceExistent.SetTargetFramework)"
+      BuildInParallel="$(BuildInParallel)"
+      Condition="'$(BuildingInsideVisualStudio)' != 'true' and '@(_MSBuildProjectReferenceExistent)' != ''"
+      ContinueOnError="$(ContinueOnError)"
+      RemoveProperties="%(_MSBuildProjectReferenceExistent.GlobalPropertiesToRemove)"
+      SkipNonexistentTargets="true"/>
+  </Target>
+
+  <Target Name="_BeforeBeforeRebuild" BeforeTargets="BeforeRebuild">
+    <PropertyGroup>
+      <_Rebuilding>true</_Rebuilding>
+    </PropertyGroup>
+  </Target>
+
+  <!-- If building inside Visual Studio via the Packaging Wizard dialog we will try to build projects that are defined in the solution file only as dependencies; if building from the
+  command line, building the .sln would give the same behavior as this -->
+  <Target Name="_BuildSolutionDependencyProjects" Condition="'$(WapBuildSlnDependentProj)' != 'false' AND '$(SolutionDependencies)' != '' AND '$(CurrentSolutionConfigurationContents)' != ''">
+    <CreateSolutionBuildDependencies SolutionDependencies="$(SolutionDependencies)" CurrentSolutionConfigurationContents="$(CurrentSolutionConfigurationContents)">
+      <Output TaskParameter="ProjectsToBuild" ItemName="SolutionDependencyProjectsToBuild"/>
+    </CreateSolutionBuildDependencies>
+
+    <MSBuild
+      Projects="@(SolutionDependencyProjectsToBuild)"
+      Targets="$(_TargetsToBuild)"
+      SkipNonexistentTargets="true"
+      Properties="%(SolutionDependencyProjectsToBuild.SetConfiguration);%(SolutionDependencyProjectsToBuild.SetPlatform)"/>
+  </Target>
+
+  <!-- Ensure our ProjectReferences are built with our needed properties as we turned off BuildProjectReferences -->
+  <Target Name="_BuildDependentProjects"
+          Condition="'$(WapAlwaysBuildDependentProjects)' == 'true'
+                  or '$(BuildingInsideVisualStudio)' != 'true'
+                  or '$(_IsGeneratingAppxPackage)' == 'true'"
+          DependsOnTargets="_WapProjGetProjectClosure;_BuildSolutionDependencyProjects"
+          Inputs="@(_NonWapProjProjectReference)"
+          Outputs="fake"
+          Returns="@(ProjectReferenceWithPublishProps)">
+    <MSBuild
+      Projects="@(ProjectReferenceWithPublishProps)"
+      Condition="'%(ProjectReferenceWithPublishProps.TargetFrameworkIdentifier)' != '.NETCoreApp'"
+      Targets="$(_TargetsToBuild)"
+      SkipNonexistentTargets="true"
+      Properties="%(ProjectReferenceWithPublishProps.SetConfiguration);%(ProjectReferenceWithPublishProps.SetPlatform)"/>
+
+    <MSBuild
+      Projects="@(ProjectReferenceWithPublishProps)"
+      Condition="'%(ProjectReferenceWithPublishProps.TargetFrameworkIdentifier)' == '.NETCoreApp'"
+      Targets="publish"
+      SkipNonexistentTargets="true"
+      Properties="%(ProjectReferenceWithPublishProps.SetConfiguration);%(ProjectReferenceWithPublishProps.SetPlatform)"/>
+  </Target>
+
+  <Target Name="_ExpandProjectReferences"
+          DependsOnTargets="_WapProjGetProjectClosure"
+          Inputs="%(ProjectReferenceWithPublishProps.Identity)"
+          Outputs="fake"
+          Returns="@(_FilteredNonWapProjProjectOutput)"
+          Condition="'@(ProjectReferenceWithPublishProps)' != ''">
+
+    <ItemGroup>
+      <_FilteredWapReferenceProps Include="%(ProjectReferenceWithPublishProps.SetConfiguration)" />
+      <_FilteredWapReferenceProps Include="%(ProjectReferenceWithPublishProps.SetPlatform)" />
+    </ItemGroup>
+
+    <MSBuild
+      Targets="$(PackageOutputGroups)"
+      Projects="@(ProjectReferenceWithPublishProps)"
+      SkipNonexistentTargets="true"
+      Properties="@(_FilteredWapReferenceProps)"
+      Condition="'%(ProjectReferenceWithPublishProps.TargetFrameworkIdentifier)' != '.NETCoreApp'
+                  AND ('%(ProjectReferenceWithPublishProps.TargetPlatformIdentifier)' != 'UAP'
+                       OR ('%(ProjectReferenceWithPublishProps.OutputType)' != 'AppContainerExe' AND '%(ProjectReferenceWithPublishProps.OutputType)' != 'Exe')
+                       OR ('%(ProjectReferenceWithPublishProps.TargetPlatformIdentifier)' == 'UAP' AND '%(ProjectReferenceWithPublishProps.OutputType)' == 'Exe' AND '%(ProjectReferenceWithPublishProps.WindowsAppContainer)' != 'true'))">
+      <Output TaskParameter="TargetOutputs" ItemName="_NonWapProjProjectOutput" />
+    </MSBuild>
+
+    <MSBuild
+      Targets="$(PackageOutputGroups)"
+      Projects="@(ProjectReferenceWithPublishProps)"
+      SkipNonexistentTargets="true"
+      Properties="@(_FilteredWapReferenceProps)"
+      Condition="'%(ProjectReferenceWithPublishProps.TargetFrameworkIdentifier)' == '.NETCoreApp' AND
+                 '$(_IsGeneratingAppxPackage)' != 'true'">
+      <Output TaskParameter="TargetOutputs" ItemName="_NonWapProjProjectOutput" />
+    </MSBuild>
+
+    <!-- Use PublishItemsOutputGroup when generating appxpackage as we call publish with a publishprofile -->
+    <MSBuild
+      Targets="DesktopBridgePublishItemsOutputGroup"
+      Projects="@(ProjectReferenceWithPublishProps)"
+      SkipNonexistentTargets="true"
+      Properties="@(_FilteredWapReferenceProps)"
+      Condition="'%(ProjectReferenceWithPublishProps.TargetFrameworkIdentifier)' == '.NETCoreApp' AND
+                 '$(_IsGeneratingAppxPackage)' == 'true'">
+      <Output TaskParameter="TargetOutputs" ItemName="_NonWapProjProjectOutput" />
+    </MSBuild>
+
+    <!-- We get project outputs for UAP projects from the .build.appxrecipe but that does not include symbols so we have to get those from here -->
+    <MSBuild
+      Targets="DebugSymbolsProjectOutputGroup;DebugSymbolsProjectOutputGroupDependencies"
+      Projects="@(ProjectReferenceWithPublishProps)"
+      SkipNonexistentTargets="true"
+      Properties="@(_FilteredWapReferenceProps)"
+      Condition="'%(ProjectReferenceWithPublishProps.TargetPlatformIdentifier)' == 'UAP' AND ('%(ProjectReferenceWithPublishProps.OutputType)' == 'AppContainerExe' OR '%(ProjectReferenceWithPublishProps.OutputType)' == 'Exe')">
+      <Output TaskParameter="TargetOutputs" ItemName="_NonWapProjProjectOutput" />
+    </MSBuild>
+
+    <!-- Remove extra metadata that we don't need -->
+    <ItemGroup Condition="'$(WapDisableMetadataOptimization)' == ''">
+      <_NonWapProjProjectOutputTemp Include="@(_NonWapProjProjectOutput)"
+                                    KeepMetadata="IsImplementationFile;
+                                                  TargetPath;
+                                                  TargetPlatformIdentifier;
+                                                  OutputType;
+                                                  FinalOutputPath;
+                                                  SourceDeployableProjectReference;
+                                                  DestinationSubDirectory;
+                                                  SourceProject;
+                                                  Implementation;
+                                                  TargetDir;
+                                                  TargetFileName;
+                                                  TargetFrameworkIdentifier" />
+      <_NonWapProjProjectOutput Remove="@(_NonWapProjProjectOutput)" />
+      <_NonWapProjProjectOutput Include="@(_NonWapProjProjectOutputTemp)" />
+      <_NonWapProjProjectOutputTemp Remove="@(_NonWapProjProjectOutputTemp)" />
+    </ItemGroup>
+
+    <!-- Get FrameworkSDKs from other projects for PackageDependencies-->
+    <MSBuild
+      Projects="@(ProjectReferenceWithPublishProps)"
+      Targets="_GenerateAdditionalFrameworkSDKReference;_GetRecursiveResolvedSDKReferences;DesktopBridgeFrameworkSDKRegistrationOutputGroup"
+      Properties="@(_FilteredWapReferenceProps)"
+      SkipNonexistentTargets="true"
+      ContinueOnError="true">
+      <Output TaskParameter="TargetOutputs" ItemName="_DesktopBridgeFrameworkSDKRegistrationOutputGroup" />
+    </MSBuild>
+
+    <ItemGroup Condition="@(_DesktopBridgeFrameworkSDKRegistrationOutputGroup) != ''">
+      <FrameworkSdkReference Include="@(_DesktopBridgeFrameworkSDKRegistrationOutputGroup)"/>
+    </ItemGroup>
+
+    <PropertyGroup>
+      <_NonWapProjProjectPath>$([System.IO.Path]::GetDirectoryName(%(ProjectReferenceWithPublishProps.FullPath)))\</_NonWapProjProjectPath>
+      <_NonWapProjProjectFileNameWithoutExtension>$([System.IO.Path]::GetFileNameWithoutExtension(%(ProjectReferenceWithPublishProps.FullPath)))</_NonWapProjProjectFileNameWithoutExtension>
+    </PropertyGroup>
+
+    <ConvertToAbsolutePaths
+      Items="@(_NonWapProjProjectOutput)"
+      ProjectPath="$(_NonWapProjProjectPath)"
+      VsTelemetrySession="$(VsTelemetrySession)">
+      <Output TaskParameter="AbsolutePathItems" ItemName="_NonWapProjProjectOutputWithAbsolutePaths"/>
+    </ConvertToAbsolutePaths>
+
+    <RemoveDuplicatesOnTargetPath Inputs="@(_NonWapProjProjectOutputWithAbsolutePaths)">
+      <Output TaskParameter="Filtered" ItemName="_NonWapProjProjectOutputUnique"/>
+    </RemoveDuplicatesOnTargetPath>
+
+    <ItemGroup>
+      <_NonWapProjProjectOutput_ToReplace Include="@(_NonWapProjProjectOutputUnique)" Condition="'%(_NonWapProjProjectOutputUnique.FinalOutputPath)' != ''">
+        <FullFinalOutputPath>$([System.IO.Path]::Combine($(_NonWapProjProjectPath),%(_NonWapProjProjectOutputUnique.FinalOutputPath)))</FullFinalOutputPath>
+      </_NonWapProjProjectOutput_ToReplace>
+      <_NonWapProjProjectOutputUnique Remove="@(_NonWapProjProjectOutput_ToReplace)" />
+      <_NonWapProjProjectOutputUnique Include="@(_NonWapProjProjectOutput_ToReplace->'%(FullFinalOutputPath)')" />
+    </ItemGroup>
+
+    <!-- Now we can filter the outputs based on whether they are framework assemblies, are not private, and exist in output directory. -->
+    <ItemGroup>
+      <_FilteredNonWapProjProjectOutput Include="@(_NonWapProjProjectOutputUnique)" Condition="'%(_NonWapProjProjectOutputUnique.FrameworkFile)' != 'true'
+                                             AND (('%(_NonWapProjProjectOutputUnique.CopyLocal)' != 'false') OR ('%(_NonWapProjProjectOutputUnique.NuGetIsFrameworkReference)' == 'false'))
+                                             AND Exists('%(_NonWapProjProjectOutputUnique.FullPath)')" >
+        <SourceProject>$(_NonWapProjProjectFileNameWithoutExtension)</SourceProject>
+        <SourceProject Condition="'%(_NonWapProjProjectOutputUnique.SourceDeployableProjectReference)' != ''">%(_NonWapProjProjectOutput.SourceDeployableProjectReference)</SourceProject>
+      </_FilteredNonWapProjProjectOutput>
+    </ItemGroup>
+  </Target>
+
+  <Target Name="_GenerateReferenceRecipes">
+    <!--
+      Normally this should be controlled solely by this property 'UapAppxPackageBuildMode' but there was a check added to look for the Package.StoreAssociation.xml file and then generate an upload package via target '_ComputeBuildAppxUploadPackageForUapFlag'
+      So if the Desktop Bridge project has a Package.StoreAssociation.xml file and references a UWP project that does not have a store association file, the wapproj will assume to build an upload package and will look for the
+      recipe file of the UWP upload package but it won't generate the file because it does not meet the conditions to generate it -->
+    <PropertyGroup>
+      <_UapAppxPackageBuildMode>$(UapAppxPackageBuildMode)</_UapAppxPackageBuildMode>
+      <_UapAppxPackageBuildMode Condition="'$(_UapAppxPackageBuildMode)' == '' AND '$(BuildAppxUploadPackageForUap)' == 'true'">$(UapAppxPackageBuildModeStoreAndSideload)</_UapAppxPackageBuildMode>
+      <!-- StoreAndSideload-->
+      <_UapAppxPackageBuildMode Condition="'$(_UapAppxPackageBuildMode)' == ''">$(UapAppxPackageBuildModeSideloadOnly)</_UapAppxPackageBuildMode>
+      <!-- SideloadOnly-->
+    </PropertyGroup>
+
+    <ItemGroup>
+      <_RecipeGenProjectList Include="@(_NonWapProjProjectReference)" Condition="'%(_NonWapProjProjectReference.TargetPlatformIdentifier)' == 'UAP'"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <_RecipeProps Include="%(_RecipeGenProjectList.SetConfiguration)" />
+      <_RecipeProps Include="%(_RecipeGenProjectList.SetPlatform)" />
+      <_RecipeProps Include="UapAppxPackageBuildMode=$(_UapAppxPackageBuildMode)" />
+      <_RecipeProps Include="GenerateAppxPackageOnBuild=false" />
+    </ItemGroup>
+
+    <MSBuild
+      Projects="@(_RecipeGenProjectList)"
+      Properties="@(_RecipeProps)"
+      SkipNonexistentTargets="true" />
+  </Target>
+
+  <!--
+      We were getting the same file in our packaging outputs but from different projects (e.g. WPF_XAMLIslands_v1\bin\x64\Release\netcoreapp3.0\win-x64\MyClassLibrary.pri and MyClassLibrary\bin\x64\Release\MyClassLibrary.pri) so when makepri goes to merge these
+      files they have the same resources and it complains about duplicate entries.
+  -->
+  <Target Name="_RemoveExtraPriFiles" AfterTargets="_ComputeInputPriFiles">
+    <RemoveDuplicatePriFiles Inputs="@(_PriFile)"
+                             Platform="$(Platform)"
+                             VsTelemetrySession="$(VsTelemetrySession)">
+      <Output TaskParameter="Filtered" ItemName="_TempPriFiles" />
+    </RemoveDuplicatePriFiles>
+
+    <ItemGroup>
+      <_PriFile Remove="@(_PriFile)"/>
+      <_PriFile Include="@(_TempPriFiles)"/>
+      <_TempPriFiles Remove="@(_TempPriFiles)"/>
+    </ItemGroup>
+  </Target>
+
+  <Target Name="_DumpPriFilesToDetailedXml"
+          DependsOnTargets="
+                _ExpandProjectReferences;
+                _GenerateReferenceRecipes;
+                _DumpPriFilesToDetailedXml_CalculateInputsAndOutputs;
+                _DumpPriFilesToDetailedXml_Core;
+                _DumpPriFilesToDetailedXml_FileWrites"
+          />
+
+  <Target Name="_DumpPriFilesToDetailedXml_CalculateInputsAndOutputs">
+
+    <ItemGroup>
+      <_NonWapPriFile Include="@(_FilteredNonWapProjProjectOutput)" Condition="'%(Extension)' == '.pri'" />
+      <_PriFile Include="@(_NonWapPriFile)" />
+    </ItemGroup>
+
+    <RemoveDuplicates Inputs="@(_NonWapPriFile)">
+      <Output TaskParameter="Filtered" ItemName="_FilteredWapPriFile"/>
+    </RemoveDuplicates>
+
+    <GetDetailedPriXmlItems Inputs="@(_FilteredWapPriFile)"
+                            DestinationFolder="$(IntermediateOutputPath)">
+      <Output TaskParameter="Outputs" ItemName="_DetailedPriXml" />
+    </GetDetailedPriXmlItems>
+
+  </Target>
+
+  <Target Name="_DumpPriFilesToDetailedXml_Core"
+          Inputs="%(_DetailedPriXml.PriFullPath)"
+          Outputs="%(_DetailedPriXml.FullPath)">
+
+    <DumpPriFileToDetailedXml
+      PriFileFullPath="%(_DetailedPriXml.PriFullPath)"
+      DetailedPriXmlFileFullPath="%(_DetailedPriXml.FullPath)"
+      MakePriExeFullPath="$(MakePriExeFullPath)"
+      />
+
+  </Target>
+
+  <Target Name="_DumpPriFilesToDetailedXml_FileWrites">
+
+    <ItemGroup>
+      <FileWrites Include="%(_DetailedPriXml.Identity)" />
+    </ItemGroup>
+
+  </Target>
+
+  <Target Name="_ConvertItems" DependsOnTargets="_DumpPriFilesToDetailedXml">
+
+    <DeterminePriPackageFiles
+      DetailedPriXmlFiles="@(_DetailedPriXml)"
+      WapProjPackageFiles="@(_FilteredNonWapProjProjectOutput)">
+      <Output TaskParameter="UpdatedPackageFiles" ItemName="UpdatedPackageFiles"/>
+    </DeterminePriPackageFiles>
+
+    <ItemGroup>
+      <_FilteredNonWapProjProjectOutput Remove="@(_FilteredNonWapProjProjectOutput)" />
+      <_FilteredNonWapProjProjectOutput Include="@(UpdatedPackageFiles)" />
+    </ItemGroup>
+
+    <CreateWapProjPackageFiles
+      ProjectOutputs="@(_FilteredNonWapProjProjectOutput)"
+      TargetDir="$(TargetDir)"
+      EntryPointProjectUniqueName="$(EntryPointProjectUniqueName)"
+      EntryPointProjectFullPath="$(EntryPointProjectFullPath)"
+      PredefinedEntryPointExe="$(EntryPointExe)"
+      ProjectFullPath="$(MSBuildProjectFullPath)"
+      Projects="@(ProjectReferenceWithExtraMetadata)"
+      VsTelemetrySession="$(VsTelemetrySession)"
+      IsBuildingStore="$(BuildAppxUploadPackageForUap)">
+      <Output TaskParameter="TargetOutputs" ItemName="WapProjPackageFile"/>
+      <Output TaskParameter="UploadTargetOutputs" ItemName="UploadWapProjPackageFile"/>
+      <Output TaskParameter="EntryPointExe" PropertyName="EntryPointExe"/>
+      <Output TaskParameter="ResolvedSdkReferences" ItemName="DependencySDKs"/>
+      <Output TaskParameter="AdditionalManifests" ItemName="AdditionalAppxManifests"/>
+      <Output TaskParameter="WinmdsToHarvest" ItemName="AdditionalWinmdsToHarvest"/>
+    </CreateWapProjPackageFiles>
+
+    <ItemGroup>
+      <_WinmdFilesFromReferences Include="@(AdditionalWinmdsToHarvest)"/>
+    </ItemGroup>
+
+    <ResolveSDKReference
+      Condition="%(WapProjPackageFile.Extension) == '.winmd' AND '%(WapProjPackageFile.Implementation)' != ''"
+      SDKReferences="Microsoft.VCLibs, Version=$(_VCLibCurrentVersion)"
+      TargetPlatformVersion="$(TargetPlatformVersion)"
+      TargetPlatformIdentifier="$(TargetPlatformIdentifier)"
+      TargetedSDKConfiguration="$(TargetedSDKConfiguration)"
+      TargetedSDKArchitecture="$(_PlatformTargetForVCLibs)"
+      ProjectName="$(ProjectName)"
+      InstalledSDKs ="@(InstalledSDKLocations)">
+      <Output TaskParameter="ResolvedSDKReferences" ItemName="DependencySDKs"/>
+    </ResolveSDKReference>
+
+    <GetFrameworkSdkPackages FrameworkSdkReferences="@(DependencySDKs)" TargetPlatformIdentifier="$(TargetPlatformIdentifier)">
+      <Output TaskParameter="FrameworkSdkPackages" ItemName="FrameworkPackageDependencies" />
+    </GetFrameworkSdkPackages>
+
+    <ItemGroup>
+      <FrameworkSdkPackage Include="@(FrameworkPackageDependencies)" />
+    </ItemGroup>
+
+    <CreateItem Include="@(WapProjPackageFile)">
+      <Output TaskParameter="Include" ItemName="_FileToCopy"/>
+    </CreateItem>
+    <CreateItem Include="@(UploadWapProjPackageFile)">
+      <Output TaskParameter="Include" ItemName="_UploadFileToCopy"/>
+    </CreateItem>
+    <ItemGroup>
+      <_LinkedContentFiles Include="@(Content)" Condition="'%(Content.Link)' != ''" />
+      <_UnlinkedContentFiles Include="@(Content)" Condition="'%(Content.Link)' == ''" />
+    </ItemGroup>
+    <CreateItem Include="@(_LinkedContentFiles)" AdditionalMetadata="TargetPath=%(Link)">
+      <Output TaskParameter="Include" ItemName="_FileToCopy"/>
+    </CreateItem>
+    <CreateItem Include="@(_UnlinkedContentFiles)" AdditionalMetadata="TargetPath=$(TargetDir)%(RelativeDir)%(Filename)%(Extension)">
+      <Output TaskParameter="Include" ItemName="_FileToCopy"/>
+    </CreateItem>
+  </Target>
+
+  <Target Name="_CopyPackageFiles"
+          DependsOnTargets="_ConvertItems;
+                            _CopyPackageFiles_InputsOutputs;
+                            _CopyPackageFiles_Core;
+                            _CopyPackageFiles_FileWrites"
+          />
+
+  <Target Name="_CopyPackageFiles_InputsOutputs">
+    <ItemGroup>
+      <_PackageFileToCopy Include="@(_FileToCopy)" Condition="%(_FileToCopy.CopyToTargetPath) != ''" />
+    </ItemGroup>
+  </Target>
+
+  <Target Name="_CopyPackageFiles_Core"
+          Inputs="@(_PackageFileToCopy)"
+          Outputs="%(_PackageFileToCopy.CopyToTargetPath)"
+          >
+
+    <Copy SourceFiles="%(_PackageFileToCopy.FullPath)"
+          DestinationFiles="%(_PackageFileToCopy.CopyToTargetPath)"
+          UseHardlinksIfPossible="$(AppxUseHardlinksIfPossible)"
+          SkipUnchangedFiles="true"
+          />
+
+  </Target>
+
+  <Target Name="_CopyPackageFiles_FileWrites">
+    <ItemGroup>
+      <FileWrites Include="%(_PackageFileToCopy.CopyToTargetPath)" />
+    </ItemGroup>
+  </Target>
+
+  <Target Name="_CopyUploadPackageFiles"
+          DependsOnTargets="_ConvertItems;
+                            _CopyUploadPackageFiles_InputsOutputs;
+                            _CopyUploadPackageFiles_Core;
+                            _CopyUploadPackageFiles_FileWrites"
+          />
+
+  <Target Name="_CopyUploadPackageFiles_InputsOutputs">
+    <ItemGroup>
+      <_UploadPackageFileToCopy Include="@(_UploadFileToCopy)" Condition="%(_UploadFileToCopy.CopyToTargetPath) != ''" />
+    </ItemGroup>
+  </Target>
+
+  <Target Name="_CopyUploadPackageFiles_Core"
+          Inputs="@(_UploadPackageFileToCopy)"
+          Outputs="%(_UploadPackageFileToCopy.CopyToTargetPath)"
+          >
+
+    <Copy SourceFiles="%(_UploadPackageFileToCopy.FullPath)"
+          DestinationFiles="%(_UploadPackageFileToCopy.CopyToTargetPath)"
+          UseHardlinksIfPossible="$(AppxUseHardlinksIfPossible)"
+          SkipUnchangedFiles="true"
+          />
+
+  </Target>
+
+  <Target Name="_CopyUploadPackageFiles_FileWrites">
+    <ItemGroup>
+      <FileWrites Include="%(_UploadPackageFileToCopy.CopyToTargetPath)" />
+    </ItemGroup>
+  </Target>
+
+  <!-- Dependency Node -->
+
+  <!-- These properties should be set by the Project System's CommandLineDesignTimeBuildPropertiesProvider when the .NET capability is added. Because they are not, we are adding them here. -->
+  <PropertyGroup>
+    <!-- Don't run the compiler -->
+    <SkipCompilerExecution>true</SkipCompilerExecution>
+    <!-- Get csc/vbc to output command-line args -->
+    <ProvideCommandLineArgs>true</ProvideCommandLineArgs>
+  </PropertyGroup>
+  
+  <!-- Validates that the correct properties have been set for design-time compiles  -->
+  <Target Name="_CheckCompileDesignTimePrerequisite">
+
+    <Error Condition="'$(SkipCompilerExecution)|$(ProvideCommandLineArgs)' != 'true|true'"
+           Text="SkipCompilerExecution and ProvideCommandLineArgs should be set before calling the CompileDesignTime target" />
+  </Target>
+
+  <!-- Returns Csc command-line arguments for the language service -->
+  <Target Name="CompileDesignTime"
+          Returns="@(_CompilerCommandLineArgs)"
+          DependsOnTargets="_CheckCompileDesignTimePrerequisite;Compile"
+          Condition="'$(IsCrossTargetingBuild)' != 'true'">
+
+    <ItemGroup>
+      <_CompilerCommandLineArgs Include="@(CscCommandLineArgs)" />
+    </ItemGroup>
+      
+  </Target>
+  <!-- This target collects all the resolved references that are used to actually compile. -->
+  <Target Name="CollectResolvedCompilationReferencesDesignTime" DependsOnTargets="CompileDesignTime" Returns="@(ReferencePathWithRefAssemblies)" />
+
+  <!-- This target collects all the extra inputs for the up to date check. -->
+  <Target Name="CollectUpToDateCheckInputDesignTime" DependsOnTargets="CompileDesignTime" Returns="@(UpToDateCheckInput)" />
+
+  <!-- This target collects all the extra outputs for the up to date check. -->
+  <Target Name="CollectUpToDateCheckOutputDesignTime" DependsOnTargets="CompileDesignTime" Returns="@(UpToDateCheckOutput)" />
+
+  <!-- This target collects all the things built by the project for the up to date check. -->
+  <Target Name="CollectUpToDateCheckBuiltDesignTime" DependsOnTargets="CompileDesignTime" Returns="@(UpToDateCheckBuilt)" />
+
+  <Target
+    Name="ResolveFrameworkReferencesDesignTime"
+    Returns="@(ResolvedFrameworkReference)"
+    DependsOnTargets="ResolveFrameworkReferences" />
+
+  <!-- This target comes from the .NET SDK and causes us to bring in assets from other projects based on the project.assets.json file, we need to override this to prevent that behavior -->
+  <Target Name="ResolvePackageDependenciesForBuild" />
+
+  <!--
+        Define dummy workloads targets. Design-time builds use these targets to determine whether the in-product acquisition experience should be enabled.
+        Ideally, they would be in Microsoft.Common.targets. Unfortunately, the workload targets are imported before Microsoft.Common.targets and would
+        therefore be overridden by these dummy targets if they were defined in Microsoft.Common.targets. To work around this issue, they are defined here.
+    -->
+  <Target Name="GetSuggestedWorkloads" />
+  <Target Name="CollectSuggestedWorkloads" />
+
+</Project>

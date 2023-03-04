@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Rule Name="Build"
+      OverrideMode="Extend"
+      xmlns:sys="clr-namespace:System;assembly=mscorlib"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns="http://schemas.microsoft.com/build/2009/properties">
+
+    <BoolProperty Name="RunAOTCompilation"
+                DisplayName="Ahead-of-time (AOT) compilation"
+                Description="Use ahead-of-time (AOT) compilation on publish"
+                HelpUrl="https://go.microsoft.com/fwlink/?linkid=2165959"
+                Category="General">
+        <BoolProperty.DataSource>
+            <DataSource Persistence="ProjectFile" PersistedName="RunAOTCompilation" HasConfigurationCondition="True" />
+        </BoolProperty.DataSource>
+        <BoolProperty.Metadata>
+            <NameValuePair Name="VisibilityCondition">
+                <NameValuePair.Value>(has-project-capability "WebAssembly")</NameValuePair.Value>
+            </NameValuePair>
+        </BoolProperty.Metadata>
+    </BoolProperty>
+</Rule>

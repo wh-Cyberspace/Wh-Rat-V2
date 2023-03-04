@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information. -->
+<Rule Name="PackageReference" Description="패키지 참조 속성" DisplayName="패키지 참조" PageTemplate="generic" xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <Rule.DataSource>
+    <DataSource HasConfigurationCondition="False" ItemType="PackageReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+  </Rule.DataSource>
+  <StringListProperty Name="Aliases" Description="이 패키지에 포함된 어셈블리 참조에 대한 별칭의 쉼표로 구분된 목록입니다." DisplayName="별칭" Separator="," />
+  <StringProperty Name="ExcludeAssets" Description="이 참조에서 제외할 자산입니다." DisplayName="제외된 자산" />
+  <BoolProperty Name="GeneratePathProperty" Description="패키지의 루트 디렉터리 위치를 사용하여 MSBuild 속성을 생성할지 여부를 제어합니다. 생성된 속성 이름은 'Pkg[PackageID]' 형식입니다. 여기서 '[PackageID]'는 패키지의 ID이고 마침표 '.'는 밑줄 '_'로 바뀝니다." DisplayName="경로 속성 생성" />
+  <StringProperty Name="IncludeAssets" Description="이 참조에서 포함할 자산입니다." DisplayName="포함된 자산" />
+  <StringProperty Name="IsImplicitlyDefined" ReadOnly="True" Visible="False" />
+  <StringProperty Name="Name" ReadOnly="True" DisplayName="이름">
+    <StringProperty.DataSource>
+      <DataSource PersistedName="{}{Identity}" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="NoWarn" Description="이 패키지에 대해 표시하지 않는, 쉼표로 구분된 경고 목록입니다." DisplayName="경고 표시 안 함" />
+  <!-- NOTE this property will never be populated for unresolved items, but is included to make the UI consistent -->
+  <StringProperty Name="Path" Description="참조되는 패키지의 위치입니다." DisplayName="경로" ReadOnly="True" />
+  <StringProperty Name="PrivateAssets" Description="이 참조에서 프라이빗인 자산입니다." DisplayName="프라이빗 자산" />
+  <StringProperty Name="Version" Description="종속성의 버전입니다." DisplayName="버전" ReadOnly="True">
+    <StringProperty.DataSource>
+      <DataSource PersistenceStyle="Attribute" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <BoolProperty Name="Visible" ReadOnly="True" Visible="False" />
+  <BoolProperty Name="TreatAsUsed" ReadOnly="True" Visible="False" />
+</Rule>

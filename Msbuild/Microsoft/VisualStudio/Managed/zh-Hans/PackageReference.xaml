@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information. -->
+<Rule Name="PackageReference" Description="包引用属性" DisplayName="包引用" PageTemplate="generic" xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <Rule.DataSource>
+    <DataSource HasConfigurationCondition="False" ItemType="PackageReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+  </Rule.DataSource>
+  <StringListProperty Name="Aliases" Description="此包中包含的程序集引用的别名的逗号分隔列表。" DisplayName="别名" Separator="," />
+  <StringProperty Name="ExcludeAssets" Description="要从此引用中排除的资产。" DisplayName="排除的资产" />
+  <BoolProperty Name="GeneratePathProperty" Description="指示是否要使用包的根目录的位置生成 MSBuild 属性。所生成的属性名称采用 &quot;Pkg[PackageID]&quot; 的形式，其中 &quot;[PackageID]&quot; 是包的 ID，且所有句点 &quot;.&quot; 均替换为下划线 &quot;_&quot;。" DisplayName="生成路径属性" />
+  <StringProperty Name="IncludeAssets" Description="要从此引用中包括的资产。" DisplayName="包含的资产" />
+  <StringProperty Name="IsImplicitlyDefined" ReadOnly="True" Visible="False" />
+  <StringProperty Name="Name" ReadOnly="True" DisplayName="名称">
+    <StringProperty.DataSource>
+      <DataSource PersistedName="{}{Identity}" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="NoWarn" Description="应为此包取消的警告列表(以逗号分隔)。" DisplayName="取消显示警告" />
+  <!-- NOTE this property will never be populated for unresolved items, but is included to make the UI consistent -->
+  <StringProperty Name="Path" Description="所引用的包的位置。" DisplayName="路径" ReadOnly="True" />
+  <StringProperty Name="PrivateAssets" Description="此引用中的私有资产。" DisplayName="私有资产" />
+  <StringProperty Name="Version" Description="依赖项的版本。" DisplayName="版本" ReadOnly="True">
+    <StringProperty.DataSource>
+      <DataSource PersistenceStyle="Attribute" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <BoolProperty Name="Visible" ReadOnly="True" Visible="False" />
+  <BoolProperty Name="TreatAsUsed" ReadOnly="True" Visible="False" />
+</Rule>

@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Rule Name="Build" OverrideMode="Extend" xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <!-- TODO (https://github.com/dotnet/fsharp/issues/12102):
+       Missing HelpUrl links need to be added.
+  -->
+  <EnumProperty Name="Nullable" Category="General" Visible="False" />
+  <BoolProperty Name="AllowUnsafeBlocks" Category="General" Visible="False" />
+  <BoolProperty Name="Optimize" DisplayName="Otimizar código" Description="Habilitar otimizações do compilador para uma saída menor, mais rápida e mais eficiente." HelpUrl="https://docs.microsoft.com/dotnet/fsharp/language-reference/compiler-options" Category="General">
+    <BoolProperty.Metadata>
+      <NameValuePair Name="SearchTerms" Value="otimizar;otimização" />
+    </BoolProperty.Metadata>
+  </BoolProperty>
+  <BoolProperty Name="Tailcalls" DisplayName="Gerar chamadas de cauda" Description="Habilite a geração de chamada de cauda." HelpUrl="https://docs.microsoft.com/dotnet/fsharp/language-reference/compiler-options" Category="General">
+    <BoolProperty.Metadata>
+      <NameValuePair Name="SearchTerms" Value="tailcall" />
+    </BoolProperty.Metadata>
+  </BoolProperty>
+  <StringProperty Name="OtherFlags" DisplayName="Outras bandeiras" Description="Sinalizadores de compilador adicionais. Sinalizadores separados com espaços em branco." HelpUrl="https://docs.microsoft.com/dotnet/fsharp/language-reference/compiler-options" Category="General" />
+  <BoolProperty Name="FSharpPreferNetFrameworkTools" DisplayName="Ferramentas da estrutura" Description="Prefira a versão .NET Framework do compilador, quando disponível." Category="General">
+    <BoolProperty.DataSource>
+      <DataSource Persistence="ProjectFileWithInterception" SourceOfDefaultValue="AfterContext" HasConfigurationCondition="False" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+  <BoolProperty Name="FSharpPrefer64BitTools" DisplayName="Preferir ferramentas de 64 bits" Description="Use um compilador de 64 bits em sistemas que suportam compiladores de 32 e 64 bits." Category="General">
+    <BoolProperty.DataSource>
+      <DataSource Persistence="ProjectFileWithInterception" SourceOfDefaultValue="AfterContext" HasConfigurationCondition="False" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+  <EnumProperty Name="DebugType" DisplayName="Símbolos de depuração" Description="Especifica o tipos de símbolo de depuração produzidos durante a compilação." HelpUrl="https://docs.microsoft.com/dotnet/fsharp/language-reference/compiler-options" Category="General">
+    <EnumProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" Persistence="ProjectFileWithInterception" />
+    </EnumProperty.DataSource>
+    <EnumProperty.Metadata>
+      <NameValuePair Name="SearchTerms" Value="tipo de depuração" />
+    </EnumProperty.Metadata>
+    <EnumValue Name="none" DisplayName="Nenhum símbolo foi emitido" />
+    <EnumValue Name="full" DisplayName="Arquivo PDB, plataforma atual" />
+    <EnumValue Name="portable" DisplayName="Arquivo PDB, portável entre plataformas" />
+    <EnumValue Name="embedded" DisplayName="Incorporado em DLL/EXE, portável entre plataformas" />
+  </EnumProperty>
+  <StringProperty Name="LangVersion" Category="General" Visible="False" />
+  <BoolProperty Name="CheckForOverflowUnderflow" Category="General" Visible="False" />
+  <EnumProperty Name="ErrorReport" Category="General" Visible="False" />
+  <EnumProperty Name="FileAlignment" Category="General" Visible="False" />
+  <BoolProperty Name="ProduceReferenceAssembly" Category="General" Visible="False" />
+</Rule>

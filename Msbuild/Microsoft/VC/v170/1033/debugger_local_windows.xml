@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--Copyright, Microsoft Corporation, All rights reserved.-->
+<Rule Name="WindowsLocalDebugger"
+      DisplayName="Local Windows Debugger"
+      PageTemplate="debugger"
+      Description="Local Windows Debugger options"
+      xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <Rule.DataSource>
+    <DataSource Persistence="UserFile" />
+  </Rule.DataSource>
+  <StringProperty Name="LocalDebuggerCommand" DisplayName="Command"
+                  Description="The debug command to execute."
+                  F1Keyword="VC.Project.IVCLocalDebugPageObject.Command">
+    <StringProperty.ValueEditors>
+      <ValueEditor EditorType="DefaultFindFullPathPropertyEditor" DisplayName="&lt;regsvr32.exe&gt;">
+        <ValueEditor.Metadata>
+          <NameValuePair Name="Exename" Value="regsvr32.exe" />
+        </ValueEditor.Metadata>
+      </ValueEditor>
+      <ValueEditor EditorType="DefaultStringPropertyEditor" DisplayName="&lt;Edit...&gt;"/>
+      <ValueEditor EditorType="DefaultFilePropertyEditor" DisplayName="&lt;Browse...&gt;"/>
+    </StringProperty.ValueEditors>
+  </StringProperty>
+    
+  <StringProperty Name="LocalDebuggerCommandArguments" DisplayName="Command Arguments"
+                  Description="The command line arguments to pass to the application."
+                  F1Keyword="VC.Project.IVCLocalDebugPageObject.CommandArguments">
+    <Argument Property="LocalDebuggerCommand" />
+  </StringProperty>
+  <StringProperty Name="LocalDebuggerWorkingDirectory" DisplayName="Working Directory"
+                Description="The application's working directory. By default, the directory containing the project file."
+                Subtype="folder"
+                F1Keyword="VC.Project.IVCLocalDebugPageObject.WorkingDirectory"/>
+  <BoolProperty Name="LocalDebuggerAttach" DisplayName="Attach"
+                Description="Specifies whether the debugger should attempt to attach to an existing process when debugging starts."
+                F1Keyword="VC.Project.IVCLocalDebugPageObject.Attach"/>
+  <EnumProperty Name="LocalDebuggerDebuggerType" DisplayName="Debugger Type"
+                Description="Specifies the debugger type to use. When set to Auto, the debugger type will be selected based on contents of the exe file."
+                F1Keyword="VC.Project.IVCLocalDebugPageObject.DebuggerType">
+    <EnumProperty.Metadata>
+      <NameValuePair Name="IsDebugType" Value="true"/>
+    </EnumProperty.Metadata>
+    <EnumValue Name="NativeOnly" DisplayName="Native Only" />
+    <EnumValue Name="ManagedOnly" DisplayName="Managed Only (.NET Framework)" />
+    <EnumValue Name="Mixed" DisplayName="Mixed (.NET Framework)" />
+    <EnumValue Name="ManagedCore" DisplayName="Managed Only (.NET Core)"/>
+    <EnumValue Name="NativeWithManagedCore" DisplayName="Mixed (.NET Core)" />
+    <EnumValue Name="Auto" DisplayName="Auto" />
+    <EnumValue Name="Script" DisplayName="Script" />
+    <EnumValue Name="GPUOnly" DisplayName="GPU Only (C++ AMP)"  />
+    <EnumValue Name="JavaScriptForWebView2" DisplayName="JavaScript (WebView2)" />
+  </EnumProperty>
+  <StringListProperty Name="LocalDebuggerEnvironment" DisplayName="Environment"
+                      Description="Specifies the environment for the debugee, or variables to merge with existing environment."
+                      Separator="&#xA;"
+                      F1Keyword="VC.Project.IVCLocalDebugPageObject.Environment"/>
+  <DynamicEnumProperty Name="LocalGPUDebuggerTargetType" 
+                       DisplayName="Debugging Accelerator Type" 
+                       Category="GPUOptions"
+                       EnumProvider="GPUTargets"
+                       F1Keyword="VC.Project.IVCLocalDebugPageObject.GPUDebuggerTargetType"
+                       Description="The debugging accelerator type to use for debugging the GPU code.  (Available when the GPU debugger is active.)">
+    <DynamicEnumProperty.Metadata>
+      <NameValuePair Name="ParentPropertyName" Value="LocalDebuggerDebuggerType"/>
+      <NameValuePair Name="ParentPropertyValue" Value="GPUOnly"/>
+    </DynamicEnumProperty.Metadata>
+  </DynamicEnumProperty>
+  <EnumProperty Name="GPURefDebuggerBreakOnAllThreads" 
+                DisplayName="GPU Default Breakpoint Behavior"
+                Category="GPUOptions"
+                Description="Sets how often the GPU debugger breaks."
+                F1Keyword="VC.Project.IVCLocalDebugPageObject.GPUBreakOnAllThreads">
+    <EnumValue Name="GPURefBreakOncePerWarp" DisplayName="Break once per warp"
+               Description="Break once per warp" />
+    <EnumValue Name="GPURefBreakForCPUThread" DisplayName="Break for every thread (like CPU behavior)"
+               Description="Break for every thread (like CPU behavior)" />
+    <EnumProperty.Metadata>
+      <NameValuePair Name="ParentPropertyName" Value="LocalDebuggerDebuggerType"/>
+      <NameValuePair Name="ParentPropertyValue" Value="GPUOnly"/>
+    </EnumProperty.Metadata>
+  </EnumProperty>
+  <BoolProperty Name="LocalDebuggerMergeEnvironment" DisplayName="Merge Environment"
+                Description="Merge specified environment variables with existing environment."
+                F1Keyword="VC.Project.IVCLocalDebugPageObject.EnvironmentMerge"/>
+  <BoolProperty Name="LocalDebuggerSQLDebugging" DisplayName="SQL Debugging"
+                Description="Attach the SQL debugger."
+                F1Keyword="VC.Project.IVCLocalDebugPageObject.SQLDebugging"/>
+  <DynamicEnumProperty Name="LocalDebuggerAmpDefaultAccelerator"
+                       DisplayName="Amp Default Accelerator"
+                       EnumProvider="AmpAccelerators"
+                       F1Keyword="VC.Project.IVCLocalDebugPageObject.AmpDefaultAccelerator"
+                       Description="Override C++ AMP's default accelerator selection. Property does not apply when debugging managed code.">
+  </DynamicEnumProperty>
+  <BoolProperty Name="UseLegacyManagedDebugger" Visible="false" />
+</Rule>

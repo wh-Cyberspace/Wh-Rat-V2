@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--Copyright, Microsoft Corporation, All rights reserved.-->
+<Rule Name="Resgen" 
+      DisplayName="Managed Resources" 
+      Order="100" 
+      PageTemplate="tool"
+      xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <Rule.Categories>
+    <Category Name="General" DisplayName="General" Description="General" />
+  </Rule.Categories>
+  <Rule.DataSource>
+    <DataSource Persistence="ProjectFile" ItemType="EmbeddedResource" HasConfigurationCondition="true" />
+  </Rule.DataSource>
+  <StringProperty Name="LogicalName" DisplayName="Resource Logical Name" Description="Logical name of the resource in the final assembly." F1Keyword="VC.Project.VCManagedResourceCompilerTool.LogicalName" />
+  <StringProperty Name="OutputFileName" ReadOnly="true" DisplayName="Output File Name" Description="Name of the final output file this .resx file contributes to." F1Keyword="VC.Project.VCManagedResourceCompilerTool.OutputFileName" />
+  <BoolProperty Name="DefaultLocalizedResources" ReadOnly="true" DisplayName="Default Localized Resources" Description="Indicates whether this .resx file contributes to the default resources or to a satellite DLL.  This is controlled by the filename of the resource file." F1Keyword="VC.Project.VCManagedResourceCompilerTool.DefaultLocalizedResources" />
+</Rule>

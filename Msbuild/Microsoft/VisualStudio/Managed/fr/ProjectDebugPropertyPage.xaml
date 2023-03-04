@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information. -->
+<Rule Name="ProjectDebugPropertyPage" Description="Propriétés associées au lancement et au débogage de la sortie de projet." DisplayName="Projet" PageTemplate="commandNameBasedDebugger" xmlns:sys="clr-namespace:System;assembly=mscorlib" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <Rule.Metadata>
+    <sys:String x:Key="CommandName">Project</sys:String>
+    <!-- KnownImageIds.ImageCatalogGuid -->
+    <sys:Guid x:Key="ImageMonikerGuid">AE27A6B0-E345-4288-96DF-5EAF394EE369</sys:Guid>
+    <!-- KnownImageIds.Application -->
+    <sys:Int32 x:Key="ImageMonikerId">165</sys:Int32>
+  </Rule.Metadata>
+  <Rule.DataSource>
+    <DataSource Persistence="LaunchProfile" HasConfigurationCondition="False" ItemType="LaunchProfile" />
+  </Rule.DataSource>
+  <StringProperty Name="CommandLineArguments" DisplayName="Arguments de ligne de commande" Description="Arguments de ligne de commande à passer à l'exécutable." />
+  <StringProperty Name="WorkingDirectory" DisplayName="Répertoire de travail" Description="Chemin du répertoire de travail où le processus va démarrer." Subtype="folder" />
+  <BoolProperty Name="RemoteDebugEnabled" DisplayName="Utiliser une machine distante" Description="Indique que le débogueur doit être attaché à un processus sur une machine distante." />
+  <StringProperty Name="RemoteDebugMachine" DisplayName="Nom de la machine distante" Description="Nom et numéro de port de la machine distante au format 'nom:port'.">
+    <StringProperty.Metadata>
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>(has-evaluated-value "Project" "RemoteDebugEnabled" true)</NameValuePair.Value>
+      </NameValuePair>
+      <NameValuePair Name="DependsOn" Value="Project::RemoteDebugMachine" />
+    </StringProperty.Metadata>
+  </StringProperty>
+  <DynamicEnumProperty Name="AuthenticationMode" DisplayName="Mode d'authentification" Description="Schéma d'authentification à utiliser au moment de la connexion à la machine distante." EnumProvider="AuthenticationModeEnumProvider">
+    <DynamicEnumProperty.Metadata>
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>(has-evaluated-value "Project" "RemoteDebugEnabled" true)</NameValuePair.Value>
+      </NameValuePair>
+      <NameValuePair Name="DependsOn" Value="Project::RemoteDebugMachine" />
+    </DynamicEnumProperty.Metadata>
+  </DynamicEnumProperty>
+  <StringProperty Name="EnvironmentVariables" DisplayName="Variables d'environnement" Description="Variables d'environnement à définir avant l'exécution du processus. Les variables sont séparées par une virgule (,), tandis que les noms et les valeurs des variables sont séparés par un signe égal (=). Exemple : var1=value1,var2=value2,var3=value3. Les virgules et les signes égal apparaissant dans une variable peuvent être placés dans une séquence d'échappement à l'aide d'une barre oblique (/)." />
+  <BoolProperty Name="HotReloadEnabled" DisplayName="Activer Rechargement à chaud" Description="Appliquez les modifications de code à l’application en cours d’exécution.">
+    <BoolProperty.Metadata>
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>
+          (and
+            (has-project-capability "SupportsHotReload")
+            (not (has-evaluated-value "Project" "RemoteDebugEnabled" true)))</NameValuePair.Value>
+      </NameValuePair>
+    </BoolProperty.Metadata>
+  </BoolProperty>
+  <BoolProperty Name="NativeDebugging" DisplayName="Permettre le débogage du code natif" Description="Activez le débogage pour le code managé et le code natif, également appelé débogage en mode mixte." />
+  <BoolProperty Name="SqlDebugging" DisplayName="Activer le débogage SQL Server" Description="Activez le débogage des procédures stockées et des scripts SQL." />
+  <BoolProperty Name="WebView2Debugging" DisplayName="Activer le débogage WebView2" Description="Activer le débogueur JavaScript pour WebView2 basé sur Microsoft Edge (chrome). Requiert le composant Diagnostics JavaScript." />
+</Rule>

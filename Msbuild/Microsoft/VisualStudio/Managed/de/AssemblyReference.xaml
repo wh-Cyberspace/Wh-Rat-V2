@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information. -->
+<Rule Name="AssemblyReference" Description="Assemblyverweiseigenschaften" DisplayName="Assemblyverweis" PageTemplate="generic" xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <Rule.DataSource>
+    <DataSource HasConfigurationCondition="False" ItemType="Reference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+  </Rule.DataSource>
+  <StringListProperty Name="Aliases" Description="Eine durch Komma getrennte Liste von Aliasen zu diesem Verweis." DisplayName="Aliase" Separator="," />
+  <BoolProperty Name="CopyLocal" Description="Gibt an, ob der Verweis in das Ausgabeverzeichnis kopiert wird." DisplayName="Lokale Kopie">
+    <BoolProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="Reference" PersistedName="Private" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+  <BoolProperty Name="EmbedInteropTypes" Description="Gibt an, ob in der Assembly definierte Typen in die Zielassembly eingebettet werden." DisplayName="Interoptypen einbetten" />
+  <StringProperty Name="HintPath" Visible="false" />
+  <StringProperty Name="Identity" Description="Sicherheits-ID der referenzierten Assembly (siehe System.Reflection.Assembly.Evidence oder System.Security.Policy.Evidence)." DisplayName="Identität" ReadOnly="True">
+    <StringProperty.DataSource>
+      <DataSource PersistedName="{}{Identity}" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="ImageRuntime" ReadOnly="True" Visible="False" />
+  <StringProperty Name="IsImplicitlyDefined" ReadOnly="True" Visible="False" />
+  <BoolProperty Name="IsWinMDFile" Visible="false" />
+  <StringProperty Name="RequiredTargetFramework" Visible="False" />
+  <StringProperty Name="ResolvedPath" Description="Speicherort der Datei, auf die verwiesen wird." DisplayName="Pfad" ReadOnly="True">
+    <StringProperty.DataSource>
+      <DataSource PersistedName="Identity" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="SDKName" Visible="false" />
+  <BoolProperty Name="SpecificVersion" Description="Gibt an, ob diese Assembly ohne Rücksicht auf die Regeln zur Festlegung von Zielversionen für die Assemblyauflösung aufgelöst werden kann." DisplayName="Spezifische Version">
+    <BoolProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="Reference" Persistence="AssemblyReference" SourceOfDefaultValue="AfterContext" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+  <StringProperty Name="Version" Description="Verweisversion" DisplayName="Version" ReadOnly="True" />
+  <BoolProperty Name="Visible" ReadOnly="True" Visible="False" />
+  <BoolProperty Name="TreatAsUsed" Description="Zeigt an, dass dieser Verweis behandelt werden soll, als würde er verwendet werden." DisplayName="Als verwendet behandeln" Visible="True" ReadOnly="True" />
+</Rule>

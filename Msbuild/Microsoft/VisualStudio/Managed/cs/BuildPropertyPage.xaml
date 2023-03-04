@@ -1,0 +1,251 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information. -->
+<Rule Name="Build" Description="Určuje vlastnosti, které řídí způsob sestavení daného projektu." DisplayName="Sestavení" PageTemplate="generic" Order="200" xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <Rule.Categories>
+    <Category Name="General" DisplayName="Obecné" />
+    <Category Name="ErrorsAndWarnings" Description="Konfiguruje možnosti pro chyby a upozornění při procesu sestavení." DisplayName="Chyby a upozornění" />
+    <Category Name="Output" Description="Nakonfiguruje možnosti výstupu u procesu sestavení." DisplayName="Výstup" />
+    <Category Name="Events" Description="Nakonfiguruje vlastní události, které běží před a po sestavení." DisplayName="Události" />
+    <Category Name="StrongNaming" Description="Nakonfiguruje podepisování silným názvem výstupů sestavení." DisplayName="Silné názvy" />
+    <Category Name="Advanced" DisplayName="Upřesnit" Description="Upřesňující nastavení aplikace." />
+  </Rule.Categories>
+  <Rule.DataSource>
+    <DataSource Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" HasConfigurationCondition="True" />
+  </Rule.DataSource>
+  <StringProperty Name="DefineConstants" DisplayName="Symboly podmíněné kompilace" Description="Určuje symboly, u kterých se má provést podmíněná kompilace. Symboly oddělujte středníkem (;)." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147079" Category="General" />
+  <DynamicEnumProperty Name="PlatformTarget" DisplayName="Platform target" Description="Specifies the processor to be targeted by the output file. Choose 'Any CPU' to specify that any processor is acceptable, allowing the application to run on the broadest range of hardware." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147129" Category="General" EnumProvider="PlatformTargetEnumProvider" MultipleValuesAllowed="False">
+    <DynamicEnumProperty.DataSource>
+      <DataSource Persistence="ProjectFileWithInterception" HasConfigurationCondition="False" />
+    </DynamicEnumProperty.DataSource>
+  </DynamicEnumProperty>
+  <EnumProperty Name="Nullable" DisplayName="S hodnotou null" Description="Určuje kontext C# s možnou hodnotou null v rámci celého projektu. Dostupné jen pro projekty, které používají C# 8.0 či novější." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2146796" Category="General">
+    <EnumProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" />
+    </EnumProperty.DataSource>
+    <EnumProperty.Metadata>
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>(has-csharp-lang-version-or-greater "8.0")</NameValuePair.Value>
+      </NameValuePair>
+    </EnumProperty.Metadata>
+    <EnumValue Name="disable" DisplayName="Zakázat" />
+    <EnumValue Name="enable" DisplayName="Povolit" />
+    <EnumValue Name="warnings" DisplayName="Upozornění" />
+    <EnumValue Name="annotations" DisplayName="Poznámky" />
+  </EnumProperty>
+  <BoolProperty Name="ImplicitUsings" DisplayName="Implicitní globální použití" Description="Povolte implicitní globální použití, která budou deklarována sadou SDK projektu." Category="General">
+    <BoolProperty.DataSource>
+      <DataSource Persistence="ProjectFileWithInterception" SourceOfDefaultValue="AfterContext" HasConfigurationCondition="False" />
+    </BoolProperty.DataSource>
+    <BoolProperty.Metadata>
+      <NameValuePair Name="SearchTerms" Value="implicitní" />
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>(has-csharp-lang-version-or-greater "10")</NameValuePair.Value>
+      </NameValuePair>
+    </BoolProperty.Metadata>
+  </BoolProperty>
+  <BoolProperty Name="Prefer32Bit" DisplayName="Preferovat 32bitovou verzi" Description="Spustit v 32bitovém režimu v systémech, které podporují 32bitové i 64bitové aplikace." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2166468" Category="General">
+    <BoolProperty.Metadata>
+      <NameValuePair Name="DependsOn" Value="Build::PlatformTarget" />
+      <NameValuePair Name="DependsOn" Value="Application::OutputType" />
+      <NameValuePair Name="VisibilityCondition">
+        <!-- Visibility based on: https://github.com/dotnet/msbuild/blob/9bcc06cbe19ae2482ab18eab90a82fd079b26897/src/Tasks/Microsoft.NETFramework.CurrentVersion.props#L87 -->
+        <NameValuePair.Value>
+          (and
+            (has-net-framework)
+            (has-evaluated-value "Build" "PlatformTarget" "AnyCPU")
+            (or
+              (has-evaluated-value "Application" "OutputType" "Exe")
+              (has-evaluated-value "Application" "OutputType" "WinExe")
+              (has-evaluated-value "Application" "OutputType" "AppContainerExe")
+            )
+          )
+        </NameValuePair.Value>
+      </NameValuePair>
+    </BoolProperty.Metadata>
+  </BoolProperty>
+  <!-- Localization Notice: 'unsafe' is used as a keyword in the description and should not be translated -->
+  <BoolProperty Name="AllowUnsafeBlocks" DisplayName="Nebezpečný kód" Description="Povolte kód, který ke kompilaci používá klíčové slovo unsafe." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2146797" Category="General">
+    <BoolProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" />
+    </BoolProperty.DataSource>
+    <BoolProperty.Metadata>
+      <NameValuePair Name="SearchTerms" Value="ukazatele" />
+    </BoolProperty.Metadata>
+  </BoolProperty>
+  <BoolProperty Name="Optimize" DisplayName="Optimalizovat kód" Description="Povolte optimalizace kompilátoru pro menší, rychlejší a efektivnější výstup." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147080" Category="General">
+    <BoolProperty.Metadata>
+      <NameValuePair Name="SearchTerms" Value="optimalizovat;optimalizace" />
+    </BoolProperty.Metadata>
+  </BoolProperty>
+  <EnumProperty Name="DebugType" DisplayName="Symboly ladění" Description="Určuje druh symbolů ladění vyprodukovaných během sestavování." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2173089" Category="General">
+    <EnumProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" Persistence="ProjectFileWithInterception" />
+    </EnumProperty.DataSource>
+    <EnumProperty.Metadata>
+      <NameValuePair Name="SearchTerms" Value="typ ladění" />
+    </EnumProperty.Metadata>
+    <EnumValue Name="none" DisplayName="Nejsou vygenerovány žádné symboly." />
+    <!--
+    Note that 'pdbonly' is the same as 'full'.
+    <EnumValue Name="pdbonly"
+               DisplayName="PDB Only" />
+    -->
+    <EnumValue Name="full" DisplayName="Soubor PDB, aktuální platforma" />
+    <EnumValue Name="portable" DisplayName="Soubor PDB, přenosný napříč platformami" />
+    <EnumValue Name="embedded" DisplayName="Vložené v knihovně DLL/EXE, přenosné mezi platformami" />
+  </EnumProperty>
+  <EnumProperty Name="WarningLevel" DisplayName="Úroveň pro upozornění" Description="Určuje úroveň upozornění kompilátoru, která se mají zobrazovat." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2146798" Category="ErrorsAndWarnings">
+    <EnumValue Name="0" DisplayName="0" />
+    <EnumValue Name="1" DisplayName="1" />
+    <EnumValue Name="2" DisplayName="2" />
+    <EnumValue Name="3" DisplayName="3" />
+    <EnumValue Name="4" DisplayName="4" />
+    <EnumValue Name="5" DisplayName="5" />
+  </EnumProperty>
+  <StringProperty Name="NoWarn" DisplayName="Potlačit specifická upozornění" Description="Zabrání kompilátoru generovat zadaná upozornění. Více čísel upozornění oddělte čárkou (,) nebo středníkem (;)." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147300" Category="ErrorsAndWarnings" />
+  <BoolProperty Name="TreatWarningsAsErrors" HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147301" DisplayName="Zpracovávat upozornění jako chyby" Description="Umožňuje dát kompilátoru pokyn, aby považoval upozornění za chyby." Category="ErrorsAndWarnings">
+    <BoolProperty.DataSource>
+      <DataSource Persistence="ProjectFileWithInterception" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+  <StringProperty Name="WarningsAsErrors" DisplayName="Považovat konkrétní upozornění za chyby" HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147301" Description="Určuje, která upozornění se budou považovat za chyby. Více čísel upozornění oddělte čárkou (,) nebo středníkem (;)." Category="ErrorsAndWarnings">
+    <StringProperty.Metadata>
+      <NameValuePair Name="DependsOn" Value="Build::TreatWarningsAsErrors" />
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>(has-evaluated-value "Build" "TreatWarningsAsErrors" false)</NameValuePair.Value>
+      </NameValuePair>
+    </StringProperty.Metadata>
+  </StringProperty>
+  <StringProperty Name="WarningsNotAsErrors" DisplayName="Vyloučit konkrétní upozornění jako chyby" HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147301" Description="Určuje, která upozornění se vyloučí a nebudou se považovat za chyby. Více čísel upozornění oddělte čárkou (,) nebo středníkem (;)." Category="ErrorsAndWarnings">
+    <StringProperty.Metadata>
+      <NameValuePair Name="DependsOn" Value="Build::TreatWarningsAsErrors" />
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>(has-evaluated-value "Build" "TreatWarningsAsErrors" true)</NameValuePair.Value>
+      </NameValuePair>
+    </StringProperty.Metadata>
+  </StringProperty>
+  <StringProperty Name="BaseOutputPath" DisplayName="Základní cesta výstupu" Description="Určuje základní umístění výstupu projektu během sestavování. Aby se rozlišila konfigurace projektu, připojí se k této cestě podsložky." Category="Output" Subtype="directory">
+    <StringProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="BaseIntermediateOutputPath" DisplayName="Základní cesta k mezivýstupu" Description="Určuje základní umístění mezivýstupu projektu během sestavování. Aby se rozlišila konfigurace projektu, připojí se k této cestě podsložky." Category="Output" Subtype="directory">
+    <StringProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <BoolProperty Name="ProduceReferenceAssembly" DisplayName="Referenční sestavení" Description="Vytvořte referenční sestavení, které bude obsahovat veřejné rozhraní API projektu." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2166115" Category="Output">
+    <BoolProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+  <BoolProperty Name="GenerateDocumentationFile" DisplayName="Soubor dokumentace" Description="Vygeneruje soubor s dokumentací k rozhraní API." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2165772" Category="Output">
+    <BoolProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" />
+    </BoolProperty.DataSource>
+    <BoolProperty.Metadata>
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>(has-project-capability "GenerateDocumentationFile")</NameValuePair.Value>
+      </NameValuePair>
+    </BoolProperty.Metadata>
+  </BoolProperty>
+  <!-- TODO consider removing this property from the UI altogether -->
+  <StringProperty Name="DocumentationFile" DisplayName="Generovat soubor dokumentace XML" Description="Nepovinná cesta pro soubor dokumentace k rozhraní API. Pokud chcete použít výchozí umístění, ponechte ji prázdnou." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147081" Category="Output" Subtype="file">
+    <StringProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" />
+    </StringProperty.DataSource>
+    <StringProperty.Metadata>
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>(has-evaluated-value "Build" "GenerateDocumentationFile" true)</NameValuePair.Value>
+      </NameValuePair>
+    </StringProperty.Metadata>
+  </StringProperty>
+  <StringProperty Name="PreBuildEvent" DisplayName="Událost před sestavením" Description="Určuje příkazy, které se spouštějí před spuštěním sestavení. Nespustí se, pokud je projekt aktuální. Nenulový ukončovací kód povede k selhání sestavení před spuštěním." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2165773" Category="Events">
+    <StringProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" Persistence="ProjectFileWithInterception" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+    <StringProperty.ValueEditors>
+      <ValueEditor EditorType="MultiLineString">
+        <ValueEditor.Metadata>
+          <NameValuePair Name="UseMonospaceFont" Value="True" />
+        </ValueEditor.Metadata>
+      </ValueEditor>
+    </StringProperty.ValueEditors>
+  </StringProperty>
+  <StringProperty Name="PostBuildEvent" DisplayName="Událost po sestavení" Description="Určuje příkazy, které jsou spuštěny po dokončení sestavení. Nespustí se, pokud se sestavení nepovedlo. Použijte „cal“ pro vyvolání souborů .bat. Nenulový ukončovací kód povede k selhání sestavení." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2165773" Category="Events">
+    <StringProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" Persistence="ProjectFileWithInterception" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+    <StringProperty.ValueEditors>
+      <ValueEditor EditorType="MultiLineString">
+        <ValueEditor.Metadata>
+          <NameValuePair Name="UseMonospaceFont" Value="True" />
+        </ValueEditor.Metadata>
+      </ValueEditor>
+    </StringProperty.ValueEditors>
+  </StringProperty>
+  <EnumProperty Name="RunPostBuildEvent" DisplayName="Kdy má být spuštěna událost po sestavení" Description="Určuje, pod jakou podmínkou bude událost po sestavení provedena." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2165773" Category="Events">
+    <EnumProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" PersistedName="RunPostBuildEvent" Persistence="ProjectFileWithInterception" SourceOfDefaultValue="AfterContext" />
+    </EnumProperty.DataSource>
+    <EnumValue Name="Always" DisplayName="Vždy" />
+    <EnumValue Name="OnBuildSuccess" DisplayName="Po úspěšném sestavení" IsDefault="True" />
+    <EnumValue Name="OnOutputUpdated" DisplayName="Při aktualizaci výstupu" />
+  </EnumProperty>
+  <BoolProperty Name="SignAssembly" Description="Podepsat výstupní sestavení, aby získalo silný název" HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147136" DisplayName="Podepsat sestavení" Category="StrongNaming">
+    <BoolProperty.DataSource>
+      <DataSource Persistence="ProjectFileWithInterception" SourceOfDefaultValue="BeforeContext" HasConfigurationCondition="False" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+  <StringProperty Name="AssemblyOriginatorKeyFile" DisplayName="Soubor klíče se silným názvem" Category="StrongNaming" Subtype="file">
+    <StringProperty.Metadata>
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>(has-evaluated-value "Build" "SignAssembly" true)</NameValuePair.Value>
+      </NameValuePair>
+    </StringProperty.Metadata>
+    <StringProperty.DataSource>
+      <DataSource Persistence="ProjectFileWithInterception" SourceOfDefaultValue="BeforeContext" HasConfigurationCondition="False" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <BoolProperty Name="DelaySign" Description="Když je přístup k privátnímu klíči omezený, použijte opožděné podepisování. Při sestavování se použije veřejný klíč a přidání privátního klíče se odloží na dobu, až se sestavení odevzdá." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147243" DisplayName="Pouze opožděný podpis" Category="StrongNaming">
+    <BoolProperty.Metadata>
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>(has-evaluated-value "Build" "SignAssembly" true)</NameValuePair.Value>
+      </NameValuePair>
+    </BoolProperty.Metadata>
+    <BoolProperty.DataSource>
+      <DataSource Persistence="ProjectFileWithInterception" SourceOfDefaultValue="BeforeContext" HasConfigurationCondition="False" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+  <StringProperty Name="LangVersion" DisplayName="Verze jazyka" Description="Verze jazyka, který je v tomto projektu k dispozici pro kódování." HelpUrl="https://aka.ms/csharp-versions" ReadOnly="true" Category="Advanced">
+    <StringProperty.ValueEditors>
+      <ValueEditor EditorType="String">
+        <ValueEditor.Metadata>
+          <NameValuePair Name="ShowEvaluatedPreviewOnly" Value="True" />
+        </ValueEditor.Metadata>
+      </ValueEditor>
+    </StringProperty.ValueEditors>
+  </StringProperty>
+  <BoolProperty Name="CheckForOverflowUnderflow" DisplayName="Kontrolovat aritmetické přetečení" Description="Vyvolávat výjimky, když celočíselná aritmetika vytvoří hodnoty mimo rozsah" HelpUrl="https://go.microsoft.com/fwlink/?linkid=2166113" Category="Advanced">
+    <BoolProperty.Metadata>
+      <NameValuePair Name="SearchTerms" Value="zaškrtnuto;nezaškrtnuto" />
+    </BoolProperty.Metadata>
+  </BoolProperty>
+  <BoolProperty Name="Deterministic" DisplayName="Deterministický" Description="Vytvoří identický výstup kompilace pro identické vstupy." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2165770" Category="Advanced" />
+  <EnumProperty Name="ErrorReport" DisplayName="Zasílání zpráv o vnitřních chybách kompilátoru" Description="Odeslat Microsoftu zprávy o interních chybách kompilátoru (ICE)" HelpUrl="https://go.microsoft.com/fwlink/?linkid=2165771" Category="Advanced">
+    <EnumProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" />
+    </EnumProperty.DataSource>
+    <EnumValue Name="none" DisplayName="Nikdy neposílat" />
+    <EnumValue Name="prompt" DisplayName="Před odesláním se zeptat" />
+    <EnumValue Name="queue" DisplayName="Fronta" />
+    <EnumValue Name="send" DisplayName="Posílat" />
+  </EnumProperty>
+  <EnumProperty Name="FileAlignment" DisplayName="Zarovnání souboru" Description="Určuje (v bajtech), kam se mají zarovnávat oddíly výstupního souboru." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2166114" Category="Advanced">
+    <EnumValue Name="512" DisplayName="512" />
+    <EnumValue Name="1024" DisplayName="1024" />
+    <EnumValue Name="2048" DisplayName="2048" />
+    <EnumValue Name="4096" DisplayName="4096" />
+    <EnumValue Name="8192" DisplayName="8192" />
+  </EnumProperty>
+</Rule>

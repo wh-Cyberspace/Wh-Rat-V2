@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--Copyright, Microsoft Corporation, All rights reserved.-->
+<Rule
+      Name="CL"
+      DisplayName="General"
+      PageTemplate="generic"
+      Description="General"
+      SwitchPrefix="/"
+      xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <Rule.Categories>
+    <Category Name="General" DisplayName="General" Description="General" />
+  </Rule.Categories>
+  <Rule.DataSource>
+    <DataSource Persistence="ProjectFile" ItemType="ClCompile" Label="" HasConfigurationCondition="false" />
+  </Rule.DataSource>
+  <StringListProperty Name="AdditionalIncludeDirectories"
+                      DisplayName="Include Search Path"
+                      Description="Specifies one or more directories to add to the include path; separate with semi-colons if more than one.     (/I[path])"
+                      F1Keyword="VC.Project.VCCLCompilerTool.AdditionalIncludeDirectories"
+                      Switch="I"
+                      Category="General"
+                      Subtype="folder" />
+  <StringListProperty Name="ForcedIncludeFiles"
+                      DisplayName="Forced Include File"
+                      Description="One or more forced include files.     (/FI[name])"
+                      Category="General"
+                      Switch="FI"
+                      F1Keyword="VC.Project.VCCLCompilerTool.ForcedIncludeFiles"
+                      Subtype="file" />
+  <StringListProperty Name="PreprocessorDefinitions"
+                      DisplayName="Preprocessor Definitions"
+                      Description="Defines a preprocessing symbols for your source file.     (/D[macro])"
+                      Category="General"
+                      Switch="D"
+                      F1Keyword="VC.Project.VCCLCompilerTool.PreprocessorDefinitions">
+  </StringListProperty>
+  <StringListProperty Name="UndefinePreprocessorDefinitions"
+                      DisplayName="Undefine Preprocessor Definitions"
+                      Description="Specifies one or more preprocessor undefines.     (/U[macro])"
+                      Category="General"
+                      Switch="U"
+                      F1Keyword="VC.Project.VCCLCompilerTool.UndefinePreprocessorDefinitions">
+  </StringListProperty>
+</Rule>

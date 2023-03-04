@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information. -->
+<Rule Name="DebugPropertyPage" Description="Debuguj" DisplayName="Debuguj" PageTemplate="generic" Order="1000" xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <Rule.DataSource>
+    <DataSource Persistence="ProjectFileWithInterception" SourceOfDefaultValue="AfterContext" HasConfigurationCondition="False" />
+  </Rule.DataSource>
+  <StringProperty Name="DebugPagePlaceholderDescription" DisplayName="Ignorowane" Description="Zarządzanie profilami uruchamiania zostało przeniesione do dedykowanego okna dialogowego. Dostęp do niego można uzyskać za pomocą poniższego linku, korzystając z menu Debuguj na pasku menu lub za pomocą polecenia Debug Target na standardowym pasku narzędzi.">
+    <StringProperty.Metadata>
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>(has-project-capability "LaunchProfiles")</NameValuePair.Value>
+      </NameValuePair>
+      <NameValuePair Name="SearchTerms" Value="argumenty; wiersz polecenia; katalog roboczy; zmienne środowiskowe; IIS; przeglądarka; adres URL; uwierzytelnianie; zdalne" />
+    </StringProperty.Metadata>
+    <StringProperty.ValueEditors>
+      <ValueEditor EditorType="Description" />
+    </StringProperty.ValueEditors>
+  </StringProperty>
+  <StringProperty Name="OpenLaunchProfilesEditor" DisplayName="Interfejs użytkownika otwartych profilów uruchamiania debugowania">
+    <StringProperty.Metadata>
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>(has-project-capability "LaunchProfiles")</NameValuePair.Value>
+      </NameValuePair>
+      <NameValuePair Name="SearchTerms" Value="argumenty; wiersz polecenia; katalog roboczy; zmienne środowiskowe; IIS; przeglądarka; adres URL; uwierzytelnianie; zdalne" />
+    </StringProperty.Metadata>
+    <StringProperty.ValueEditors>
+      <ValueEditor EditorType="LinkAction">
+        <ValueEditor.Metadata>
+          <NameValuePair Name="Action" Value="Command" />
+          <NameValuePair Name="Command" Value="OpenLaunchProfilesEditor" />
+        </ValueEditor.Metadata>
+      </ValueEditor>
+    </StringProperty.ValueEditors>
+  </StringProperty>
+</Rule>

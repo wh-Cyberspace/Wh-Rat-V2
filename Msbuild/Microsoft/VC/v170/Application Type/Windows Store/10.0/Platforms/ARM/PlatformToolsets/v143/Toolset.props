@@ -1,0 +1,32 @@
+﻿<!--
+***********************************************************************************************
+Toolset.props
+
+WARNING:  DO NOT MODIFY this file unless you are knowledgeable about MSBuild and have
+          created a backup copy.  Incorrect changes to this file will make it
+          impossible to load or build your projects from the command-line or the IDE.
+
+Copyright (C) Microsoft Corporation. All rights reserved.
+***********************************************************************************************
+-->
+
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildThisFileDirectory)ImportBefore\*.props" Condition="Exists('$(MSBuildThisFileDirectory)ImportBefore')" />
+  
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.MSVC.Toolset.ARM.props"/>
+
+  <PropertyGroup>
+    <!-- ARM may not support all the Win32 libraries -->
+    <MinimalCoreWin Condition="'$(MinimalCoreWin)' == ''">true</MinimalCoreWin>
+  </PropertyGroup>
+
+  <!-- Override the DebuggerRequireAuthentication value to Universal for UAP projects -->
+  <PropertyGroup>
+    <DebuggerRequireAuthentication>Universal</DebuggerRequireAuthentication>
+  </PropertyGroup>
+  
+  <Import Project="$(MSBuildThisFileDirectory)ImportAfter\*.props" Condition="Exists('$(MSBuildThisFileDirectory)ImportAfter')" />
+
+  <!-- This is intentionally added after ImportAfter. -->
+  <Import Project="$(_PlatformFolder)Platform.Common.props"/>
+</Project>

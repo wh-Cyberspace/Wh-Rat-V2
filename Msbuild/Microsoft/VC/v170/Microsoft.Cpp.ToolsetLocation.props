@@ -1,0 +1,60 @@
+﻿<!--
+***********************************************************************************************
+Microsoft.Cpp.ToolsetLocation.props
+
+WARNING:  DO NOT MODIFY this file unless you are knowledgeable about MSBuild and have
+          created a backup copy.  Incorrect changes to this file will make it
+          impossible to load or build your projects from the command-line or the IDE.
+
+Copyright (C) Microsoft Corporation. All rights reserved.
+***********************************************************************************************
+-->
+
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <!-- set VCTargetsPath and VsInstallRoot to where the toolset is found -->
+  <PropertyGroup>
+    <VCTargetsPath>$(_VCTargetsPathForToolset)</VCTargetsPath>
+    <VsInstallRoot Condition="'$(_VsInstallRootForToolset)' != ''">$(_VsInstallRootForToolset)</VsInstallRoot>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(_ToolsetVCTargetsVersion)'!= '$(CurrentVCTargetsVersion)'">
+    <_OldApplicationTypeDefaultProps Condition="'$(_RelativeApplicationTypeFolder)' != '' and '$(_ApplicationTypeDefaultPropsFound)' != 'true'">$(_VCTargetsPathForToolset)\$(_RelativeApplicationTypeFolder)Default.props</_OldApplicationTypeDefaultProps>
+    <_OldApplicationTypeRevisionDefaultProps Condition="'$(_RelativeApplicationTypeRevisionFolder)' != ''  and '$(_ApplicationTypeRevisionDefaultPropsFound)' != 'true'">$(_VCTargetsPathForToolset)\$(_RelativeApplicationTypeRevisionFolder)Default.props</_OldApplicationTypeRevisionDefaultProps>
+    <_OldPlatformDefaultProps Condition="'$(_PlatformDefaultPropsFound)' != 'true'">$(_VCTargetsPathForToolset)\$(_RelativePlatformDefaultProps)</_OldPlatformDefaultProps>
+  </PropertyGroup>
+  
+  <PropertyGroup>
+    <_PlatformFolder>$(_VCTargetsPathForToolset)$(_RelativePlatformFolder)</_PlatformFolder>
+    <_ToolsetFolder>$(_VCTargetsPathForToolset)$(_RelativeToolsetFolder)</_ToolsetFolder>
+    <_PlatformProps>$(_VCTargetsPathForToolset)$(_RelativePlatformProps)</_PlatformProps>
+    <_PlatformTargets>$(_VCTargetsPathForToolset)$(_RelativePlatformTargets)</_PlatformTargets>
+    <_ToolsetPropsPath>$(_VCTargetsPathForToolset)$(_RelativeToolsetProps)</_ToolsetPropsPath>
+    <_ToolsetTargetsPath>$(_VCTargetsPathForToolset)$(_RelativeToolsetTargets)</_ToolsetTargetsPath>
+    <VCTargetsPathEffective>$(_VCTargetsPathForToolset)</VCTargetsPathEffective>
+    <!-- The following properties are not directly used now, but we'll define them for compatibility with older versions-->
+    <ToolsetPropsFound>true</ToolsetPropsFound>
+    <ToolsetTargetsFound>true</ToolsetTargetsFound>
+    <PlatformPropsFound>true</PlatformPropsFound>
+    <PlatformTargetsFound>true</PlatformTargetsFound>
+  </PropertyGroup>
+    
+  <!-- import defaults from old versions if they were not found in the current one -->
+  <Import Condition="'$(_OldApplicationTypeDefaultProps)' != '' and Exists('$(_OldApplicationTypeDefaultProps)')"
+         Project="$(_OldApplicationTypeDefaultProps)" />
+  <Import Condition="'$(_OldApplicationTypeRevisionDefaultProps)' != '' and Exists('$(_OldApplicationTypeRevisionDefaultProps)')"
+          Project="$(_OldApplicationTypeRevisionDefaultProps)" />
+  <Import Condition="'$(_OldPlatformDefaultProps)' != '' and Exists('$(_OldPlatformDefaultProps)')" Project="$(_OldPlatformDefaultProps)"/>
+
+  <!-- import platform.props which will import the toolset props -->
+  <Import Condition="'$(_VCTargetsPathForToolset)' != '$(VCTargetsPath10)'" Project="$(_PlatformProps)" />
+  <!-- In VS2010 most of the settings are located in the Microsoft.Cpp.props, so we have to import it. -->
+  <Import Condition="'$(_VCTargetsPathForToolset)' == '$(VCTargetsPath10)'" Project="$(VCTargetsPath10)\Microsoft.Cpp.props" />
+
+  <!-- restore VCTargetsPath and VsInstallRoot to point to the current version -->
+  <PropertyGroup>
+    <VCTargetsPath>$(CurrentVCTargetsPath)</VCTargetsPath>
+    <VsInstallRoot>$(CurrentVsInstallRoot)</VsInstallRoot>
+  </PropertyGroup>
+
+</Project>

@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--Copyright, Microsoft Corporation, All rights reserved.-->
+<Rule
+  xmlns="http://schemas.microsoft.com/build/2009/properties"
+  Name="UserMacros" 
+  PageTemplate="UserMacros" 
+  DisplayName="User Macros" 
+  Description="User Macros">
+    <Rule.Categories>
+      <Category Name="General" DisplayName="General" Description="General" />
+    </Rule.Categories>
+    <Rule.DataSource>
+      <DataSource Persistence="ProjectFile" />
+    </Rule.DataSource>
+</Rule>

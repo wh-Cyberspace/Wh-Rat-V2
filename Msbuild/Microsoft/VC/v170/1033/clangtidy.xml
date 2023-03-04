@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--Copyright, Microsoft Corporation, All rights reserved.-->
+<Rule Name="Microsoft.CodeAnalysis.ClangTidy"
+      PageTemplate="tool"
+      DisplayName="Code Analysis"
+      Order="200"
+      xmlns="http://schemas.microsoft.com/build/2009/properties"
+      xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+  <Rule.Categories>
+    <Category Name="ClangTidy" DisplayName="Clang-Tidy"/>
+  </Rule.Categories>
+  <Rule.DataSource>
+    <DataSource Persistence="ProjectFile" HasConfigurationCondition="true"/>
+  </Rule.DataSource>
+
+  <StringProperty Name="ClangTidyChecks"
+                  Category="ClangTidy"
+                  DisplayName="Checks to Enable or Disable"
+                  Description="Specifies the checks to enable/disable when running clang-tidy.    (--checks=[checks])"
+                  F1Keyword="vs.codeanalysis.propertypages.native" />
+
+</Rule>

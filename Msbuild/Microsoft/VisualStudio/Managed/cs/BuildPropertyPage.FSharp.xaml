@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Rule Name="Build" OverrideMode="Extend" xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <!-- TODO (https://github.com/dotnet/fsharp/issues/12102):
+       Missing HelpUrl links need to be added.
+  -->
+  <EnumProperty Name="Nullable" Category="General" Visible="False" />
+  <BoolProperty Name="AllowUnsafeBlocks" Category="General" Visible="False" />
+  <BoolProperty Name="Optimize" DisplayName="Optimalizovat kód" Description="Povolte optimalizace kompilátoru pro menší, rychlejší a efektivnější výstup." HelpUrl="https://docs.microsoft.com/dotnet/fsharp/language-reference/compiler-options" Category="General">
+    <BoolProperty.Metadata>
+      <NameValuePair Name="SearchTerms" Value="optimalizovat;optimalizace" />
+    </BoolProperty.Metadata>
+  </BoolProperty>
+  <BoolProperty Name="Tailcalls" DisplayName="Generovat volání funkce Tail" Description="Povolí generování volání funkce Tail." HelpUrl="https://docs.microsoft.com/dotnet/fsharp/language-reference/compiler-options" Category="General">
+    <BoolProperty.Metadata>
+      <NameValuePair Name="SearchTerms" Value="tailcall" />
+    </BoolProperty.Metadata>
+  </BoolProperty>
+  <StringProperty Name="OtherFlags" DisplayName="Další příznaky" Description="Další příznaky kompilátoru. Příznaky od sebe oddělte prázdným znakem." HelpUrl="https://docs.microsoft.com/dotnet/fsharp/language-reference/compiler-options" Category="General" />
+  <BoolProperty Name="FSharpPreferNetFrameworkTools" DisplayName="Nástroje architektury" Description="Upřednostňovat verzi .NET Framework kompilátoru, pokud je k dispozici" Category="General">
+    <BoolProperty.DataSource>
+      <DataSource Persistence="ProjectFileWithInterception" SourceOfDefaultValue="AfterContext" HasConfigurationCondition="False" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+  <BoolProperty Name="FSharpPrefer64BitTools" DisplayName="Preferovat 64bitové nástroje" Description="V systémech, které podporují 32bitové i 64bitové kompilátory, se použije 64bitový kompilátor." Category="General">
+    <BoolProperty.DataSource>
+      <DataSource Persistence="ProjectFileWithInterception" SourceOfDefaultValue="AfterContext" HasConfigurationCondition="False" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+  <EnumProperty Name="DebugType" DisplayName="Symboly ladění" Description="Určuje druh symbolů ladění vyprodukovaných během sestavování." HelpUrl="https://docs.microsoft.com/dotnet/fsharp/language-reference/compiler-options" Category="General">
+    <EnumProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" Persistence="ProjectFileWithInterception" />
+    </EnumProperty.DataSource>
+    <EnumProperty.Metadata>
+      <NameValuePair Name="SearchTerms" Value="typ ladění" />
+    </EnumProperty.Metadata>
+    <EnumValue Name="none" DisplayName="Nejsou vygenerovány žádné symboly." />
+    <EnumValue Name="full" DisplayName="Soubor PDB, aktuální platforma" />
+    <EnumValue Name="portable" DisplayName="Soubor PDB, přenosný napříč platformami" />
+    <EnumValue Name="embedded" DisplayName="Vložené v knihovně DLL/EXE, přenosné mezi platformami" />
+  </EnumProperty>
+  <StringProperty Name="LangVersion" Category="General" Visible="False" />
+  <BoolProperty Name="CheckForOverflowUnderflow" Category="General" Visible="False" />
+  <EnumProperty Name="ErrorReport" Category="General" Visible="False" />
+  <EnumProperty Name="FileAlignment" Category="General" Visible="False" />
+  <BoolProperty Name="ProduceReferenceAssembly" Category="General" Visible="False" />
+</Rule>

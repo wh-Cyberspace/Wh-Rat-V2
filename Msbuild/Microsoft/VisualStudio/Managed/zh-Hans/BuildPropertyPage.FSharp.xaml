@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Rule Name="Build" OverrideMode="Extend" xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <!-- TODO (https://github.com/dotnet/fsharp/issues/12102):
+       Missing HelpUrl links need to be added.
+  -->
+  <EnumProperty Name="Nullable" Category="General" Visible="False" />
+  <BoolProperty Name="AllowUnsafeBlocks" Category="General" Visible="False" />
+  <BoolProperty Name="Optimize" DisplayName="优化代码" Description="启用编译器优化，实现更小、更快、更高效的输出。" HelpUrl="https://docs.microsoft.com/dotnet/fsharp/language-reference/compiler-options" Category="General">
+    <BoolProperty.Metadata>
+      <NameValuePair Name="SearchTerms" Value="优化;最优化" />
+    </BoolProperty.Metadata>
+  </BoolProperty>
+  <BoolProperty Name="Tailcalls" DisplayName="生成尾调用" Description="启用尾调用生成。" HelpUrl="https://docs.microsoft.com/dotnet/fsharp/language-reference/compiler-options" Category="General">
+    <BoolProperty.Metadata>
+      <NameValuePair Name="SearchTerms" Value="尾调用" />
+    </BoolProperty.Metadata>
+  </BoolProperty>
+  <StringProperty Name="OtherFlags" DisplayName="其他标记" Description="其他编译器标志。使用空格分隔标志。" HelpUrl="https://docs.microsoft.com/dotnet/fsharp/language-reference/compiler-options" Category="General" />
+  <BoolProperty Name="FSharpPreferNetFrameworkTools" DisplayName="框架工具" Description="如果可用，则首选 .NET Framework 版本的编译器。" Category="General">
+    <BoolProperty.DataSource>
+      <DataSource Persistence="ProjectFileWithInterception" SourceOfDefaultValue="AfterContext" HasConfigurationCondition="False" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+  <BoolProperty Name="FSharpPrefer64BitTools" DisplayName="首选 64 位工具" Description="在同时支持 32 位和 64 位编译器的系统上使用 64 位编译器。" Category="General">
+    <BoolProperty.DataSource>
+      <DataSource Persistence="ProjectFileWithInterception" SourceOfDefaultValue="AfterContext" HasConfigurationCondition="False" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+  <EnumProperty Name="DebugType" DisplayName="调试符号" Description="指定内部版本期间生成的调试符号类型。" HelpUrl="https://docs.microsoft.com/dotnet/fsharp/language-reference/compiler-options" Category="General">
+    <EnumProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" Persistence="ProjectFileWithInterception" />
+    </EnumProperty.DataSource>
+    <EnumProperty.Metadata>
+      <NameValuePair Name="SearchTerms" Value="调试类型" />
+    </EnumProperty.Metadata>
+    <EnumValue Name="none" DisplayName="未发出任何符号" />
+    <EnumValue Name="full" DisplayName="PDB 文件，当前平台" />
+    <EnumValue Name="portable" DisplayName="PDB 文件，可跨平台移植" />
+    <EnumValue Name="embedded" DisplayName="嵌入到 DLL/EXE 中，可跨平台移植" />
+  </EnumProperty>
+  <StringProperty Name="LangVersion" Category="General" Visible="False" />
+  <BoolProperty Name="CheckForOverflowUnderflow" Category="General" Visible="False" />
+  <EnumProperty Name="ErrorReport" Category="General" Visible="False" />
+  <EnumProperty Name="FileAlignment" Category="General" Visible="False" />
+  <BoolProperty Name="ProduceReferenceAssembly" Category="General" Visible="False" />
+</Rule>

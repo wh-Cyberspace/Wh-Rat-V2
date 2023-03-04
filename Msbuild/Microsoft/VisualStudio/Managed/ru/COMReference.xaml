@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information. -->
+<Rule Name="ComReference" Description="Свойства ссылки COM" DisplayName="Ссылка COM" PageTemplate="generic" xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <Rule.DataSource>
+    <DataSource HasConfigurationCondition="False" ItemType="COMReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+  </Rule.DataSource>
+  <StringListProperty Name="Aliases" Description="Разделенный запятыми список псевдонимов данной сборки." DisplayName="Псевдонимы" Separator=",">
+    <StringListProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="COMReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </StringListProperty.DataSource>
+  </StringListProperty>
+  <BoolProperty Name="CopyLocal" Description="Указывает, что ссылка будет скопирована в папку вывода." DisplayName="Копировать локально">
+    <BoolProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="COMReference" PersistedName="Private" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+  <BoolProperty Name="EmbedInteropTypes" Description="Указывает, будут ли типы, определенные в этой сборке, внедрены в целевую сборку." DisplayName="Внедрить типы взаимодействия">
+    <BoolProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="COMReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+  <StringProperty Name="Guid" Description="Идентификатор GUID COM-сервера." DisplayName="CLSID" />
+  <StringProperty Name="Identity" Description="Идентификатор безопасности сборки, на которую указывает ссылка (см System.Reflection.Assembly.Evidence или System.Security.Policy.Evidence)." DisplayName="Идентификатор" ReadOnly="True">
+    <StringProperty.DataSource>
+      <DataSource PersistedName="{}{Identity}" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="IsImplicitlyDefined" ReadOnly="True" Visible="False" />
+  <BoolProperty Name="Isolated" DisplayName="Изолированный" />
+  <StringProperty Name="Lcid" Description="Код языка COM-сервера." DisplayName="Языковой стандарт" />
+  <IntProperty Name="VersionMajor" DisplayName="Основная версия" />
+  <IntProperty Name="VersionMinor" DisplayName="Дополнительный номер версии" />
+  <BoolProperty Name="Visible" ReadOnly="True" Visible="False" />
+  <StringProperty Name="WrapperTool" DisplayName="Средство создания оболочек" />
+  <!-- NOTE this property will never be populated for unresolved items, but is included to make the UI consistent -->
+  <StringProperty Name="ResolvedPath" DisplayName="Путь" Description="Расположение файла, на который указывает ссылка." ReadOnly="True" />
+  <!-- NOTE this property will never be populated for unresolved items, but is included to make the UI consistent -->
+  <StringProperty Name="Version" DisplayName="Версия" Description="Версия ссылочной сборки." ReadOnly="True" />
+</Rule>

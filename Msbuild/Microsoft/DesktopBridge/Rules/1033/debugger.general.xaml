@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Rule Name="DebuggerGeneralProperties"
+      DisplayName="Debugger General Properties"
+      Description="General Debugger options"
+      xmlns="http://schemas.microsoft.com/build/2009/properties">
+    <Rule.DataSource>
+        <DataSource Persistence="UserFile" SourceOfDefaultValue="AfterContext" />
+    </Rule.DataSource>
+
+    <Rule.Categories>
+        <Category Name="StartAction" DisplayName="Start action" Description="Start action"/>
+        <Category Name="StartOptions" DisplayName="Start Options" Description="Start Options"/>
+        <Category Name="DebuggerType" DisplayName="Debugger type" Description="Debugger type"/>
+        <Category Name="PackageLayout" DisplayName="Package layout" Description="Package layout"/>
+    </Rule.Categories>
+
+    <BoolProperty
+        Name="DoNotLaunchApp"
+        DisplayName="Do Not launch, but debug my code when it starts"
+        Category="StartAction"
+        Description="Specifies whether to launch the application immediately or wait to debug the application when it starts running."/>
+
+    <BoolProperty
+        Name="AllowLocalNetworkLoopback"
+        DisplayName="Allow Local Network Loopback"
+        Category="StartAction"
+        Description="When debugging a Microsoft Store app, allows you to use local services, debug network traffic, and use a local loopback for communicating with components on the same machine."/>
+
+    <StringProperty Name="DebuggerFlavor" Visible="false" />
+
+    <StringProperty
+        Name="CommandLineArguments"
+        DisplayName="Command Line Arguments"
+        Category="StartOptions"
+        Description="Allows the specification of command line arguments that are passed to the launch of the app">
+    </StringProperty>
+
+    <BoolProperty Name="AlwaysReinstall" Category="StartOptions"/>
+    <BoolProperty Name="DeployOptionalPackages" Category="StartOptions"/>
+
+    <EnumProperty Name="DebuggerType" Category="DebuggerType"
+        Description="Specifies which debugger to enable. When set to Mixed, debuggers for both managed and native code are used.">
+        <EnumValue Name="NativeOnly" DisplayName="Native Only" Description="Native Only" />
+        <EnumValue Name="ManagedOnly" DisplayName="Managed Only" Description="Managed Only" />
+        <EnumValue Name="Script" DisplayName="Script Only" Description="Script Only" />
+        <EnumValue Name="Mixed" DisplayName="Mixed (Managed and Native)" Description="Mixed (Managed and Native)" />
+        <EnumProperty.Metadata>
+            <NameValuePair Name="IsDebugType" Value="true"/>
+        </EnumProperty.Metadata>
+    </EnumProperty>
+    
+    <EnumProperty Name="BackgroundTaskDebugEngines" Category="DebuggerType"
+        Description="Specifies which debugger to enable. When set to Mixed, debuggers for both managed and native code are used.">
+        <EnumValue Name="NativeOnly" DisplayName="Native Only" Description="Native Only" />
+        <EnumValue Name="DesktopClr" DisplayName="Desktop CLR" Description="Desktop CLR Only" />
+        <EnumValue Name="CoreClr" DisplayName="Core CLR" Description="Core CLR Only" />
+        <EnumValue Name="Script" DisplayName="Script Only" Description="Script Only" />
+        <EnumValue Name="CoreClrAndNative" DisplayName="Core CLR and Native" Description="Core CLR and Native Mixed" />
+        <EnumValue Name="DesktopClrAndNative" DisplayName="Desktop CLR and Native" Description="Desktop CLR and Native Mixed" />
+        <EnumProperty.Metadata>
+            <NameValuePair Name="IsDebugType" Value="true"/>
+        </EnumProperty.Metadata>
+    </EnumProperty>
+    
+    <StringProperty
+        Name="LayoutDir"
+        Category="PackageLayout"
+        Description="Location of the package layout where the binary output will be copied. This location may also contain non-binary assets for the project." />
+    
+    <StringProperty Name="SymbolsPath" DisplayName="Symbol Search Path" Description="The search path used by the debugger to locate symbols."/>
+
+    <EnumProperty Name="ImageClrType" Visible="false">
+        <EnumProperty.DataSource>
+            <DataSource Persistence="UserFile" HasConfigurationCondition="false" PersistedName="_TargetImageClrType" SourceOfDefaultValue="AfterContext" />
+        </EnumProperty.DataSource>
+        <EnumValue Name="Native" DisplayName="Native Image" Description="The executable image to debug is a fully native application." />
+        <EnumValue Name="Mixed" DisplayName="Mixed Image" Description="The executable image to debug is a mixture of native and managed code." />
+        <EnumValue Name="Managed" DisplayName="Managed Image" Description="The executable image to debug is a fully managed application." />
+    </EnumProperty>
+</Rule>

@@ -1,0 +1,227 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information. -->
+<Rule Name="Application" Description="프로젝트의 애플리케이션 설정 및 속성을 지정합니다." DisplayName="애플리케이션" PageTemplate="generic" Order="100" xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <Rule.Categories>
+    <Category Name="General" DisplayName="일반" Description="애플리케이션의 일반 설정입니다." />
+    <Category Name="Resources" DisplayName="리소스" Description="애플리케이션의 리소스 설정입니다." />
+    <Category Name="Packaging" DisplayName="패키징" Description="응용 프로그램에 대한 패키징 설정입니다." />
+  </Rule.Categories>
+  <Rule.DataSource>
+    <DataSource Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" HasConfigurationCondition="False" />
+  </Rule.DataSource>
+  <EnumProperty Name="OutputType" DisplayName="출력 유형" Description="빌드할 애플리케이션의 유형을 지정합니다." Category="General">
+    <EnumValue Name="Library" DisplayName="클래스 라이브러리" />
+    <EnumValue Name="Exe" DisplayName="콘솔 애플리케이션" />
+    <EnumValue Name="WinExe" DisplayName="Windows 애플리케이션" />
+  </EnumProperty>
+  <BoolProperty Name="TargetMultipleFrameworks" DisplayName="여러 프레임워크 대상 지정" Description="여러 대상 프레임워크에 대해 이 프로젝트를 빌드합니다." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147236" Category="General" Visible="False">
+    <BoolProperty.DataSource>
+      <DataSource Persistence="ProjectFileWithInterception" HasConfigurationCondition="False" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+  <DynamicEnumProperty Name="InterceptedTargetFramework" DisplayName="대상 프레임워크" Description="애플리케이션이 대상으로 지정할 .NET 버전을 지정합니다. 이 옵션은 컴퓨터에 설치된 .NET 버전에 따라 다른 값을 가질 수 있습니다." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147236" Category="General" EnumProvider="SupportedTargetFrameworksEnumProvider" MultipleValuesAllowed="False">
+    <DynamicEnumProperty.DataSource>
+      <DataSource Persistence="ProjectFileWithInterception" HasConfigurationCondition="False" />
+    </DynamicEnumProperty.DataSource>
+    <DynamicEnumProperty.Metadata>
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>(not (has-evaluated-value "Application" "TargetMultipleFrameworks" true))</NameValuePair.Value>
+      </NameValuePair>
+      <NameValuePair Name="SearchTerms" Value="TFM" />
+      <NameValuePair Name="DependsOn" Value="Application::TargetMultipleFrameworks" />
+    </DynamicEnumProperty.Metadata>
+  </DynamicEnumProperty>
+  <StringProperty Name="TargetFrameworks" DisplayName="대상 프레임워크" Description="이 프로젝트에서 대상으로 할 프레임워크의 세미콜론으로 구분된 목록을 지정합니다." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147236" Category="General">
+    <StringProperty.DataSource>
+      <DataSource Persistence="ProjectFileWithInterception" HasConfigurationCondition="False" />
+    </StringProperty.DataSource>
+    <StringProperty.Metadata>
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>(has-evaluated-value "Application" "TargetMultipleFrameworks" true)</NameValuePair.Value>
+      </NameValuePair>
+      <NameValuePair Name="SearchTerms" Value="TFM" />
+      <NameValuePair Name="DependsOn" Value="Application::TargetMultipleFrameworks" />
+    </StringProperty.Metadata>
+  </StringProperty>
+  <StringProperty Name="InstallOtherFrameworks" DisplayName="기타 프레임워크 설치">
+    <StringProperty.DataSource>
+      <DataSource PersistedName="InstallOtherFrameworks" Persistence="ProjectFileWithInterception" HasConfigurationCondition="False" />
+    </StringProperty.DataSource>
+    <StringProperty.ValueEditors>
+      <ValueEditor EditorType="LinkAction">
+        <ValueEditor.Metadata>
+          <NameValuePair Name="Action" Value="URL" />
+          <NameValuePair Name="URL" Value="http://go.microsoft.com/fwlink/?LinkID=287120" />
+        </ValueEditor.Metadata>
+      </ValueEditor>
+    </StringProperty.ValueEditors>
+  </StringProperty>
+  <DynamicEnumProperty Name="TargetPlatformIdentifier" DisplayName="대상 OS" Description="이 프로젝트에서 대상으로 하는 운영 체제를 지정합니다." Category="General" EnumProvider="SdkSupportedTargetPlatformIdentifierEnumProvider">
+    <DynamicEnumProperty.DataSource>
+      <DataSource Persistence="ProjectFileWithInterception" HasConfigurationCondition="False" />
+    </DynamicEnumProperty.DataSource>
+    <DynamicEnumProperty.Metadata>
+      <NameValuePair Name="SearchTerms" Value="플랫폼" />
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>
+          (and
+            (has-net-core-app-version-or-greater "5.0")
+            (not (has-evaluated-value "Application" "TargetMultipleFrameworks" true)))
+        </NameValuePair.Value>
+      </NameValuePair>
+    </DynamicEnumProperty.Metadata>
+  </DynamicEnumProperty>
+  <DynamicEnumProperty Name="TargetPlatformVersion" DisplayName="대상 OS 버전" Description="이 프로젝트에서 대상으로 하는 운영 체제의 버전을 지정합니다." Category="General" EnumProvider="SdkSupportedTargetPlatformVersionEnumProvider">
+    <DynamicEnumProperty.DataSource>
+      <DataSource Persistence="ProjectFileWithInterception" HasConfigurationCondition="False" />
+    </DynamicEnumProperty.DataSource>
+    <DynamicEnumProperty.Metadata>
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>
+          (and
+            (has-net-core-app-version-or-greater "5.0")
+            (and
+              (ne (unevaluated "Application" "TargetPlatformIdentifier") "")
+              (not (has-evaluated-value "Application" "TargetMultipleFrameworks" true))))
+        </NameValuePair.Value>
+      </NameValuePair>
+      <NameValuePair Name="SearchTerms" Value="플랫폼" />
+      <NameValuePair Name="DependsOn" Value="Application::TargetPlatformIdentifier" />
+    </DynamicEnumProperty.Metadata>
+  </DynamicEnumProperty>
+  <DynamicEnumProperty Name="SupportedOSPlatformVersion" DisplayName="지원되는 OS 버전" Description="프로젝트가 실행될 최소 OS 버전을 지정합니다. 지정하지 않으면 대상 OS 버전 값이 암시됩니다. 여기서 이전 버전을 사용하려면 이후 버전 API 주변에 가드를 추가하는 코드가 필요합니다." Category="General" HelpUrl="https://go.microsoft.com/fwlink/?linkid=2171707" EnumProvider="SdkSupportedTargetPlatformVersionEnumProvider">
+    <DynamicEnumProperty.DataSource>
+      <DataSource Persistence="ProjectFileWithInterception" HasConfigurationCondition="False" />
+    </DynamicEnumProperty.DataSource>
+    <DynamicEnumProperty.Metadata>
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>
+          (and
+            (has-net-core-app-version-or-greater "5.0")
+            (and
+              (ne (unevaluated "Application" "TargetPlatformIdentifier") "")
+              (not (has-evaluated-value "Application" "TargetMultipleFrameworks" true))))
+        </NameValuePair.Value>
+      </NameValuePair>
+      <NameValuePair Name="SearchTerms" Value="플랫폼" />
+      <NameValuePair Name="DependsOn" Value="Application::TargetPlatformIdentifier" />
+    </DynamicEnumProperty.Metadata>
+  </DynamicEnumProperty>
+  <BoolProperty Name="UseWindowsForms" DisplayName="Windows Forms" Description="이 프로젝트에 대해 Windows Forms를 사용하도록 설정합니다." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2165974" Category="General">
+    <BoolProperty.Metadata>
+      <NameValuePair Name="DependsOn" Value="Application::OutputType" />
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>
+          (and
+            (has-evaluated-value "Application" "OutputType" "WinExe")
+            (has-net-core-app-version-or-greater "3.0"))
+        </NameValuePair.Value>
+      </NameValuePair>
+    </BoolProperty.Metadata>
+  </BoolProperty>
+  <BoolProperty Name="UseWPF" DisplayName="Windows Presentation Foundation" Description="이 프로젝트에 WPF를 사용하도록 설정합니다." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2166131" Category="General">
+    <BoolProperty.Metadata>
+      <NameValuePair Name="DependsOn" Value="Application::OutputType" />
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>
+          (and
+            (has-evaluated-value "Application" "OutputType" "WinExe")
+            (has-net-core-app-version-or-greater "3.0"))
+        </NameValuePair.Value>
+      </NameValuePair>
+    </BoolProperty.Metadata>
+  </BoolProperty>
+  <BoolProperty Name="AutoGenerateBindingRedirects" DisplayName="바인딩 리디렉션 자동 생성" Description="App.config에 바인딩 리디렉션을 자동으로 추가합니다." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2164379" Category="General">
+    <BoolProperty.Metadata>
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>
+        (has-net-framework)
+        </NameValuePair.Value>
+      </NameValuePair>
+    </BoolProperty.Metadata>
+  </BoolProperty>
+  <DynamicEnumProperty Name="StartupObject" DisplayName="시작 개체" Description="애플리케이션이 로드될 때 호출할 진입점을 정의합니다. 일반적으로 애플리케이션의 기본 양식 또는 애플리케이션이 시작할 때 실행되어야 하는 '기본' 프로시저로 설정됩니다. 클래스 라이브러리는 진입점을 정의하지 않습니다." Category="General" EnumProvider="StartupObjectsEnumProvider">
+    <DynamicEnumProperty.Metadata>
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>(not (has-evaluated-value "Application" "OutputType" "Library"))</NameValuePair.Value>
+      </NameValuePair>
+    </DynamicEnumProperty.Metadata>
+    <DynamicEnumProperty.ProviderSettings>
+      <!-- We want an explicit item representing the empty value. We can remove this setting
+           when the enum provider starts including it by default. -->
+      <NameValuePair Name="IncludeEmptyValue" Value="true" />
+    </DynamicEnumProperty.ProviderSettings>
+  </DynamicEnumProperty>
+  <StringProperty Name="AssemblyName" DisplayName="어셈블리 이름" Description="어셈블리 매니페스트를 저장할 출력 파일의 이름을 지정합니다." Category="General" />
+  <StringProperty Name="RootNamespace" DisplayName="기본 네임스페이스" Description="프로젝트에 추가된 파일의 기본 네임스페이스를 지정합니다." Category="General" />
+  <EnumProperty Name="ResourceSpecificationKind" DisplayName="리소스" Description="애플리케이션 리소스 관리 방법을 지정합니다." Category="Resources">
+    <EnumProperty.DataSource>
+      <DataSource PersistedName="ResourceSpecificationKind" Persistence="ProjectFileWithInterception" HasConfigurationCondition="False" />
+    </EnumProperty.DataSource>
+    <EnumValue Name="IconAndManifest" DisplayName="아이콘 및 매니페스트" />
+    <EnumValue Name="ResourceFile" DisplayName="리소스 파일" />
+  </EnumProperty>
+  <StringProperty Name="ApplicationIcon" DisplayName="아이콘" Category="Resources" Description="프로그램 아이콘으로 사용할 .ico 파일을 설정합니다." Subtype="file">
+    <StringProperty.DataSource>
+      <DataSource Persistence="ProjectFileWithInterception" HasConfigurationCondition="False" />
+    </StringProperty.DataSource>
+    <StringProperty.ValueEditors>
+      <ValueEditor EditorType="FilePath">
+        <ValueEditor.Metadata>
+          <NameValuePair Name="FileTypeFilter" Value="Icon files (*.ico)|*.ico|All files (*.*)|*.*" />
+        </ValueEditor.Metadata>
+      </ValueEditor>
+    </StringProperty.ValueEditors>
+    <StringProperty.Metadata>
+      <NameValuePair Name="DependsOn" Value="Application::ResourceSpecificationKind" />
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>(has-evaluated-value "Application" "ResourceSpecificationKind" "IconAndManifest")</NameValuePair.Value>
+      </NameValuePair>
+    </StringProperty.Metadata>
+  </StringProperty>
+  <EnumProperty Name="ApplicationManifestKind" DisplayName="매니페스트" Description="애플리케이션이 UAC(사용자 계정 컨트롤)로 Windows Vista 이상에서 실행될 때 매니페스트 생성 옵션을 선택합니다. 옵션에는 기본 매니페스트, 매니페스트 없음, 프로젝트에서 제공하는 사용자 지정 매니페스트가 있습니다." Category="Resources">
+    <EnumProperty.DataSource>
+      <DataSource PersistedName="ApplicationManifestKind" Persistence="ProjectFileWithInterception" HasConfigurationCondition="False" />
+    </EnumProperty.DataSource>
+    <EnumProperty.Metadata>
+      <NameValuePair Name="DependsOn" Value="Application::ResourceSpecificationKind" />
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>(has-evaluated-value "Application" "ResourceSpecificationKind" "IconAndManifest")</NameValuePair.Value>
+      </NameValuePair>
+    </EnumProperty.Metadata>
+    <EnumValue Name="DefaultManifest" DisplayName="기본 설정으로 구성된 매니페스트 포함" />
+    <EnumValue Name="NoManifest" DisplayName="매니페스트 없이 애플리케이션 만들기" />
+    <EnumValue Name="CustomManifest" DisplayName="사용자 지정 매니페스트 사용" />
+  </EnumProperty>
+  <StringProperty Name="ApplicationManifestPath" DisplayName="매니페스트 경로" Description="사용자 지정 매니페스트 파일의 경로입니다." Category="Resources" Subtype="file">
+    <StringProperty.DataSource>
+      <DataSource PersistedName="ApplicationManifestPath" Persistence="ProjectFileWithInterception" HasConfigurationCondition="False" />
+    </StringProperty.DataSource>
+    <StringProperty.Metadata>
+      <NameValuePair Name="DependsOn" Value="Application::ResourceSpecificationKind;Application::ApplicationManifestKind" />
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>
+          (and 
+            (has-evaluated-value "Application" "ApplicationManifestKind" "CustomManifest")
+            (has-evaluated-value "Application" "ResourceSpecificationKind" "IconAndManifest"))
+        </NameValuePair.Value>
+      </NameValuePair>
+    </StringProperty.Metadata>
+  </StringProperty>
+  <StringProperty Name="Win32Resource" DisplayName="리소스 파일" Description="프로젝트에 대한 리소스 파일을 지정합니다." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147078" Category="Resources">
+    <StringProperty.ValueEditors>
+      <ValueEditor EditorType="FilePath">
+        <ValueEditor.Metadata>
+          <NameValuePair Name="FileTypeFilter" Value="Win32 resource files (*.res)|*.res|All files (*.*)|*.*" />
+        </ValueEditor.Metadata>
+      </ValueEditor>
+    </StringProperty.ValueEditors>
+    <StringProperty.Metadata>
+      <NameValuePair Name="DependsOn" Value="Application::ResourceSpecificationKind" />
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>(has-evaluated-value "Application" "ResourceSpecificationKind" "ResourceFile")</NameValuePair.Value>
+      </NameValuePair>
+    </StringProperty.Metadata>
+  </StringProperty>
+  <BoolProperty Name="IsPublishable" DisplayName="게시" Description="&quot;dotnet publish&quot;와 같이 Visual Studio 외부에 게시할 수 있습니다." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2165975" Category="Packaging" />
+</Rule>

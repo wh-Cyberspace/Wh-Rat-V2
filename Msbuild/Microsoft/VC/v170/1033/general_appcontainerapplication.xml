@@ -1,0 +1,187 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--Copyright, Microsoft Corporation, All rights reserved.-->
+<Rule
+      Name="ConfigurationGeneral"
+      DisplayName="General"
+      PageTemplate="generic"
+      Description="General"
+      xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <Rule.Categories>
+    <Category Name="General" DisplayName="General" Description="General" />
+    <Category Name="ProjectDefaults" DisplayName="Project Defaults" Description="Project Defaults" />
+  </Rule.Categories>
+  <Rule.DataSource>
+    <DataSource Persistence="ProjectFile" Label="Configuration" />
+  </Rule.DataSource>
+  <StringProperty Name="SDKDisplayName" DisplayName="Target Platform" 
+                  Description="The current target platform of the project" 
+                  ReadOnly="true" 
+                  Category="General" 
+                  F1Keyword="VC.Project.VCConfiguration.AppSupport">
+                  <StringProperty.DataSource>
+                    <DataSource Persistence="ProjectFile" Label="" />
+                  </StringProperty.DataSource>
+  </StringProperty>
+  <DynamicEnumProperty Name="WindowsTargetPlatformVersion" DisplayName="Target Platform Version" 
+                       Description="Version of the targeted Platform. Select 10.0 to use and stay on latest installed Windows 10 SDK version." 
+                       Category="General"
+                       EnumProvider="PlatformVersionsEx"
+                       Visible="true"
+                       F1Keyword="VC.Project.VCConfiguration.TargetPlatformVersion" >
+    <DynamicEnumProperty.DataSource>
+      <DataSource Persistence="ProjectFile" Label="Globals" SourceOfDefaultValue="AfterContext" HasConfigurationCondition="False" />
+    </DynamicEnumProperty.DataSource>
+  </DynamicEnumProperty>
+  <DynamicEnumProperty Name="WindowsTargetPlatformMinVersion" DisplayName="Target Platform Min. Version" 
+                       Description="Minimum version of platform this application could target." 
+                       Category="General"
+                       EnumProvider="PreviousPlatformVersions"
+                       Visible="true"
+                       F1Keyword="VC.Project.VCConfiguration.TargetPlatformVersion" >
+    <DynamicEnumProperty.DataSource>
+      <DataSource Persistence="ProjectFile" Label="Globals" SourceOfDefaultValue="AfterContext" HasConfigurationCondition="False" />
+    </DynamicEnumProperty.DataSource>
+  </DynamicEnumProperty>
+  <StringProperty Name="OutDir" DisplayName="Output Directory"
+                  Description="Specifies a relative path to the output file directory; can include environment variables."
+                  Category="General" Default="$(SolutionDir)$(Configuration)\"
+                  Subtype="folder"
+                  F1Keyword="VC.Project.VCConfiguration.OutputDirectory">
+                  <StringProperty.DataSource>
+                     <DataSource Persistence="ProjectFile" Label="" />
+                  </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="IntDir" DisplayName="Intermediate Directory"
+                  Description="Specifies a relative path to the intermediate file directory; can include environment variables."
+                  Category="General" Default="$(Configuration)\"
+                  Subtype="folder"
+                  F1Keyword="VC.Project.VCConfiguration.IntermediateDirectory">
+                  <StringProperty.DataSource>
+                     <DataSource Persistence="ProjectFile" Label="" />
+                  </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="TargetName" DisplayName="Target Name"
+                  Description="Specifies a file name that this project will generate."
+                  F1Keyword="VC.Project.VCConfiguration.TargetName"
+                  Category="General" Default="$(ProjectName)"
+                  >
+                  <StringProperty.DataSource>
+                     <DataSource Persistence="ProjectFile" Label="" />
+                  </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="TargetExt" DisplayName="Target Extension"
+                  Description="Specifies a file extension that this project will generate. (Example: .exe or .dll)"
+                  F1Keyword="VC.Project.VCConfiguration.TargetExt"
+                  Category="General"
+                  >
+                  <StringProperty.DataSource>
+                     <DataSource Persistence="ProjectFile" Label="" />
+                  </StringProperty.DataSource>
+  </StringProperty>
+  <StringListProperty Name="ExtensionsToDeleteOnClean" DisplayName="Extensions to Delete on Clean"
+                      Description="Semi-colon delimited wildcard specification for which files in the intermediate directory to delete on clean or rebuild."
+                      Category="General" Separator=";"
+                      F1Keyword="VC.Project.VCConfiguration.DeleteExtensionsOnClean">
+                      <StringListProperty.DataSource>
+                            <DataSource Persistence="ProjectFile" Label="" />
+                      </StringListProperty.DataSource>
+  </StringListProperty>
+  <StringProperty Name="BuildLogFile" DisplayName="Build Log File"
+                  Description="Specifies the build log file to write to when build logging is enabled."
+                  F1Keyword="VC.Project.VCConfiguration.BuildLogFile"
+                  Category="General" Default="$(ProjectDir)\$(MSBuildProjectName).log"
+                  Subtype="file">
+                  <StringProperty.DataSource>
+                     <DataSource Persistence="ProjectFile" ItemType="BuildLog" PersistedName="Path" />
+                  </StringProperty.DataSource>
+  </StringProperty>
+  <!-- There is no InheritProjectPropertySheets in the project file. The property sheets will be expressed as explicit Imports.
+  <StringListProperty Name="InheritProjectPropertySheets" DisplayName="Inherit Project Property Sheets"
+                      Description="Specifies the project property sheets this configuration or property sheet inherits from."
+                      Category="General" Separator=";" Subtype="file" /> -->
+  <DynamicEnumProperty Name="PlatformToolset" DisplayName="Platform Toolset" EnumProvider="Toolsets"
+                       Description="Specifies the toolset used for building the current configuration; If not set, the default toolset is used."
+                       F1Keyword="VC.Project.VCConfiguration.PlatformToolset"
+                       Category="General" />
+  <EnumProperty Name="ConfigurationType" DisplayName="Configuration Type"
+                Description="Specifies the type of output this configuration generates."
+                Category="ProjectDefaults"
+                F1Keyword="VC.Project.VCConfiguration.ConfigurationType">
+    <EnumValue Name="Application" DisplayName="Application (.exe)" Description="Application (.exe)" />
+    <EnumValue Name="DynamicLibrary" DisplayName="Dynamic Library (.dll)" Description="Dynamic Library (.dll)" />
+    <EnumValue Name="StaticLibrary" DisplayName="Static library (.lib)" Description="Static Library (.lib)" />
+  </EnumProperty>
+  <EnumProperty Name="WholeProgramOptimization" DisplayName="Whole Program Optimization"
+                Description="Specifies that the program will be optimized across .obj boundaries; works best if C/C++ optimizations are turned on."
+                Category="ProjectDefaults"
+                F1Keyword="VC.Project.VCConfiguration.WholeProgramOptimization">
+    <EnumValue Name="false" DisplayName="No Whole Program Optimization"
+               Description="No Whole Program Optimization" />
+    <EnumValue Name="true" DisplayName="Use Link Time Code Generation"
+               Description="Use Link Time Code Generation"/>
+  </EnumProperty>
+  <BoolProperty Name="WindowsAppContainer" DisplayName="Windows Store App Support" Description="Enable this project to support Windows Store apps." ReadOnly="true" Category="ProjectDefaults" F1Keyword="VC.Project.VCConfiguration.AppSupport" />
+  <BoolProperty Name="DesktopCompatible" DisplayName="Windows Desktop Compatible" Description="Enable this project’s output to be used in Windows Desktop apps." Category="ProjectDefaults" F1Keyword="VC.Project.VCConfiguration.DesktopCompatible"/>
+  <EnumProperty Name="CharacterSet" DisplayName="Character Set"
+                Description="Tells the compiler to use the specified character set; aids in localization issues."
+                Category="ProjectDefaults"
+                Visible="false"
+                F1Keyword="VC.Project.VCConfiguration.CharacterSet">
+    <EnumValue Name="Unicode" DisplayName="Use Unicode Character Set" Description="Use Unicode Character Set" />
+  </EnumProperty>
+  <BoolProperty Name="UseDebugLibraries" DisplayName="Use Debug Libraries"
+                Description="Specifies whether this configuration should use debug libraries and debug switches"
+                Category="ProjectDefaults" Visible="false">
+  </BoolProperty>
+  <StringProperty Name="_ProjectFileVersion" DisplayName="Project File Version"
+                Description="Specifies the version of the conversion tool used to create this project file."
+                Category="General" Visible="false">
+    <StringProperty.DataSource>
+      <DataSource Persistence="ProjectFile" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="ProjectGuid" Visible="False">
+    <StringProperty.DataSource>
+      <DataSource Persistence="ProjectFile" Label="Globals" HasConfigurationCondition="False" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <DynamicEnumProperty Name="TargetFrameworkMoniker" DisplayName="Target Framework Moniker" EnumProvider="TargetFrameworkMoniker" Visible="false" />
+
+  <EnumProperty Name="UseOfMfc" Category="ProjectDefaults"  Visible="false">
+    <EnumValue Name="false"/>
+    <EnumValue Name="Static"/>
+    <EnumValue Name="Dynamic"/>
+  </EnumProperty>
+  <EnumProperty Name="UseOfAtl" Visible="false">
+    <EnumValue Name="false" />
+    <EnumValue Name="Static" />
+    <EnumValue Name="Dynamic" />
+  </EnumProperty>
+  <EnumProperty Name="CLRSupport" Visible="False">
+    <EnumValue Name="false" />
+    <EnumValue Name="true" />
+    <EnumValue Name="Pure"/>
+    <EnumValue Name="Safe"/>
+  </EnumProperty>
+  <StringProperty Name="TargetPath" Visible="False"/>
+  <StringProperty Name="MSBuildProjectDirectory" Visible="false"/>
+  <StringProperty Name="PackageAction" Visible="false" Description="The MSBuild target to use when packaging a project." />
+  <StringProperty Name="DefaultContentType" Visible="false" Description="The default content type name to use when adding files." />
+  <StringProperty Name="VCInstallDir" Visible="false" />
+  <StringProperty Name="VCIDEInstallDir" Visible="false" />
+  <StringProperty Name="VSInstallDir" Visible="false" />
+  <StringProperty Name="Platform" Visible="false" />
+  <StringProperty Name="Configuration" Visible="false" />
+  <StringProperty Name="DebuggerSymbolsPath" Visible="false" />
+  <StringProperty Name="AssemblySearchPaths" Visible="false" />
+  <StringProperty Name="DefaultPlatformToolset" Visible="false" />
+  <BoolProperty Name="EnableDesignTimeBuild" Visible="false" />
+  <BoolProperty Name="AppContainerApplication" Visible="false" />
+  <EnumProperty Name="TargetRuntime" Visible="false">
+    <EnumValue Name="Managed" />
+    <EnumValue Name="Native" />
+    <EnumValue Name="AppHost" DisplayName="Windows app" />
+  </EnumProperty>
+  <StringProperty Name="AddItemTemplateGuid" Visible="false" />
+  <BoolProperty Name="ContainsStartupTask" Visible="false" />
+</Rule>

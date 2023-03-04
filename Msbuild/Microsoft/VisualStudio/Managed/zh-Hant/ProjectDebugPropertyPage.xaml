@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information. -->
+<Rule Name="ProjectDebugPropertyPage" Description="與啟動及偵錯專案輸出相關的屬性。" DisplayName="專案" PageTemplate="commandNameBasedDebugger" xmlns:sys="clr-namespace:System;assembly=mscorlib" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <Rule.Metadata>
+    <sys:String x:Key="CommandName">Project</sys:String>
+    <!-- KnownImageIds.ImageCatalogGuid -->
+    <sys:Guid x:Key="ImageMonikerGuid">AE27A6B0-E345-4288-96DF-5EAF394EE369</sys:Guid>
+    <!-- KnownImageIds.Application -->
+    <sys:Int32 x:Key="ImageMonikerId">165</sys:Int32>
+  </Rule.Metadata>
+  <Rule.DataSource>
+    <DataSource Persistence="LaunchProfile" HasConfigurationCondition="False" ItemType="LaunchProfile" />
+  </Rule.DataSource>
+  <StringProperty Name="CommandLineArguments" DisplayName="命令列引數" Description="要傳遞至可執行檔的命令列引數。" />
+  <StringProperty Name="WorkingDirectory" DisplayName="工作目錄" Description="要啟動處理序之工作目錄的路徑。" Subtype="folder" />
+  <BoolProperty Name="RemoteDebugEnabled" DisplayName="使用遠端電腦" Description="指出偵錯工具應附加到遠端電腦上的流程。" />
+  <StringProperty Name="RemoteDebugMachine" DisplayName="遠端電腦名稱" Description="遠端電腦的名稱及連接埠號碼，採用 'name:port' 格式。">
+    <StringProperty.Metadata>
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>(has-evaluated-value "Project" "RemoteDebugEnabled" true)</NameValuePair.Value>
+      </NameValuePair>
+      <NameValuePair Name="DependsOn" Value="Project::RemoteDebugMachine" />
+    </StringProperty.Metadata>
+  </StringProperty>
+  <DynamicEnumProperty Name="AuthenticationMode" DisplayName="驗證模式" Description="連線至遠端電腦時所要使用的驗證配置。" EnumProvider="AuthenticationModeEnumProvider">
+    <DynamicEnumProperty.Metadata>
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>(has-evaluated-value "Project" "RemoteDebugEnabled" true)</NameValuePair.Value>
+      </NameValuePair>
+      <NameValuePair Name="DependsOn" Value="Project::RemoteDebugMachine" />
+    </DynamicEnumProperty.Metadata>
+  </DynamicEnumProperty>
+  <StringProperty Name="EnvironmentVariables" DisplayName="環境變數" Description="執行處理序前要設定的環境變數。變數以逗號 (,) 分隔，變數名稱與值則以等號 (=) 分隔。範例: var1=value1,var2=value2,var3=value3。您可以使用斜線 (/) 逸出變數內顯示的逗號與等號。" />
+  <BoolProperty Name="HotReloadEnabled" DisplayName="啟用熱重新載入" Description="將程式碼變更套用至執行中的應用程式。">
+    <BoolProperty.Metadata>
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>
+          (and
+            (has-project-capability "SupportsHotReload")
+            (not (has-evaluated-value "Project" "RemoteDebugEnabled" true)))</NameValuePair.Value>
+      </NameValuePair>
+    </BoolProperty.Metadata>
+  </BoolProperty>
+  <BoolProperty Name="NativeDebugging" DisplayName="啟用機器碼偵錯" Description="同時為受控碼和機器碼啟用偵錯，也稱為混合模式偵錯。" />
+  <BoolProperty Name="SqlDebugging" DisplayName="啟用 SQL Server 偵錯" Description="啟用 SQL 指令碼偵錯與預存程序偵錯。" />
+  <BoolProperty Name="WebView2Debugging" DisplayName="啟用 WebView2 偵錯" Description="啟用適用於 Microsoft Edge (Chromium) 型 WebView2 的 JavaScript 偵錯工具。需要 JavaScript 診斷工具" />
+</Rule>

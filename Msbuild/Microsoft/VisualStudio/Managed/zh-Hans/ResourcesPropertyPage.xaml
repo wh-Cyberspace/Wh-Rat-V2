@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information. -->
+<Rule Name="ResourcesPropertyPage" Description="资源" DisplayName="资源" PageTemplate="generic" Order="1100" xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <Rule.DataSource>
+    <DataSource Persistence="ProjectFileWithInterception" SourceOfDefaultValue="AfterContext" HasConfigurationCondition="False" />
+  </Rule.DataSource>
+  <StringProperty Name="ResourcesPagePlaceholderDescription" DisplayName="已忽略" Description="不再通过项目属性管理程序集资源。而是改为直接从解决方案资源管理器打开 RESX 文件。为方便起见，可通过以下链接访问它。">
+    <StringProperty.ValueEditors>
+      <ValueEditor EditorType="Description" />
+    </StringProperty.ValueEditors>
+  </StringProperty>
+  <StringProperty Name="CreateOrOpenAssemblyResources" DisplayName="创建或打开程序集资源">
+    <StringProperty.ValueEditors>
+      <ValueEditor EditorType="LinkAction">
+        <ValueEditor.Metadata>
+          <NameValuePair Name="Action" Value="Command" />
+          <NameValuePair Name="Command" Value="CreateOrOpenAssemblyResources" />
+        </ValueEditor.Metadata>
+      </ValueEditor>
+    </StringProperty.ValueEditors>
+  </StringProperty>
+</Rule>

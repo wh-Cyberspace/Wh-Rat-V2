@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information. -->
+<Rule Name="ResolvedProjectReference" Description="Właściwości odwołania do projektu" DisplayName="Odwołanie do projektu" PageTemplate="generic" xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <Rule.DataSource>
+    <DataSource HasConfigurationCondition="False" ItemType="ProjectReference" MSBuildTarget="ResolveProjectReferencesDesignTime2" Persistence="ResolvedReference" SourceOfDefaultValue="AfterContext" SourceType="TargetResults" />
+  </Rule.DataSource>
+  <StringListProperty Name="Aliases" Description="Rozdzielona przecinkami lista aliasów do tego odwołania." DisplayName="Aliasy" Separator=",">
+    <StringListProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="ProjectReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </StringListProperty.DataSource>
+  </StringListProperty>
+  <StringProperty Name="BrowsePath" ReadOnly="True" Visible="False">
+    <StringProperty.DataSource>
+      <DataSource ItemType="ProjectReference" PersistedName="Identity" Persistence="Intrinsic" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <BoolProperty Name="CopyLocal" Description="Wskazuje, czy odwołanie będzie kopiowane do katalogu wyjściowego." DisplayName="Kopia lokalna">
+    <BoolProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="ProjectReference" PersistedName="Private" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+  <BoolProperty Name="CopyLocalSatelliteAssemblies" Description="Wskazuje, czy zestawy satelickie docelowego odwołania powinny być kopiowane do katalogu wyjściowego tego projektu." DisplayName="Kopiuj lokalne zestawy satelickie">
+    <BoolProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="ProjectReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+  <StringProperty Name="Culture" Description="Wartość pola kultury z metadanych zestawu." DisplayName="Kultura" ReadOnly="True" />
+  <StringProperty Name="Description" Description="Wartość pola Tytuł z metadanych zestawu." DisplayName="Opis" ReadOnly="True" />
+  <StringProperty Name="DiagnosticLevel" ReadOnly="True" Visible="False" />
+  <BoolProperty Name="EmbedInteropTypes" Description="Wskazuje, czy typy zdefiniowane w tym zestawie będą osadzone w zestawie docelowym." DisplayName="Osadź typy międzyoperacyjne">
+    <BoolProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="ProjectReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+  <StringProperty Name="ExcludeAssets" Description="Zasoby do wykluczenia z tego odwołania." DisplayName="Wyklucz zasoby">
+    <StringProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="ProjectReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <EnumProperty Name="FileType" ReadOnly="True" Visible="False">
+    <EnumValue Name="Assembly" />
+    <EnumValue Name="ActiveX" />
+    <EnumValue Name="Native Assembly" />
+  </EnumProperty>
+  <StringProperty Name="FusionName" ReadOnly="True" Visible="False" />
+  <StringProperty Name="HintPath" Visible="false" />
+  <StringProperty Name="Identity" Description="Tożsamość zabezpieczeń zestawu, do którego się odwoływano (zobacz System.Reflection.Assembly.Evidence lub System.Security.Policy.Evidence)." DisplayName="Tożsamość" ReadOnly="True">
+    <StringProperty.DataSource>
+      <DataSource PersistedName="{}{Identity}" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="IncludeAssets" Description="Zasoby do uwzględnienia z tego odwołania." DisplayName="Uwzględnij zasoby">
+    <StringProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="ProjectReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="IsImplicitlyDefined" ReadOnly="True" Visible="False" />
+  <BoolProperty Name="IsWinMDFile" Visible="false" />
+  <StringProperty Name="Name" ReadOnly="True" Visible="false" />
+  <StringProperty Name="OriginalItemSpec" ReadOnly="True" Visible="False" />
+  <StringProperty Name="PrivateAssets" Description="Prywatne zasoby w tym odwołaniu." DisplayName="Prywatne zasoby">
+    <StringProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="ProjectReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="Project" Visible="False" />
+  <BoolProperty Name="ReferenceOutputAssembly" Description="Wartość wskazująca, czy kompilator powinien uwzględniać odwołanie do głównego zestawu wyjściowego projektu docelowego." DisplayName="Odwołanie do zestawu wyjściowego">
+    <BoolProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="ProjectReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+  <StringProperty Name="RequiredTargetFramework" Visible="False" />
+  <StringProperty Name="ResolvedPath" Description="Lokalizacja pliku, którego dotyczy odwołanie." DisplayName="Ścieżka" ReadOnly="True">
+    <StringProperty.DataSource>
+      <DataSource PersistedName="Identity" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="RuntimeVersion" ReadOnly="True" Visible="False" />
+  <StringProperty Name="SDKIdentity" Visible="false" />
+  <BoolProperty Name="SpecificVersion" Visible="False" />
+  <BoolProperty Name="StrongName" ReadOnly="True" Visible="False" />
+  <StringProperty Name="Version" Description="Wersja odwołania." DisplayName="Wersja" ReadOnly="True" />
+  <BoolProperty Name="Visible" ReadOnly="True" Visible="False" />
+  <BoolProperty Name="WinMDFile" ReadOnly="True" Visible="false" />
+  <BoolProperty Name="TreatAsUsed" Description="Wskazuje, że to odwołanie powinno być traktowane tak, jakby było używane." DisplayName="Traktuj jako używane" ReadOnly="True" Visible="True" />
+</Rule>

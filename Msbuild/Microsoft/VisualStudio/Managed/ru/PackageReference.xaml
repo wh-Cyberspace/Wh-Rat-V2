@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information. -->
+<Rule Name="PackageReference" Description="Свойства ссылок на пакеты" DisplayName="Ссылка на пакет" PageTemplate="generic" xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <Rule.DataSource>
+    <DataSource HasConfigurationCondition="False" ItemType="PackageReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+  </Rule.DataSource>
+  <StringListProperty Name="Aliases" Description="Разделенный запятыми список псевдонимов ссылок на сборки, содержащиеся в этом пакете." DisplayName="Псевдонимы" Separator="," />
+  <StringProperty Name="ExcludeAssets" Description="Ресурсы, исключаемые из этой ссылки." DisplayName="Исключенные ресурсы" />
+  <BoolProperty Name="GeneratePathProperty" Description="Указывает, необходимо ли создать свойство MSBuild, содержащее расположение корневого каталог пакета. Имя созданного свойства имеет вид 'Pkg[PackageID]', где '[PackageID]' — идентификатор пакета, в котором точки ('.') заменены на нижние подчеркивания ('_')." DisplayName="Создать свойство пути" />
+  <StringProperty Name="IncludeAssets" Description="Ресурсы, включаемые из этой ссылки." DisplayName="Включенные ресурсы" />
+  <StringProperty Name="IsImplicitlyDefined" ReadOnly="True" Visible="False" />
+  <StringProperty Name="Name" ReadOnly="True" DisplayName="Имя">
+    <StringProperty.DataSource>
+      <DataSource PersistedName="{}{Identity}" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="NoWarn" Description="Разделенный запятыми список предупреждений, которые должны быть отключены для этого пакета." DisplayName="Отключить предупреждения" />
+  <!-- NOTE this property will never be populated for unresolved items, but is included to make the UI consistent -->
+  <StringProperty Name="Path" Description="Расположение пакета, на который указывает ссылка." DisplayName="Путь" ReadOnly="True" />
+  <StringProperty Name="PrivateAssets" Description="Ресурсы, являющиеся закрытыми в этой ссылке." DisplayName="Частные ресурсы" />
+  <StringProperty Name="Version" Description="Версия зависимости." DisplayName="Версия" ReadOnly="True">
+    <StringProperty.DataSource>
+      <DataSource PersistenceStyle="Attribute" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <BoolProperty Name="Visible" ReadOnly="True" Visible="False" />
+  <BoolProperty Name="TreatAsUsed" ReadOnly="True" Visible="False" />
+</Rule>

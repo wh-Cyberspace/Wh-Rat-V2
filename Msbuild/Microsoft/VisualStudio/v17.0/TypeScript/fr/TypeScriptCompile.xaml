@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Copyright, Microsoft Corporation, All rights reserved.-->
+<Rule Name="TypeScriptCompile" DisplayName="Fichier TypeScript" PageTemplate="generic" Description="Fichier TypeScript" xmlns="http://schemas.microsoft.com/build/2009/properties">
+
+  <Rule.Categories>
+    <Category Name="Advanced" DisplayName="Avancé"/>
+    <Category Name="Misc" DisplayName="Divers"/>
+  </Rule.Categories>
+
+  <Rule.DataSource>
+    <DataSource Persistence="ProjectFile" HasConfigurationCondition="false" ItemType="TypeScriptCompile"/>
+  </Rule.DataSource>
+
+  <DynamicEnumProperty Name="{}{ItemType}" Category="Advanced" Description="Description de la relation entre le fichier, la build et les processus de déploiement." DisplayName="Action de génération" F1Keyword="javascript.project.property.packageaction" EnumProvider="ItemTypes"/>
+
+  <EnumProperty Name="CopyToOutputDirectory" DisplayName="Copier dans le répertoire de sortie" Category="Advanced" F1Keyword="javascript.project.property.copytooutputdirectory" Description="Précise si le fichier doit être copié dans le dossier de sortie.">
+    <EnumValue Name="Never" DisplayName="Ne pas copier"/>
+    <EnumValue Name="Always" DisplayName="Toujours copier"/>
+    <EnumValue Name="PreserveNewest" DisplayName="Copier si plus récent"/>
+  </EnumProperty>
+
+  <StringProperty Name="Identity" DisplayName="Nom de fichier" ReadOnly="true" Category="Misc" F1Keyword="javascript.project.property.filename" Description="Nom du fichier ou du dossier.">
+    <StringProperty.DataSource>
+      <DataSource Persistence="Intrinsic" ItemType="TypeScriptCompile" PersistedName="Identity"/>
+    </StringProperty.DataSource>
+  </StringProperty>
+
+  <StringProperty Name="FullPath" DisplayName="Chemin d'accès complet" ReadOnly="true" Category="Misc" F1Keyword="javascript.project.property.fullpath" Description="Emplacement du fichier.">
+    <StringProperty.DataSource>
+      <DataSource Persistence="Intrinsic" ItemType="TypeScriptCompile" PersistedName="FullPath"/>
+    </StringProperty.DataSource>
+  </StringProperty>
+
+  <BoolProperty Name="Visible" Visible="false"/>
+  <StringProperty Name="DependentUpon" Visible="false"/>
+  <StringProperty Name="Link" Visible="false"/>
+  <EnumProperty Name="SubType" Visible="false">
+    <EnumValue Name="Designer"/>
+  </EnumProperty>
+</Rule>

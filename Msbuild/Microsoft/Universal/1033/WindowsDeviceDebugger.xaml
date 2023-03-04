@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Copyright, Microsoft Corporation, All rights reserved.-->
+<Rule 
+  Name="WindowsDeviceDebugger"
+  DisplayName="Device"
+  PageTemplate="debugger"
+  Order="500"
+  Description="Windows Phone Device Debugger options"
+  xmlns:sys="clr-namespace:System;assembly=mscorlib"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns="http://schemas.microsoft.com/build/2009/properties">
+
+  <Rule.Metadata>
+    <sys:Guid x:Key="DebugTargetTypeCommandGuid">FEEA6E9D-77D8-423F-9EDE-3970CBB76125</sys:Guid>
+    <sys:UInt32 x:Key="DebugTargetTypeCommandId">0x300</sys:UInt32>
+  </Rule.Metadata>
+  <Rule.DataSource>
+    <DataSource Persistence="UserFile" />
+  </Rule.DataSource>
+  <Rule.Categories>
+    <Category Name="StartOptions" DisplayName="Start Options" Description="Start Options"/>
+    <Category Name="RemoteOptions" DisplayName="Remote Options" Description="Remote Options"/>
+  </Rule.Categories>
+  <EnumProperty 
+    Name="DebuggerType" 
+    DisplayName="Debugger Type" 
+    Category="StartOptions"
+    F1Keyword="VC.Project.IVCAppHostRemoteDebugPageObject.DebuggerType"
+    Description="Specifies the debugger to enable. The native debugger is the only available option.">
+    <EnumProperty.Metadata>
+      <NameValuePair Name="IsDebugType" Value="true"/>
+    </EnumProperty.Metadata>
+    <EnumValue Name="NativeOnly" DisplayName="Native Only" Description="Native Only" />
+  </EnumProperty>
+  <BoolProperty Name="Tombstone" DisplayName="Tombstone upon deactivation" 
+                Description="Specifies whether to tombstone upon deactivation" />
+  <StringProperty
+    Name="LayoutDir"
+    DisplayName="Package Layout Path"
+    Description="Location of the package layout where the binary output will be copied. This location may also contain non-binary assets for the project." />
+  <StringProperty
+    Name="CommandLineArgs"
+    DisplayName="Command Line Arguments"
+    Description="Command line arguments passed to the debugger." />
+</Rule>
+

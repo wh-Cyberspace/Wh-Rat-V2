@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information. -->
+<Rule Name="PackageReference" Description="Propiedades de la referencia de paquete" DisplayName="Referencia de paquete" PageTemplate="generic" xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <Rule.DataSource>
+    <DataSource HasConfigurationCondition="False" ItemType="PackageReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+  </Rule.DataSource>
+  <StringListProperty Name="Aliases" Description="Lista delimitada por comas de los alias para las referencias de ensamblado incluidas en este paquete." DisplayName="Alias" Separator="," />
+  <StringProperty Name="ExcludeAssets" Description="Recursos de esta referencia que se deben excluir." DisplayName="Recursos excluidos" />
+  <BoolProperty Name="GeneratePathProperty" Description="Indica si se va a generar una propiedad de MSBuild con la ubicación del directorio raíz del paquete. El nombre de la propiedad generada tiene el formato &quot;pkg [PackageID]&quot;, donde &quot;[PackageID]&quot; es el ID del paquete con cualquier punto &quot;.&quot; reemplazado por guiones bajos &quot; _ &quot;." DisplayName="Generar la propiedad path" />
+  <StringProperty Name="IncludeAssets" Description="Recursos de esta referencia que se deben incluir." DisplayName="Recursos incluidos" />
+  <StringProperty Name="IsImplicitlyDefined" ReadOnly="True" Visible="False" />
+  <StringProperty Name="Name" ReadOnly="True" DisplayName="Nombre">
+    <StringProperty.DataSource>
+      <DataSource PersistedName="{}{Identity}" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="NoWarn" Description="Lista de advertencias delimitadas por comas que se deben suprimir en este paquete." DisplayName="Suprimir las advertencias" />
+  <!-- NOTE this property will never be populated for unresolved items, but is included to make the UI consistent -->
+  <StringProperty Name="Path" Description="Ubicación del paquete al que se hace referencia." DisplayName="Ruta de acceso" ReadOnly="True" />
+  <StringProperty Name="PrivateAssets" Description="Recursos que son privados en esta referencia." DisplayName="Recursos privados" />
+  <StringProperty Name="Version" Description="Versión de la dependencia." DisplayName="Versión" ReadOnly="True">
+    <StringProperty.DataSource>
+      <DataSource PersistenceStyle="Attribute" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <BoolProperty Name="Visible" ReadOnly="True" Visible="False" />
+  <BoolProperty Name="TreatAsUsed" ReadOnly="True" Visible="False" />
+</Rule>

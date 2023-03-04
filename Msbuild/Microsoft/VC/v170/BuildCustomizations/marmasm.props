@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup
+    Condition="'$(MARMASMBeforeTargets)' == '' and '$(MARMASMAfterTargets)' == '' and '$(ConfigurationType)' != 'Makefile'">
+    <MARMASMBeforeTargets>Midl</MARMASMBeforeTargets>
+    <MARMASMAfterTargets>CustomBuild</MARMASMAfterTargets>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <MARMASM>
+      <ObjectFileName>$(IntDir)%(FileName).obj</ObjectFileName>
+      <CommandLineTemplate Condition="'$(Platform)' == 'ARM'">armasm.exe %(Identity) [AllOptions] [AdditionalOptions]</CommandLineTemplate>
+      <CommandLineTemplate Condition="'$(Platform)' == 'ARM64'">armasm64.exe %(Identity) [AllOptions] [AdditionalOptions]</CommandLineTemplate>
+      <CommandLineTemplate Condition="'$(Platform)' == 'ARM64EC'">armasm64.exe %(Identity) [AllOptions] [AdditionalOptions] -machine ARM64EC</CommandLineTemplate>
+      <CommandLineTemplate Condition="'$(Platform)' != 'ARM' and '$(Platform)' != 'ARM64' and '$(Platform)' != 'ARM64EC'">echo ARMASM not supported on this platform
+exit 1</CommandLineTemplate>
+      <ExecutionDescription>Assembling %(Identity)...</ExecutionDescription>
+    </MARMASM>
+  </ItemDefinitionGroup>
+</Project>

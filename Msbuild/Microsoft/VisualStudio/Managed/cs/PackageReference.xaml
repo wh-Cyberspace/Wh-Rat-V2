@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information. -->
+<Rule Name="PackageReference" Description="Vlastnosti odkazu na balíček" DisplayName="Odkaz na balíček" PageTemplate="generic" xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <Rule.DataSource>
+    <DataSource HasConfigurationCondition="False" ItemType="PackageReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+  </Rule.DataSource>
+  <StringListProperty Name="Aliases" Description="Čárkami oddělený seznam aliasů pro odkazy na sestavení obsažené v tomto balíčku" DisplayName="Aliasy" Separator="," />
+  <StringProperty Name="ExcludeAssets" Description="Prostředky vyloučené z tohoto odkazu" DisplayName="Vyloučené prostředky" />
+  <BoolProperty Name="GeneratePathProperty" Description="Určuje, jestli se má generovat vlastnost MSBuildu s umístěním kořenového adresáře balíčku. Název generované vlastnosti je ve formátu Pkg[ID_balíčku], kde [ID_balíčku] je ID balíčku, ve kterém jsou tečky nahrazené podtržítky." DisplayName="Generovat vlastnost cesty" />
+  <StringProperty Name="IncludeAssets" Description="Prostředky zahrnuté z tohoto odkazu" DisplayName="Zahrnuté prostředky" />
+  <StringProperty Name="IsImplicitlyDefined" ReadOnly="True" Visible="False" />
+  <StringProperty Name="Name" ReadOnly="True" DisplayName="Název">
+    <StringProperty.DataSource>
+      <DataSource PersistedName="{}{Identity}" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="NoWarn" Description="Seznam upozornění oddělených čárkou, která by se měla pro tento balíček potlačit" DisplayName="Potlačit upozornění" />
+  <!-- NOTE this property will never be populated for unresolved items, but is included to make the UI consistent -->
+  <StringProperty Name="Path" Description="Umístění odkazovaného balíčku" DisplayName="Cesta" ReadOnly="True" />
+  <StringProperty Name="PrivateAssets" Description="Prostředky, které jsou v tomto odkazu soukromé" DisplayName="Soukromé prostředky" />
+  <StringProperty Name="Version" Description="Verze závislosti" DisplayName="Verze" ReadOnly="True">
+    <StringProperty.DataSource>
+      <DataSource PersistenceStyle="Attribute" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <BoolProperty Name="Visible" ReadOnly="True" Visible="False" />
+  <BoolProperty Name="TreatAsUsed" ReadOnly="True" Visible="False" />
+</Rule>

@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Rule Name="Build" OverrideMode="Extend" xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <!-- TODO (https://github.com/dotnet/fsharp/issues/12102):
+       Missing HelpUrl links need to be added.
+  -->
+  <EnumProperty Name="Nullable" Category="General" Visible="False" />
+  <BoolProperty Name="AllowUnsafeBlocks" Category="General" Visible="False" />
+  <BoolProperty Name="Optimize" DisplayName="Code optimieren" Description="Compileroptimierungen für eine kleinere, schnellere und effizientere Ausgabe aktivieren." HelpUrl="https://docs.microsoft.com/dotnet/fsharp/language-reference/compiler-options" Category="General">
+    <BoolProperty.Metadata>
+      <NameValuePair Name="SearchTerms" Value="optimieren;Optimierung" />
+    </BoolProperty.Metadata>
+  </BoolProperty>
+  <BoolProperty Name="Tailcalls" DisplayName="Endeaufrufe generieren" Description="Aktivieren Sie die Generierung von Endaufrufen." HelpUrl="https://docs.microsoft.com/dotnet/fsharp/language-reference/compiler-options" Category="General">
+    <BoolProperty.Metadata>
+      <NameValuePair Name="SearchTerms" Value="Endaufruf" />
+    </BoolProperty.Metadata>
+  </BoolProperty>
+  <StringProperty Name="OtherFlags" DisplayName="Andere Flags" Description="Zusätzliche Compilerflags. Trennen Sie Flags mit Leerzeichen." HelpUrl="https://docs.microsoft.com/dotnet/fsharp/language-reference/compiler-options" Category="General" />
+  <BoolProperty Name="FSharpPreferNetFrameworkTools" DisplayName="Frameworktools" Description="Bevorzugen Sie die .NET Frameworkversion des Compilers, wenn verfügbar." Category="General">
+    <BoolProperty.DataSource>
+      <DataSource Persistence="ProjectFileWithInterception" SourceOfDefaultValue="AfterContext" HasConfigurationCondition="False" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+  <BoolProperty Name="FSharpPrefer64BitTools" DisplayName="64-Bit-Tools bevorzugen" Description="Verwenden Sie einen 64-Bit-Compiler auf Systemen, die sowohl 32-Bit-als auch 64-Bit-Compiler unterstützen." Category="General">
+    <BoolProperty.DataSource>
+      <DataSource Persistence="ProjectFileWithInterception" SourceOfDefaultValue="AfterContext" HasConfigurationCondition="False" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+  <EnumProperty Name="DebugType" DisplayName="Debugsymbole" Description="Gibt die Art der Debugsymbole an, die während der Builderstellung erzeugt werden." HelpUrl="https://docs.microsoft.com/dotnet/fsharp/language-reference/compiler-options" Category="General">
+    <EnumProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" Persistence="ProjectFileWithInterception" />
+    </EnumProperty.DataSource>
+    <EnumProperty.Metadata>
+      <NameValuePair Name="SearchTerms" Value="Debugtyp" />
+    </EnumProperty.Metadata>
+    <EnumValue Name="none" DisplayName="Es wurden keine Symbole ausgegeben." />
+    <EnumValue Name="full" DisplayName="PDB-Datei, aktuelle Plattform" />
+    <EnumValue Name="portable" DisplayName="PDB-Datei, plattformübergreifend portierbar" />
+    <EnumValue Name="embedded" DisplayName="Eingebettet in DLL/EXE, plattformübergreifend portierbar" />
+  </EnumProperty>
+  <StringProperty Name="LangVersion" Category="General" Visible="False" />
+  <BoolProperty Name="CheckForOverflowUnderflow" Category="General" Visible="False" />
+  <EnumProperty Name="ErrorReport" Category="General" Visible="False" />
+  <EnumProperty Name="FileAlignment" Category="General" Visible="False" />
+  <BoolProperty Name="ProduceReferenceAssembly" Category="General" Visible="False" />
+</Rule>

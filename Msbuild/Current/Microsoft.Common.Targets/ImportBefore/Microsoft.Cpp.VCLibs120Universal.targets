@@ -1,0 +1,131 @@
+<!--
+***********************************************************************************************
+Microsoft.cpp.VCLibs120Universal.targets
+
+WARNING:  DO NOT MODIFY this file unless you are knowledgeable about MSBuild and have
+      created a backup copy.  Incorrect changes to this file will make it
+      impossible to load or build your projects from the command-line or the IDE.
+
+Copyright (C) Microsoft Corporation. All rights reserved.
+***********************************************************************************************
+-->
+
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <_GenerateAppxManifestDependsOn>$(_GenerateAppxManifestDependsOn);_FixVCLibs120References</_GenerateAppxManifestDependsOn>
+  </PropertyGroup>
+  
+  <Target Name="_FixVCLibs120References" Condition="'$(AppxPackage)' == 'true' and '$(TargetPlatformIdentifier)' == 'UAP'">
+     
+    <!-- Check if VC libs 120 reference is found,  If found remove it-->
+      <ItemGroup>
+        <VCLibs120Ref Include="'%(PackagingOutputs.SDKName)'" Condition="'%(PackagingOutputs.SDKName)' == 'Microsoft.VCLibs, Version=12.0'"/>
+      </ItemGroup>
+
+      <ItemGroup Condition="'@(VCLibs120Ref)' != ''">
+        <PackagingOutputs Remove="@(PackagingOutputs)" Condition="'%(PackagingOutputs.SDKName)' == 'Microsoft.VCLibs, Version=12.0'"/>
+      </ItemGroup>
+
+
+    <!-- Get the resolved SDK reference item for Microsoft.VCLibs.120, Version=14.0 and add that to the packaging output -->
+      <GetInstalledSDKLocations 
+        SDKDirectoryRoots="$(SDKReferenceDirectoryRoot)" 
+        SDKExtensionDirectoryRoots="$(SDKExtensionDirectoryRoot)" 
+        SDKRegistryRoot="$(SDKReferenceRegistryRoot)" 
+        TargetPlatformVersion="$(TargetPlatformVersion)" 
+        TargetPlatformIdentifier="$(TargetPlatformIdentifier)" 
+        Condition="'@(InstalledSDKLocations)' == '' and '@(VCLibs120Ref)' != ''">
+       <Output TaskParameter="InstalledSDKs" ItemName="InstalledSDKLocations" />
+      </GetInstalledSDKLocations>
+
+      <ResolveSDKReference
+        SDKReferences="Microsoft.VCLibs.120, Version=14.0"
+        RuntimeReferenceOnlySDKDependencies="@(RuntimeReferenceOnlySDKDependencies)"
+        References="@(Reference)"
+        TargetPlatformVersion="$(TargetPlatformVersion)"
+        TargetPlatformIdentifier="$(TargetPlatformIdentifier)"
+        WarnOnMissingPlatformVersion="$(SDKReferenceWarnOnMissingMaxPlatformVersion)"
+        ProjectName="$(MSBuildProjectName)"
+        TargetedSDKConfiguration="$(TargetedSDKConfiguration)"
+        TargetedSDKArchitecture="$(TargetedSDKArchitecture)"
+        InstalledSDKs ="@(InstalledSDKLocations)"
+        LogResolutionErrorsAsWarnings ="$(LogSDKReferenceResolutionErrorsAsWarnings)"
+        Prefer32Bit ="$(Prefer32Bit)"
+        ContinueOnError="$(ContinueOnError)"
+        Condition="'@(VCLibs120Ref)' != ''">
+       <Output TaskParameter="ResolvedSDKReferences" ItemName="VCLibs12UniversalReference"/>
+      </ResolveSDKReference>
+
+      <ItemGroup Condition="'@(VCLibs120Ref)' != '' and '@(VCLibs12UniversalReference)' != '' ">
+        <PackagingOutputs Include="@(VCLibs12UniversalReference)">
+          <OutputGroup>GetResolvedSDKReferences</OutputGroup>
+        </PackagingOutputs>
+      </ItemGroup>
+
+  </Target>
+
+  <!-- This target adds reference to the Microsoft.UniversalCRT.Debug Extension SDK for UWP apps that :
+  reference the Microsoft.VCLibs.14.00.Debug framework package
+  Needs to run after the GetPackagingOutputs so that it is not added if a UCRT Debug reference is already present in the parent or referenced projects. -->
+  <Target Name="_AddVCLibs140UniversalCrtDebugReference"
+          AfterTargets="GetPackagingOutputs"
+          Condition="'$(DisableImplicitUCRTReference)' == '' and '$(AppxPackage)' == 'true' and '$(TargetPlatformIdentifier)' == 'UAP'">
+
+    <!-- ******************************************************************************
+           This item group queries the application project for the following traits:
+           a. Microsoft.VCLibs, Version=14.0, Configuration=Debug is referenced by the project or its referenced projects
+           b. This project or its referenced projects already reference Microsoft.UniversalCRT.Debug, Version=<Any>
+           ******************************************************************************* -->
+    <ItemGroup>
+      <VCLibs140UCRTRef Include="'%(PackagingOutputs.SDKName)'" Condition="'%(PackagingOutputs.SDKName)' == 'Microsoft.VCLibs, Version=14.0' and ('%(PackagingOutputs.TargetedSDKConfiguration)' == 'Debug' or '$(Configuration)'=='Debug')" />
+      <HasUCRTRef Include="'%(PackagingOutputs.SDKName)'" Condition="$([System.String]::new('%(PackagingOutputs.SDKName)').StartsWith('Microsoft.UniversalCRT.Debug, Version='))" />
+    </ItemGroup>
+
+    <!-- Add UCRT Debug reference if one is not already specified and the project (or referenced projects) have a reference to VCLibs140 framework package -->
+    <PropertyGroup>
+      <AddUCRTRef Condition="'@(HasUCRTRef)'=='' and '@(VCLibs140UCRTRef)'!=''">true</AddUCRTRef>
+    </PropertyGroup>
+
+    <!-- Get the resolved SDK reference item for Microsoft.UniversalCRT.Debug, Version=<TPV> and add that to the packaging output -->
+    <GetInstalledSDKLocations
+      SDKDirectoryRoots="$(SDKReferenceDirectoryRoot)"
+      SDKExtensionDirectoryRoots="$(SDKExtensionDirectoryRoot)"
+      SDKRegistryRoot="$(SDKReferenceRegistryRoot)"
+      TargetPlatformVersion="$(TargetPlatformVersion)"
+      TargetPlatformIdentifier="$(TargetPlatformIdentifier)"
+      Condition="'@(InstalledSDKLocations)' == '' and '$(AddUCRTRef)'=='true'">
+      <Output TaskParameter="InstalledSDKs" ItemName="InstalledSDKLocations" />
+    </GetInstalledSDKLocations>
+
+    <!-- Find the Microsoft.Ucrt.Debug ESDK, based upon TPV.  This package is installed by the Windows 10 SDK, so there should always be a matching
+           ESDK for given TPV value -->
+    <ResolveSDKReference
+      Condition="'$(AddUCRTRef)'=='true'"
+      SDKReferences="Microsoft.UniversalCRT.Debug, Version=$(TargetPlatformVersion)"
+      RuntimeReferenceOnlySDKDependencies="@(RuntimeReferenceOnlySDKDependencies)"
+      References="@(Reference)"
+      TargetPlatformVersion="$(TargetPlatformVersion)"
+      TargetPlatformIdentifier="$(TargetPlatformIdentifier)"
+      WarnOnMissingPlatformVersion="$(SDKReferenceWarnOnMissingMaxPlatformVersion)"
+      ProjectName="$(MSBuildProjectName)"
+      TargetedSDKConfiguration="$(TargetedSDKConfiguration)"
+      TargetedSDKArchitecture="$(TargetedSDKArchitecture)"
+      InstalledSDKs ="@(InstalledSDKLocations)"
+      LogResolutionErrorsAsWarnings ="$(LogSDKReferenceResolutionErrorsAsWarnings)"
+      Prefer32Bit ="$(Prefer32Bit)"
+      ContinueOnError="$(ContinueOnError)">
+      <Output TaskParameter="ResolvedSDKReferences" ItemName="UniversalCrtDebugReference"/>
+    </ResolveSDKReference>
+
+    <!-- Add the resolved ucrtbased.dll to the packaging output -->
+    <ItemGroup>
+      <PackagingOutputs Condition="'$(AddUCRTRef)' == 'true'" Include="@(UniversalCrtDebugReference->'%(Identity)\redist\Debug\%(TargetedSDKArchitecture)\ucrtbased.dll')">
+        <OutputGroup>SDKRedistOutputGroup</OutputGroup>
+        <ProjectName>$(MSBuildProjectName)</ProjectName>
+        <TargetPath>ucrtbased.dll</TargetPath>
+      </PackagingOutputs>
+    </ItemGroup>
+               
+  </Target>
+</Project>

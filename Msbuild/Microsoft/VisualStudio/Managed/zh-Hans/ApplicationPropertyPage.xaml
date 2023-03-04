@@ -1,0 +1,227 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information. -->
+<Rule Name="Application" Description="指定项目的应用程序设置和属性。" DisplayName="应用程序" PageTemplate="generic" Order="100" xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <Rule.Categories>
+    <Category Name="General" DisplayName="常规" Description="应用程序的常规设置。" />
+    <Category Name="Resources" DisplayName="资源" Description="应用程序的资源设置。" />
+    <Category Name="Packaging" DisplayName="正在打包" Description="应用程序的打包设置。" />
+  </Rule.Categories>
+  <Rule.DataSource>
+    <DataSource Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" HasConfigurationCondition="False" />
+  </Rule.DataSource>
+  <EnumProperty Name="OutputType" DisplayName="输出类型" Description="指定要生成的应用程序的类型。" Category="General">
+    <EnumValue Name="Library" DisplayName="类库" />
+    <EnumValue Name="Exe" DisplayName="控制台应用程序" />
+    <EnumValue Name="WinExe" DisplayName="Windows 应用程序" />
+  </EnumProperty>
+  <BoolProperty Name="TargetMultipleFrameworks" DisplayName="面向多个框架" Description="为多个目标框架生成此项目。" HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147236" Category="General" Visible="False">
+    <BoolProperty.DataSource>
+      <DataSource Persistence="ProjectFileWithInterception" HasConfigurationCondition="False" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+  <DynamicEnumProperty Name="InterceptedTargetFramework" DisplayName="目标框架" Description="指定应用程序面向的 .NET 版本。根据计算机上安装的 .NET 版本，此选项可能具有不同的值。" HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147236" Category="General" EnumProvider="SupportedTargetFrameworksEnumProvider" MultipleValuesAllowed="False">
+    <DynamicEnumProperty.DataSource>
+      <DataSource Persistence="ProjectFileWithInterception" HasConfigurationCondition="False" />
+    </DynamicEnumProperty.DataSource>
+    <DynamicEnumProperty.Metadata>
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>(not (has-evaluated-value "Application" "TargetMultipleFrameworks" true))</NameValuePair.Value>
+      </NameValuePair>
+      <NameValuePair Name="SearchTerms" Value="TFM" />
+      <NameValuePair Name="DependsOn" Value="Application::TargetMultipleFrameworks" />
+    </DynamicEnumProperty.Metadata>
+  </DynamicEnumProperty>
+  <StringProperty Name="TargetFrameworks" DisplayName="目标框架" Description="指定此项目将面向的框架列表(用分号分隔)。" HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147236" Category="General">
+    <StringProperty.DataSource>
+      <DataSource Persistence="ProjectFileWithInterception" HasConfigurationCondition="False" />
+    </StringProperty.DataSource>
+    <StringProperty.Metadata>
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>(has-evaluated-value "Application" "TargetMultipleFrameworks" true)</NameValuePair.Value>
+      </NameValuePair>
+      <NameValuePair Name="SearchTerms" Value="TFM" />
+      <NameValuePair Name="DependsOn" Value="Application::TargetMultipleFrameworks" />
+    </StringProperty.Metadata>
+  </StringProperty>
+  <StringProperty Name="InstallOtherFrameworks" DisplayName="安装其他框架">
+    <StringProperty.DataSource>
+      <DataSource PersistedName="InstallOtherFrameworks" Persistence="ProjectFileWithInterception" HasConfigurationCondition="False" />
+    </StringProperty.DataSource>
+    <StringProperty.ValueEditors>
+      <ValueEditor EditorType="LinkAction">
+        <ValueEditor.Metadata>
+          <NameValuePair Name="Action" Value="URL" />
+          <NameValuePair Name="URL" Value="http://go.microsoft.com/fwlink/?LinkID=287120" />
+        </ValueEditor.Metadata>
+      </ValueEditor>
+    </StringProperty.ValueEditors>
+  </StringProperty>
+  <DynamicEnumProperty Name="TargetPlatformIdentifier" DisplayName="目标 OS" Description="指定此项目将面向的操作系统。" Category="General" EnumProvider="SdkSupportedTargetPlatformIdentifierEnumProvider">
+    <DynamicEnumProperty.DataSource>
+      <DataSource Persistence="ProjectFileWithInterception" HasConfigurationCondition="False" />
+    </DynamicEnumProperty.DataSource>
+    <DynamicEnumProperty.Metadata>
+      <NameValuePair Name="SearchTerms" Value="平台" />
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>
+          (and
+            (has-net-core-app-version-or-greater "5.0")
+            (not (has-evaluated-value "Application" "TargetMultipleFrameworks" true)))
+        </NameValuePair.Value>
+      </NameValuePair>
+    </DynamicEnumProperty.Metadata>
+  </DynamicEnumProperty>
+  <DynamicEnumProperty Name="TargetPlatformVersion" DisplayName="目标操作系统版本" Description="指定此项目将面向的操作系统的版本。" Category="General" EnumProvider="SdkSupportedTargetPlatformVersionEnumProvider">
+    <DynamicEnumProperty.DataSource>
+      <DataSource Persistence="ProjectFileWithInterception" HasConfigurationCondition="False" />
+    </DynamicEnumProperty.DataSource>
+    <DynamicEnumProperty.Metadata>
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>
+          (and
+            (has-net-core-app-version-or-greater "5.0")
+            (and
+              (ne (unevaluated "Application" "TargetPlatformIdentifier") "")
+              (not (has-evaluated-value "Application" "TargetMultipleFrameworks" true))))
+        </NameValuePair.Value>
+      </NameValuePair>
+      <NameValuePair Name="SearchTerms" Value="平台" />
+      <NameValuePair Name="DependsOn" Value="Application::TargetPlatformIdentifier" />
+    </DynamicEnumProperty.Metadata>
+  </DynamicEnumProperty>
+  <DynamicEnumProperty Name="SupportedOSPlatformVersion" DisplayName="受支持的 OS 版本" Description="指定项目将在其上运行的最低 OS 版本。如果未指定，则会隐含目标 OS 版本值。使用此处的早期版本需要代码，以围绕更高版本的 API 添加防护。" Category="General" HelpUrl="https://go.microsoft.com/fwlink/?linkid=2171707" EnumProvider="SdkSupportedTargetPlatformVersionEnumProvider">
+    <DynamicEnumProperty.DataSource>
+      <DataSource Persistence="ProjectFileWithInterception" HasConfigurationCondition="False" />
+    </DynamicEnumProperty.DataSource>
+    <DynamicEnumProperty.Metadata>
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>
+          (and
+            (has-net-core-app-version-or-greater "5.0")
+            (and
+              (ne (unevaluated "Application" "TargetPlatformIdentifier") "")
+              (not (has-evaluated-value "Application" "TargetMultipleFrameworks" true))))
+        </NameValuePair.Value>
+      </NameValuePair>
+      <NameValuePair Name="SearchTerms" Value="平台" />
+      <NameValuePair Name="DependsOn" Value="Application::TargetPlatformIdentifier" />
+    </DynamicEnumProperty.Metadata>
+  </DynamicEnumProperty>
+  <BoolProperty Name="UseWindowsForms" DisplayName="Windows 窗体" Description="为该项目启用 Windows 窗体。" HelpUrl="https://go.microsoft.com/fwlink/?linkid=2165974" Category="General">
+    <BoolProperty.Metadata>
+      <NameValuePair Name="DependsOn" Value="Application::OutputType" />
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>
+          (and
+            (has-evaluated-value "Application" "OutputType" "WinExe")
+            (has-net-core-app-version-or-greater "3.0"))
+        </NameValuePair.Value>
+      </NameValuePair>
+    </BoolProperty.Metadata>
+  </BoolProperty>
+  <BoolProperty Name="UseWPF" DisplayName="Windows Presentation Foundation" Description="为该项目启用 WPF。" HelpUrl="https://go.microsoft.com/fwlink/?linkid=2166131" Category="General">
+    <BoolProperty.Metadata>
+      <NameValuePair Name="DependsOn" Value="Application::OutputType" />
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>
+          (and
+            (has-evaluated-value "Application" "OutputType" "WinExe")
+            (has-net-core-app-version-or-greater "3.0"))
+        </NameValuePair.Value>
+      </NameValuePair>
+    </BoolProperty.Metadata>
+  </BoolProperty>
+  <BoolProperty Name="AutoGenerateBindingRedirects" DisplayName="自动生成绑定重定向" Description="将绑定重定向自动添加到 App.config。" HelpUrl="https://go.microsoft.com/fwlink/?linkid=2164379" Category="General">
+    <BoolProperty.Metadata>
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>
+        (has-net-framework)
+        </NameValuePair.Value>
+      </NameValuePair>
+    </BoolProperty.Metadata>
+  </BoolProperty>
+  <DynamicEnumProperty Name="StartupObject" DisplayName="启动对象" Description="定义在加载应用程序时要调用的入口点。通常，此项设置为应用程序中的主窗体或应用程序启动时运行的 &quot;Main&quot; 过程。类库不定义入口点。" Category="General" EnumProvider="StartupObjectsEnumProvider">
+    <DynamicEnumProperty.Metadata>
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>(not (has-evaluated-value "Application" "OutputType" "Library"))</NameValuePair.Value>
+      </NameValuePair>
+    </DynamicEnumProperty.Metadata>
+    <DynamicEnumProperty.ProviderSettings>
+      <!-- We want an explicit item representing the empty value. We can remove this setting
+           when the enum provider starts including it by default. -->
+      <NameValuePair Name="IncludeEmptyValue" Value="true" />
+    </DynamicEnumProperty.ProviderSettings>
+  </DynamicEnumProperty>
+  <StringProperty Name="AssemblyName" DisplayName="程序集名称" Description="指定将包含程序集清单的输出文件的名称。" Category="General" />
+  <StringProperty Name="RootNamespace" DisplayName="默认命名空间" Description="指定添加到项目中的文件的基命名空间。" Category="General" />
+  <EnumProperty Name="ResourceSpecificationKind" DisplayName="资源" Description="指定应用程序资源的管理方式。" Category="Resources">
+    <EnumProperty.DataSource>
+      <DataSource PersistedName="ResourceSpecificationKind" Persistence="ProjectFileWithInterception" HasConfigurationCondition="False" />
+    </EnumProperty.DataSource>
+    <EnumValue Name="IconAndManifest" DisplayName="图标和清单" />
+    <EnumValue Name="ResourceFile" DisplayName="资源文件" />
+  </EnumProperty>
+  <StringProperty Name="ApplicationIcon" DisplayName="图标" Category="Resources" Description="设置要用作程序图标的 .ico 文件。" Subtype="file">
+    <StringProperty.DataSource>
+      <DataSource Persistence="ProjectFileWithInterception" HasConfigurationCondition="False" />
+    </StringProperty.DataSource>
+    <StringProperty.ValueEditors>
+      <ValueEditor EditorType="FilePath">
+        <ValueEditor.Metadata>
+          <NameValuePair Name="FileTypeFilter" Value="Icon files (*.ico)|*.ico|All files (*.*)|*.*" />
+        </ValueEditor.Metadata>
+      </ValueEditor>
+    </StringProperty.ValueEditors>
+    <StringProperty.Metadata>
+      <NameValuePair Name="DependsOn" Value="Application::ResourceSpecificationKind" />
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>(has-evaluated-value "Application" "ResourceSpecificationKind" "IconAndManifest")</NameValuePair.Value>
+      </NameValuePair>
+    </StringProperty.Metadata>
+  </StringProperty>
+  <EnumProperty Name="ApplicationManifestKind" DisplayName="清单" Description="当应用程序在 Windows Vista 或更高版本下的用户帐户控制(UAC)下运行时，选择一个清单生成选项。选项包括默认清单、无清单或由项目提供的自定义清单。" Category="Resources">
+    <EnumProperty.DataSource>
+      <DataSource PersistedName="ApplicationManifestKind" Persistence="ProjectFileWithInterception" HasConfigurationCondition="False" />
+    </EnumProperty.DataSource>
+    <EnumProperty.Metadata>
+      <NameValuePair Name="DependsOn" Value="Application::ResourceSpecificationKind" />
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>(has-evaluated-value "Application" "ResourceSpecificationKind" "IconAndManifest")</NameValuePair.Value>
+      </NameValuePair>
+    </EnumProperty.Metadata>
+    <EnumValue Name="DefaultManifest" DisplayName="嵌入带默认设置的清单" />
+    <EnumValue Name="NoManifest" DisplayName="创建不带清单的应用程序" />
+    <EnumValue Name="CustomManifest" DisplayName="使用自定义清单" />
+  </EnumProperty>
+  <StringProperty Name="ApplicationManifestPath" DisplayName="清单路径" Description="自定义清单文件的路径。" Category="Resources" Subtype="file">
+    <StringProperty.DataSource>
+      <DataSource PersistedName="ApplicationManifestPath" Persistence="ProjectFileWithInterception" HasConfigurationCondition="False" />
+    </StringProperty.DataSource>
+    <StringProperty.Metadata>
+      <NameValuePair Name="DependsOn" Value="Application::ResourceSpecificationKind;Application::ApplicationManifestKind" />
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>
+          (and 
+            (has-evaluated-value "Application" "ApplicationManifestKind" "CustomManifest")
+            (has-evaluated-value "Application" "ResourceSpecificationKind" "IconAndManifest"))
+        </NameValuePair.Value>
+      </NameValuePair>
+    </StringProperty.Metadata>
+  </StringProperty>
+  <StringProperty Name="Win32Resource" DisplayName="资源文件" Description="指定项目的资源文件。" HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147078" Category="Resources">
+    <StringProperty.ValueEditors>
+      <ValueEditor EditorType="FilePath">
+        <ValueEditor.Metadata>
+          <NameValuePair Name="FileTypeFilter" Value="Win32 resource files (*.res)|*.res|All files (*.*)|*.*" />
+        </ValueEditor.Metadata>
+      </ValueEditor>
+    </StringProperty.ValueEditors>
+    <StringProperty.Metadata>
+      <NameValuePair Name="DependsOn" Value="Application::ResourceSpecificationKind" />
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>(has-evaluated-value "Application" "ResourceSpecificationKind" "ResourceFile")</NameValuePair.Value>
+      </NameValuePair>
+    </StringProperty.Metadata>
+  </StringProperty>
+  <BoolProperty Name="IsPublishable" DisplayName="正在发布" Description="允许在 Visual Studio 外部发布，例如通过“dotnet 发布”。" HelpUrl="https://go.microsoft.com/fwlink/?linkid=2165975" Category="Packaging" />
+</Rule>

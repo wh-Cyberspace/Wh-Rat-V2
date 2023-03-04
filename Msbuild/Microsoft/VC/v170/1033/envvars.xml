@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--Copyright, Microsoft Corporation, All rights reserved.-->
+<Rule
+      Name="VCEnvironmentVariables"
+      DisplayName="VC++ Environment Variables"
+      Order="8"
+      PageTemplate="generic"
+      Description="Tool search directories"
+      xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <Rule.Categories>
+    <Category Name="Env" DisplayName="Environment" Description="Visual C++ Environment Variables" />
+    <Category Name="Dirs" DisplayName="Directories" Description="Visual C++ Directories" />
+  </Rule.Categories>
+  <Rule.DataSource>
+    <DataSource Persistence="ProjectFile" />
+  </Rule.DataSource>
+  <StringListProperty Name="Path" DisplayName="PATH"
+                      Description="Path to use when searching for executable files while building a VC++ project.  Corresponds to environment variable PATH."
+                      F1Keyword="VC.Project.UseEnvVars.Path"
+                      Category="Env" Separator=";" ReadOnly="true" />
+  <StringListProperty Name="Include" DisplayName="INCLUDE"
+                      Description="Path to use when searching for include files while building a VC++ project.  Corresponds to environment variable INCLUDE."
+                      F1Keyword="VC.Project.UseEnvVars.Include"
+                      Category="Env" Separator=";" ReadOnly="true" />
+  <StringListProperty Name="LibPath" DisplayName="LIBPATH"
+                      Description="Path to use when searching for files brought in via #using while building a VC++ project.  Corresponds to environment variable LIBPATH."
+                      F1Keyword="VC.Project.UseEnvVars.ReferencePath"
+                      Category="Env" Separator=";" ReadOnly="true" />
+  <StringListProperty Name="Lib" DisplayName="LIB"
+                      Description="Path to use when searching for library files while building a VC++ project.  Corresponds to environment variable LIB."
+                      F1Keyword="VC.Project.UseEnvVars.LibraryPath"
+                      Category="Env" Separator=";" ReadOnly="true" />
+  <StringListProperty Name="SourcePath" DisplayName="Source Directories"
+                      Description="Path to use when searching for source files to use for Intellisense."
+                      F1Keyword="VC.Project.VCDirectories.SourcePath"
+                      Category="Dirs" Separator=";" Subtype="folder" />
+  <StringListProperty Name="ExcludePath" DisplayName="Exclude Directories"
+                      Description="Path to skip when searching for scan dependencies."
+                      F1Keyword="VC.Project.UseEnvVars.ExcludePath"
+                      Category="Dirs" Separator=";" Subtype="folder" />
+</Rule>

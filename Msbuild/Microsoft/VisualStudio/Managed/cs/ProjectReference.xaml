@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information. -->
+<Rule Name="ProjectReference" Description="Vlastnosti odkazu na projekt" DisplayName="Odkaz na projekt" PageTemplate="generic" xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <Rule.DataSource>
+    <DataSource HasConfigurationCondition="False" ItemType="ProjectReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+  </Rule.DataSource>
+  <StringListProperty Name="Aliases" Description="Seznam aliasů tohoto odkazu oddělených čárkou" DisplayName="Aliasy" Separator=",">
+    <StringListProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="ProjectReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </StringListProperty.DataSource>
+  </StringListProperty>
+  <StringProperty Name="BrowsePath" ReadOnly="True" Visible="False">
+    <StringProperty.DataSource>
+      <DataSource ItemType="ProjectReference" PersistedName="Identity" Persistence="Intrinsic" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <BoolProperty Name="CopyLocal" Description="Určuje, jestli se odkaz zkopíruje do výstupního adresáře." DisplayName="Kopírovat místně">
+    <BoolProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="ProjectReference" PersistedName="Private" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+  <BoolProperty Name="CopyLocalSatelliteAssemblies" Description="Určuje, zda se do výstupního adresáře tohoto projektu mají zkopírovat satelitní sestavení cíle odkazu." DisplayName="Zkopírovat místní satelitní sestavení" />
+  <StringProperty Name="Culture" Description="Hodnota pole Jazyková verze z metadat sestavení" DisplayName="Jazyková verze" ReadOnly="True" />
+  <StringProperty Name="Description" Description="Hodnota pole Název z metadat sestavení" DisplayName="Popis" ReadOnly="True" />
+  <BoolProperty Name="EmbedInteropTypes" Description="Určuje, zda typy definované v tomto sestavení budou vloženy do cílového sestavení." DisplayName="Vložit typy spolupráce">
+    <BoolProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="ProjectReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+  <StringProperty Name="ExcludeAssets" Description="Prostředky vyloučené z tohoto odkazu" DisplayName="Vyloučit prostředky" />
+  <StringProperty Name="Identity" Description="Identita zabezpečení odkazovaného sestavení (viz System.Reflection.Assembly.Evidence nebo System.Security.Policy.Evidence)" DisplayName="Identita" ReadOnly="True">
+    <StringProperty.DataSource>
+      <DataSource PersistedName="{}{Identity}" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="IncludeAssets" Description="Prostředky zahrnuté z tohoto odkazu" DisplayName="Zahrnout prostředky" />
+  <StringProperty Name="IsImplicitlyDefined" ReadOnly="True" Visible="False" />
+  <BoolProperty Name="LinkLibraryDependencies" Visible="False" />
+  <StringProperty Name="PrivateAssets" Description="Prostředky, které jsou v tomto odkazu soukromé" DisplayName="Soukromé prostředky" />
+  <StringProperty Name="Project" Visible="False" />
+  <StringProperty Name="ProjectFileFullPath" Visible="False" ReadOnly="True">
+    <StringProperty.DataSource>
+      <DataSource ItemType="ProjectReference" PersistedName="FullPath" Persistence="Intrinsic" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="ReferencedProjectIdentifier" Visible="False" />
+  <BoolProperty Name="ReferenceOutputAssembly" Description="Hodnota určující, zda má kompilátor zahrnout odkaz na primární výstupní sestavení cílového projektu" DisplayName="Odkazovat výstupní sestavení" />
+  <StringProperty Name="ResolvedPath" Description="Umístění odkazovaného souboru" DisplayName="Cesta" ReadOnly="True">
+    <StringProperty.DataSource>
+      <DataSource PersistedName="Identity" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <BoolProperty Name="UseLibraryDependencyInputs" Visible="False" />
+  <StringProperty Name="Version" Description="Verze odkazu" DisplayName="Verze" ReadOnly="True" />
+  <BoolProperty Name="Visible" ReadOnly="True" Visible="False" />
+  <BoolProperty Name="TreatAsUsed" Description="Označuje, že tento odkaz by se měl zpracovávat, jako by byl už použitý." DisplayName="Považovat za použitý" ReadOnly="True" Visible="True" />
+</Rule>

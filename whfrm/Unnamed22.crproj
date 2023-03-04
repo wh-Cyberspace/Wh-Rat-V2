@@ -1,0 +1,4 @@
+<project outputDir="C:\drcryptortmp\Confused" baseDir="C:\drcryptortmp" xmlns="http://confuser.codeplex.com">
+  <packer id="compressor" />
+  <module path="file.exe" />
+</project>

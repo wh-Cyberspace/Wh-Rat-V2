@@ -1,0 +1,35 @@
+﻿<!--
+***********************************************************************************************
+Default.props
+
+WARNING:  DO NOT MODIFY this file unless you are knowledgeable about MSBuild and have
+          created a backup copy.  Incorrect changes to this file will make it
+          impossible to load or build your projects from the command-line or the IDE.
+
+Copyright (C) Microsoft Corporation. All rights reserved.
+***********************************************************************************************
+-->
+
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <!-- Import Before -->
+  <Import Condition="Exists('$(MSBuildThisFileDirectory)ImportBefore\Default')" Project="$(MSBuildThisFileDirectory)ImportBefore\Default\*.props" />
+  
+  <PropertyGroup>
+    <RealOSVersion>6.4</RealOSVersion>
+    <!-- First PlatformToolset of Window Store 10.0 -->
+    <PlatformToolset Condition="'$(PlatformToolset)' == ''">v143</PlatformToolset>
+  </PropertyGroup>
+
+  <!-- Import After -->
+  <Import Condition="Exists('$(MSBuildThisFileDirectory)ImportAfter\Default')" Project="$(MSBuildThisFileDirectory)ImportAfter\Default\*.props" />
+  
+  <PropertyGroup Condition="'$(ApplicationType)' == 'Windows Store' and '$(ApplicationTypeRevision)' == '10.0'">
+    <!-- Clear the value of TargetPlatformVersion and set a default value for WindowsTargetPlatformVersion and Min version, if it is unset -->
+    <TargetPlatformVersion/>
+    <TargetPlatformMinVersion/>
+    <WindowsTargetPlatformVersion Condition="'$(WindowsTargetPlatformVersion)' == ''">10.0.0.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformMinVersion Condition="'$(WindowsTargetPlatformMinVersion)' == ''">10.0.0.0</WindowsTargetPlatformMinVersion>
+  </PropertyGroup>
+
+</Project>

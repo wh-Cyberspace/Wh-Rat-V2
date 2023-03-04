@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information. -->
+<Rule Name="AssemblyReference" Description="組件參考屬性" DisplayName="組件參考" PageTemplate="generic" xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <Rule.DataSource>
+    <DataSource HasConfigurationCondition="False" ItemType="Reference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+  </Rule.DataSource>
+  <StringListProperty Name="Aliases" Description="這個參考的逗號分隔別名清單。" DisplayName="別名" Separator="," />
+  <BoolProperty Name="CopyLocal" Description="表示是否將參考複製到輸出目錄。" DisplayName="複製到本機">
+    <BoolProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="Reference" PersistedName="Private" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+  <BoolProperty Name="EmbedInteropTypes" Description="指出此組件中所定義的類型是否將內嵌在目標組件中。" DisplayName="內嵌 Interop 類型" />
+  <StringProperty Name="HintPath" Visible="false" />
+  <StringProperty Name="Identity" Description="參考組件的安全性識別 (請參閱 System.Reflection.Assembly.Evidence 或 System.Security.Policy.Evidence)。" DisplayName="識別" ReadOnly="True">
+    <StringProperty.DataSource>
+      <DataSource PersistedName="{}{Identity}" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="ImageRuntime" ReadOnly="True" Visible="False" />
+  <StringProperty Name="IsImplicitlyDefined" ReadOnly="True" Visible="False" />
+  <BoolProperty Name="IsWinMDFile" Visible="false" />
+  <StringProperty Name="RequiredTargetFramework" Visible="False" />
+  <StringProperty Name="ResolvedPath" Description="正被參考之檔案的位置。" DisplayName="路徑" ReadOnly="True">
+    <StringProperty.DataSource>
+      <DataSource PersistedName="Identity" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="SDKName" Visible="false" />
+  <BoolProperty Name="SpecificVersion" Description="指出這個組件是否可以解析 (不考慮組件解析的多目標規則)。" DisplayName="特定版本">
+    <BoolProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="Reference" Persistence="AssemblyReference" SourceOfDefaultValue="AfterContext" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+  <StringProperty Name="Version" Description="參考的版本。" DisplayName="版本" ReadOnly="True" />
+  <BoolProperty Name="Visible" ReadOnly="True" Visible="False" />
+  <BoolProperty Name="TreatAsUsed" Description="表示應將此參考視為已使用。" DisplayName="視為已使用" Visible="True" ReadOnly="True" />
+</Rule>

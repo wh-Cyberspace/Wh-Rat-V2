@@ -1,0 +1,251 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information. -->
+<Rule Name="Build" Description="프로젝트가 빌드되는 방식을 제어하는 속성을 지정합니다." DisplayName="빌드" PageTemplate="generic" Order="200" xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <Rule.Categories>
+    <Category Name="General" DisplayName="일반" />
+    <Category Name="ErrorsAndWarnings" Description="빌드 프로세스의 오류 및 경고 옵션을 구성합니다." DisplayName="오류 및 경고" />
+    <Category Name="Output" Description="빌드 프로세스의 출력 옵션을 구성합니다." DisplayName="출력" />
+    <Category Name="Events" Description="빌드 전후에 실행되는 사용자 지정 이벤트를 구성합니다." DisplayName="이벤트" />
+    <Category Name="StrongNaming" Description="빌드 출력의 강력한 이름 서명을 구성합니다." DisplayName="강력한 이름 지정" />
+    <Category Name="Advanced" DisplayName="고급" Description="응용 프로그램에 대한 고급 설정입니다." />
+  </Rule.Categories>
+  <Rule.DataSource>
+    <DataSource Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" HasConfigurationCondition="True" />
+  </Rule.DataSource>
+  <StringProperty Name="DefineConstants" DisplayName="조건부 컴파일 기호" Description="조건부 컴파일을 수행할 기호를 지정합니다. 기호는 세미콜론(';')으로 구분합니다." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147079" Category="General" />
+  <DynamicEnumProperty Name="PlatformTarget" DisplayName="Platform target" Description="Specifies the processor to be targeted by the output file. Choose 'Any CPU' to specify that any processor is acceptable, allowing the application to run on the broadest range of hardware." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147129" Category="General" EnumProvider="PlatformTargetEnumProvider" MultipleValuesAllowed="False">
+    <DynamicEnumProperty.DataSource>
+      <DataSource Persistence="ProjectFileWithInterception" HasConfigurationCondition="False" />
+    </DynamicEnumProperty.DataSource>
+  </DynamicEnumProperty>
+  <EnumProperty Name="Nullable" DisplayName="Null 허용" Description="프로젝트 차원의 C# null 허용 컨텍스트를 지정합니다. C# 8.0 이상을 사용하는 프로젝트에서만 사용할 수 있습니다." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2146796" Category="General">
+    <EnumProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" />
+    </EnumProperty.DataSource>
+    <EnumProperty.Metadata>
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>(has-csharp-lang-version-or-greater "8.0")</NameValuePair.Value>
+      </NameValuePair>
+    </EnumProperty.Metadata>
+    <EnumValue Name="disable" DisplayName="사용 안 함" />
+    <EnumValue Name="enable" DisplayName="사용" />
+    <EnumValue Name="warnings" DisplayName="경고" />
+    <EnumValue Name="annotations" DisplayName="주석" />
+  </EnumProperty>
+  <BoolProperty Name="ImplicitUsings" DisplayName="암시적 전체 사용" Description="프로젝트 SDK에서 선언할 암시적 전체 사용을 사용하도록 설정합니다." Category="General">
+    <BoolProperty.DataSource>
+      <DataSource Persistence="ProjectFileWithInterception" SourceOfDefaultValue="AfterContext" HasConfigurationCondition="False" />
+    </BoolProperty.DataSource>
+    <BoolProperty.Metadata>
+      <NameValuePair Name="SearchTerms" Value="암시적" />
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>(has-csharp-lang-version-or-greater "10")</NameValuePair.Value>
+      </NameValuePair>
+    </BoolProperty.Metadata>
+  </BoolProperty>
+  <BoolProperty Name="Prefer32Bit" DisplayName="32비트 선호" Description="32비트 및 64비트 응용 프로그램을 모두 지원하는 시스템에서 32비트 모드로 실행합니다." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2166468" Category="General">
+    <BoolProperty.Metadata>
+      <NameValuePair Name="DependsOn" Value="Build::PlatformTarget" />
+      <NameValuePair Name="DependsOn" Value="Application::OutputType" />
+      <NameValuePair Name="VisibilityCondition">
+        <!-- Visibility based on: https://github.com/dotnet/msbuild/blob/9bcc06cbe19ae2482ab18eab90a82fd079b26897/src/Tasks/Microsoft.NETFramework.CurrentVersion.props#L87 -->
+        <NameValuePair.Value>
+          (and
+            (has-net-framework)
+            (has-evaluated-value "Build" "PlatformTarget" "AnyCPU")
+            (or
+              (has-evaluated-value "Application" "OutputType" "Exe")
+              (has-evaluated-value "Application" "OutputType" "WinExe")
+              (has-evaluated-value "Application" "OutputType" "AppContainerExe")
+            )
+          )
+        </NameValuePair.Value>
+      </NameValuePair>
+    </BoolProperty.Metadata>
+  </BoolProperty>
+  <!-- Localization Notice: 'unsafe' is used as a keyword in the description and should not be translated -->
+  <BoolProperty Name="AllowUnsafeBlocks" DisplayName="안전하지 않은 코드" Description="'안전하지 않음' 키워드를 사용하는 코드를 컴파일할 수 있도록 허용합니다." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2146797" Category="General">
+    <BoolProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" />
+    </BoolProperty.DataSource>
+    <BoolProperty.Metadata>
+      <NameValuePair Name="SearchTerms" Value="포인터" />
+    </BoolProperty.Metadata>
+  </BoolProperty>
+  <BoolProperty Name="Optimize" DisplayName="코드 최적화" Description="더 작고 빠르며 더 효율적인 출력을 위해 컴파일러 최적화를 사용하도록 설정합니다." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147080" Category="General">
+    <BoolProperty.Metadata>
+      <NameValuePair Name="SearchTerms" Value="최적화하다;최적화" />
+    </BoolProperty.Metadata>
+  </BoolProperty>
+  <EnumProperty Name="DebugType" DisplayName="디버그 기호" Description="빌드하는 동안 생성된 디버그 기호의 종류를 지정합니다." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2173089" Category="General">
+    <EnumProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" Persistence="ProjectFileWithInterception" />
+    </EnumProperty.DataSource>
+    <EnumProperty.Metadata>
+      <NameValuePair Name="SearchTerms" Value="디버그 형식" />
+    </EnumProperty.Metadata>
+    <EnumValue Name="none" DisplayName="내보낸 기호 없음" />
+    <!--
+    Note that 'pdbonly' is the same as 'full'.
+    <EnumValue Name="pdbonly"
+               DisplayName="PDB Only" />
+    -->
+    <EnumValue Name="full" DisplayName="PDB 파일, 현재 플랫폼" />
+    <EnumValue Name="portable" DisplayName="PDB 파일, 플랫폼 간에 이동 가능" />
+    <EnumValue Name="embedded" DisplayName="DLL/EXE에 포함됨, 플랫폼 간에 이동 가능" />
+  </EnumProperty>
+  <EnumProperty Name="WarningLevel" DisplayName="경고 수준" Description="표시할 컴파일러 경고 수준을 지정합니다." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2146798" Category="ErrorsAndWarnings">
+    <EnumValue Name="0" DisplayName="0" />
+    <EnumValue Name="1" DisplayName="1" />
+    <EnumValue Name="2" DisplayName="2" />
+    <EnumValue Name="3" DisplayName="3" />
+    <EnumValue Name="4" DisplayName="4" />
+    <EnumValue Name="5" DisplayName="5" />
+  </EnumProperty>
+  <StringProperty Name="NoWarn" DisplayName="경고 표시 안 함" Description="하나 이상의 경고를 생성하는 컴파일러의 기능을 차단합니다. 여러 개의 경고 번호는 쉼표(',') 또는 세미콜론(';')으로 구분합니다." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147300" Category="ErrorsAndWarnings" />
+  <BoolProperty Name="TreatWarningsAsErrors" HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147301" DisplayName="경고를 오류로 처리" Description="컴파일러에서 경고를 오류로 처리하도록 지시합니다." Category="ErrorsAndWarnings">
+    <BoolProperty.DataSource>
+      <DataSource Persistence="ProjectFileWithInterception" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+  <StringProperty Name="WarningsAsErrors" DisplayName="특정 경고를 오류로 처리" HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147301" Description="지정된 경고를 오류로 처리합니다. 여러 개의 경고 번호는 쉼표(',') 또는 세미콜론(';')으로 구분합니다." Category="ErrorsAndWarnings">
+    <StringProperty.Metadata>
+      <NameValuePair Name="DependsOn" Value="Build::TreatWarningsAsErrors" />
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>(has-evaluated-value "Build" "TreatWarningsAsErrors" false)</NameValuePair.Value>
+      </NameValuePair>
+    </StringProperty.Metadata>
+  </StringProperty>
+  <StringProperty Name="WarningsNotAsErrors" DisplayName="특정 경고가 오류로 처리되지 않도록 함" HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147301" Description="지정된 경고가 오류로 처리되지 않도록 합니다. 여러 개의 경고 번호는 쉼표(',') 또는 세미콜론(';')으로 구분합니다." Category="ErrorsAndWarnings">
+    <StringProperty.Metadata>
+      <NameValuePair Name="DependsOn" Value="Build::TreatWarningsAsErrors" />
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>(has-evaluated-value "Build" "TreatWarningsAsErrors" true)</NameValuePair.Value>
+      </NameValuePair>
+    </StringProperty.Metadata>
+  </StringProperty>
+  <StringProperty Name="BaseOutputPath" DisplayName="기본 출력 경로" Description="빌드하는 동안 프로젝트의 출력에 대한 기본 위치를 지정합니다. 프로젝트 구성을 구분하기 위해 이 경로에 하위 폴더가 추가됩니다." Category="Output" Subtype="directory">
+    <StringProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="BaseIntermediateOutputPath" DisplayName="기본 중간 출력 경로" Description="빌드하는 동안 프로젝트의 중간 출력에 대한 기본 위치를 지정합니다. 프로젝트 구성을 구분하기 위해 이 경로에 하위 폴더가 추가됩니다." Category="Output" Subtype="directory">
+    <StringProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <BoolProperty Name="ProduceReferenceAssembly" DisplayName="참조 어셈블리" Description="프로젝트의 공용 API를 포함하는 참조 어셈블리를 생성합니다." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2166115" Category="Output">
+    <BoolProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+  <BoolProperty Name="GenerateDocumentationFile" DisplayName="설명서 파일" Description="API 설명서를 포함하는 파일을 생성합니다." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2165772" Category="Output">
+    <BoolProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" />
+    </BoolProperty.DataSource>
+    <BoolProperty.Metadata>
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>(has-project-capability "GenerateDocumentationFile")</NameValuePair.Value>
+      </NameValuePair>
+    </BoolProperty.Metadata>
+  </BoolProperty>
+  <!-- TODO consider removing this property from the UI altogether -->
+  <StringProperty Name="DocumentationFile" DisplayName="XML 설명서 파일 경로" Description="API 설명서 파일의 선택적 경로입니다. 기본 위치를 사용하려면 비워 두세요." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147081" Category="Output" Subtype="file">
+    <StringProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" />
+    </StringProperty.DataSource>
+    <StringProperty.Metadata>
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>(has-evaluated-value "Build" "GenerateDocumentationFile" true)</NameValuePair.Value>
+      </NameValuePair>
+    </StringProperty.Metadata>
+  </StringProperty>
+  <StringProperty Name="PreBuildEvent" DisplayName="빌드 전 이벤트" Description="빌드가 시작되기 전에 실행되는 명령을 지정합니다. 프로젝트가 최신 상태이면 실행되지 않습니다. 0이 아닌 종료 코드는 실행되기 전에 빌드에 실패합니다." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2165773" Category="Events">
+    <StringProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" Persistence="ProjectFileWithInterception" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+    <StringProperty.ValueEditors>
+      <ValueEditor EditorType="MultiLineString">
+        <ValueEditor.Metadata>
+          <NameValuePair Name="UseMonospaceFont" Value="True" />
+        </ValueEditor.Metadata>
+      </ValueEditor>
+    </StringProperty.ValueEditors>
+  </StringProperty>
+  <StringProperty Name="PostBuildEvent" DisplayName="빌드 후 이벤트" Description="빌드가 완료된 후 실행되는 명령을 지정합니다. 빌드가 실패하면 실행되지 않습니다. .bat 파일을 호출하려면 '호출'을 사용하세요. 0이 아닌 종료 코드는 빌드에 실패합니다." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2165773" Category="Events">
+    <StringProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" Persistence="ProjectFileWithInterception" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+    <StringProperty.ValueEditors>
+      <ValueEditor EditorType="MultiLineString">
+        <ValueEditor.Metadata>
+          <NameValuePair Name="UseMonospaceFont" Value="True" />
+        </ValueEditor.Metadata>
+      </ValueEditor>
+    </StringProperty.ValueEditors>
+  </StringProperty>
+  <EnumProperty Name="RunPostBuildEvent" DisplayName="빌드 후 이벤트를 실행하는 경우" Description="빌드 후 이벤트가 실행될 조건을 지정합니다." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2165773" Category="Events">
+    <EnumProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" PersistedName="RunPostBuildEvent" Persistence="ProjectFileWithInterception" SourceOfDefaultValue="AfterContext" />
+    </EnumProperty.DataSource>
+    <EnumValue Name="Always" DisplayName="항상" />
+    <EnumValue Name="OnBuildSuccess" DisplayName="빌드가 성공한 경우" IsDefault="True" />
+    <EnumValue Name="OnOutputUpdated" DisplayName="출력이 업데이트된 경우" />
+  </EnumProperty>
+  <BoolProperty Name="SignAssembly" Description="출력 어셈블리에 서명하여 강력한 이름을 지정합니다." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147136" DisplayName="어셈블리 서명" Category="StrongNaming">
+    <BoolProperty.DataSource>
+      <DataSource Persistence="ProjectFileWithInterception" SourceOfDefaultValue="BeforeContext" HasConfigurationCondition="False" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+  <StringProperty Name="AssemblyOriginatorKeyFile" DisplayName="강력한 이름 키 파일" Category="StrongNaming" Subtype="file">
+    <StringProperty.Metadata>
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>(has-evaluated-value "Build" "SignAssembly" true)</NameValuePair.Value>
+      </NameValuePair>
+    </StringProperty.Metadata>
+    <StringProperty.DataSource>
+      <DataSource Persistence="ProjectFileWithInterception" SourceOfDefaultValue="BeforeContext" HasConfigurationCondition="False" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <BoolProperty Name="DelaySign" Description="프라이빗 키에 대한 액세스가 제한된 경우 지연된 서명을 사용합니다. 빌드 중에는 퍼블릭 키가 사용되며, 프라이빗 키 정보 추가는 어셈블리가 전달될 때까지 지연됩니다." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147243" DisplayName="서명만 연기" Category="StrongNaming">
+    <BoolProperty.Metadata>
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>(has-evaluated-value "Build" "SignAssembly" true)</NameValuePair.Value>
+      </NameValuePair>
+    </BoolProperty.Metadata>
+    <BoolProperty.DataSource>
+      <DataSource Persistence="ProjectFileWithInterception" SourceOfDefaultValue="BeforeContext" HasConfigurationCondition="False" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+  <StringProperty Name="LangVersion" DisplayName="언어 버전" Description="이 프로젝트에서 코드를 작성하는 데 사용할 수 있는 언어의 버전입니다." HelpUrl="https://aka.ms/csharp-versions" ReadOnly="true" Category="Advanced">
+    <StringProperty.ValueEditors>
+      <ValueEditor EditorType="String">
+        <ValueEditor.Metadata>
+          <NameValuePair Name="ShowEvaluatedPreviewOnly" Value="True" />
+        </ValueEditor.Metadata>
+      </ValueEditor>
+    </StringProperty.ValueEditors>
+  </StringProperty>
+  <BoolProperty Name="CheckForOverflowUnderflow" DisplayName="산술 오버플로 확인" Description="정수 연산에서 범위를 벗어난 값을 생성하는 경우 예외를 Throw합니다." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2166113" Category="Advanced">
+    <BoolProperty.Metadata>
+      <NameValuePair Name="SearchTerms" Value="선택됨;선택 취소됨" />
+    </BoolProperty.Metadata>
+  </BoolProperty>
+  <BoolProperty Name="Deterministic" DisplayName="결정적" Description="동일한 입력에 대해 동일한 컴파일 출력을 생성합니다." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2165770" Category="Advanced" />
+  <EnumProperty Name="ErrorReport" DisplayName="내부 컴파일러 오류 보고" Description="ICE(내부 컴파일러 오류) 보고서를 Microsoft에 보냅니다." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2165771" Category="Advanced">
+    <EnumProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" />
+    </EnumProperty.DataSource>
+    <EnumValue Name="none" DisplayName="보내지 않음" />
+    <EnumValue Name="prompt" DisplayName="보내기 전에 확인" />
+    <EnumValue Name="queue" DisplayName="큐" />
+    <EnumValue Name="send" DisplayName="보내기" />
+  </EnumProperty>
+  <EnumProperty Name="FileAlignment" DisplayName="파일 맞춤" Description="출력 파일의 섹션을 맞출 위치를 바이트 단위로 지정합니다." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2166114" Category="Advanced">
+    <EnumValue Name="512" DisplayName="512" />
+    <EnumValue Name="1024" DisplayName="1024" />
+    <EnumValue Name="2048" DisplayName="2048" />
+    <EnumValue Name="4096" DisplayName="4096" />
+    <EnumValue Name="8192" DisplayName="8192" />
+  </EnumProperty>
+</Rule>

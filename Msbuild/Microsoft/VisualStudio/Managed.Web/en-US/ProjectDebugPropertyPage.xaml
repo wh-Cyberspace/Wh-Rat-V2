@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Notes:
+     OverrideMode: We use this to specify that we're extending another page with the same name. This allows us to add
+       new properties or change the behavior of existing properties without having to replace the base page entirely.
+       Here we add a few new properties to a page defined in the dotnet/project-system repo, and hide several properties
+       that aren't relevant to web scenarios. -->
+<Rule Name="ProjectDebugPropertyPage"
+      OverrideMode="Extend"
+      xmlns:sys="clr-namespace:System;assembly=mscorlib"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns="http://schemas.microsoft.com/build/2009/properties">
+
+    <Rule.Categories>
+        <Category Name="WebServer"
+                  Description="Web Server Settings"
+                  DisplayName="Web Server Settings" />
+    </Rule.Categories>
+
+    <BoolProperty Name="LaunchBrowser"
+                  DisplayName="Launch browser"
+                  Description="Indicates that the web browser should automatically launch when debugging the project."
+                  Category="General" />
+
+    <StringProperty Name="LaunchUrl"
+                    DisplayName="Url"
+                    Description="The address of the web page to navigate to."
+                    Category="General" />
+
+    <StringProperty Name="AppUrl_Project"
+                    DisplayName="App URL"
+                    Category="WebServer" />
+
+    <!-- Hide several properties that don't apply to web projects. -->
+
+    <BoolProperty Name="RemoteDebugEnabled"
+                  Visible="False" />
+
+    <StringProperty Name="RemoteDebugMachine"
+                    Visible="False" />
+
+    <DynamicEnumProperty Name="AuthenticationMode"
+                         Visible="False" />
+
+    <BoolProperty Name="WebView2Debugging"
+                  Visible="False" />
+</Rule>

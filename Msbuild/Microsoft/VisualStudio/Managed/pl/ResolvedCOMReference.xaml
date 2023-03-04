@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information. -->
+<Rule Name="ResolvedCOMReference" Description="Właściwości odwołania COM" DisplayName="Odwołanie COM" PageTemplate="generic" xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <Rule.DataSource>
+    <DataSource HasConfigurationCondition="False" ItemType="COMReference" MSBuildTarget="ResolveComReferencesDesignTime" Persistence="ResolvedReference" SourceOfDefaultValue="AfterContext" SourceType="TargetResults" />
+  </Rule.DataSource>
+  <StringListProperty Name="Aliases" Description="Rozdzielona przecinkami lista aliasów do tego odwołania." DisplayName="Aliasy" Separator=",">
+    <StringListProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="COMReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </StringListProperty.DataSource>
+  </StringListProperty>
+  <StringProperty Name="BrowsePath" ReadOnly="True" Visible="False">
+    <StringProperty.DataSource>
+      <DataSource ItemType="COMReference" PersistedName="Identity" Persistence="Intrinsic" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <BoolProperty Name="CopyLocal" Description="Wskazuje, czy odwołanie będzie kopiowane do katalogu wyjściowego." DisplayName="Kopia lokalna">
+    <BoolProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="COMReference" PersistedName="Private" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+  <StringProperty Name="Culture" ReadOnly="True" Visible="False" />
+  <StringProperty Name="Description" ReadOnly="True" Visible="False" />
+  <BoolProperty Name="EmbedInteropTypes" Description="Wskazuje, czy typy zdefiniowane w tym zestawie będą osadzone w zestawie docelowym." DisplayName="Osadź typy międzyoperacyjne">
+    <BoolProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="COMReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+  <EnumProperty Name="FileType" ReadOnly="True" Visible="False">
+    <EnumValue Name="Assembly" DisplayName="Zestaw .NET" />
+    <EnumValue Name="ActiveX" DisplayName="Biblioteka typów COM" />
+    <EnumValue Name="Native Assembly" DisplayName="Zestaw natywny" />
+  </EnumProperty>
+  <StringProperty Name="FusionName" ReadOnly="True" Visible="False" />
+  <StringProperty Name="Guid" Description="Identyfikator GUID serwera COM." DisplayName="CLSID">
+    <StringProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="COMReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="HintPath" Visible="false" />
+  <StringProperty Name="Identity" Description="Tożsamość zabezpieczeń zestawu, do którego się odwoływano (zobacz System.Reflection.Assembly.Evidence lub System.Security.Policy.Evidence)." DisplayName="Tożsamość" ReadOnly="True">
+    <StringProperty.DataSource>
+      <DataSource PersistedName="{}{Identity}" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="IsImplicitlyDefined" ReadOnly="True" Visible="False" />
+  <BoolProperty Name="Isolated" DisplayName="Izolowany">
+    <BoolProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="COMReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+  <BoolProperty Name="IsWinMDFile" Visible="false" />
+  <StringProperty Name="Lcid" Description="Identyfikator LCID serwera COM." DisplayName="Ustawienia regionalne">
+    <StringProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="COMReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="Name" ReadOnly="True" Visible="false" />
+  <StringProperty Name="OriginalItemSpec" ReadOnly="True" Visible="False" />
+  <StringProperty Name="RequiredTargetFramework" Visible="False" />
+  <StringProperty Name="ResolvedPath" Description="Lokalizacja pliku, którego dotyczy odwołanie." DisplayName="Ścieżka" ReadOnly="True">
+    <StringProperty.DataSource>
+      <DataSource PersistedName="Identity" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="Path" ReadOnly="True" Visible="False">
+    <StringProperty.DataSource>
+      <DataSource PersistedName="Identity" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="RuntimeVersion" ReadOnly="True" Visible="False" />
+  <StringProperty Name="SDKIdentity" Visible="false" />
+  <BoolProperty Name="SpecificVersion" Visible="False" />
+  <BoolProperty Name="StrongName" ReadOnly="True" Visible="False" />
+  <StringProperty Name="Version" Description="Wersja odwołania." DisplayName="Wersja" ReadOnly="True" />
+  <IntProperty Name="VersionMajor" DisplayName="Wersja główna">
+    <IntProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="COMReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </IntProperty.DataSource>
+  </IntProperty>
+  <IntProperty Name="VersionMinor" DisplayName="Wersja pomocnicza">
+    <IntProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="COMReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </IntProperty.DataSource>
+  </IntProperty>
+  <BoolProperty Name="Visible" ReadOnly="True" Visible="False" />
+  <BoolProperty Name="WinMDFile" ReadOnly="True" Visible="false" />
+  <StringProperty Name="WrapperTool" DisplayName="Narzędzie otoki">
+    <StringProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="COMReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+</Rule>

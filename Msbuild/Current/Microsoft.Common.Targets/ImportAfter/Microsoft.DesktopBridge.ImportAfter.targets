@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+***********************************************************************************************
+Microsoft.DesktopBridge.ImportAfter.targets
+
+WARNING:  DO NOT MODIFY this file unless you are knowledgeable about MSBuild and have
+          created a backup copy.  Incorrect changes to this file will make it
+          impossible to load or build your projects from the command-line or the IDE.
+
+Copyright (C) Microsoft Corporation. All rights reserved.
+***********************************************************************************************
+-->
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <DesktopBridgeCommonTargets Condition="'$(DesktopBridgeCommonTargets)'==''">$(MSBuildExtensionsPath)\Microsoft\DesktopBridge\Microsoft.DesktopBridge.Common.targets</DesktopBridgeCommonTargets>
+  </PropertyGroup>
+  <Import Condition="Exists('$(DesktopBridgeCommonTargets)') and '$(SkipImportDesktopBridgeCommonTargets)' != 'true'" Project="$(DesktopBridgeCommonTargets)" />
+</Project>

@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.-->
+<Rule Name="None" Description="ファイルのプロパティ" DisplayName="全般" PageTemplate="generic" PropertyPagesHidden="true" xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <Rule.Categories>
+    <Category Name="Advanced" DisplayName="詳細" />
+    <Category Name="Misc" DisplayName="その他" />
+  </Rule.Categories>
+  <Rule.DataSource>
+    <DataSource HasConfigurationCondition="False" ItemType="None" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+  </Rule.DataSource>
+  <DynamicEnumProperty Name="{}{ItemType}" Category="Advanced" Description="ビルドおよび配置のプロセスにファイルがどのように関連しているかを示します。" DisplayName="ビルド アクション" EnumProvider="ItemTypes" />
+  <BoolProperty Name="AutoGen" Visible="false" />
+  <EnumProperty Name="CopyToOutputDirectory" Category="Advanced" Description="ソース ファイルを出力ディレクトリにコピーするよう指定します。" DisplayName="出力ディレクトリにコピー">
+    <EnumValue Name="Never" DisplayName="コピーしない" />
+    <EnumValue Name="Always" DisplayName="常にコピーする" />
+    <EnumValue Name="PreserveNewest" DisplayName="新しい場合はコピーする" />
+  </EnumProperty>
+  <StringProperty Name="CustomTool" Visible="false">
+    <StringProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="None" PersistedName="Generator" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="CustomToolNamespace" Category="Advanced" Description="カスタム ツールの出力を配置する名前空間です。" DisplayName="カスタム ツールの名前空間" />
+  <StringProperty Name="DependentUpon" Visible="false" />
+  <BoolProperty Name="DesignTime" Visible="false" />
+  <BoolProperty Name="DesignTimeSharedInput" Visible="false" />
+  <StringProperty Name="Extension" ReadOnly="true" Visible="False">
+    <StringProperty.DataSource>
+      <DataSource ItemType="None" PersistedName="Extension" Persistence="Intrinsic" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="FileNameAndExtension" Category="Misc" Description="ファイルまたはフォルダーの名前です。" DisplayName="ファイル名" ReadOnly="true">
+    <StringProperty.DataSource>
+      <DataSource ItemType="None" PersistedName="FileNameAndExtension" Persistence="Intrinsic" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="FullPath" Category="Misc" Description="ファイルの場所。" DisplayName="完全パス" ReadOnly="true">
+    <StringProperty.DataSource>
+      <DataSource ItemType="None" PersistedName="FullPath" Persistence="Intrinsic" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="Generator" Category="Advanced" Description="設計時にファイルを変換し、その変換結果を別のファイルに出力するツールを指定します。たとえば、データセット (.xsd) ファイルには既定のカスタム ツールが用意されています。" DisplayName="カスタム ツール" />
+  <StringProperty Name="Identity" ReadOnly="true" Visible="false">
+    <StringProperty.DataSource>
+      <DataSource ItemType="None" PersistedName="Identity" Persistence="Intrinsic" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="LastGenOutput" Visible="false" />
+  <StringProperty Name="Link" Visible="false">
+    <StringProperty.DataSource>
+      <DataSource PersistenceStyle="Attribute" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <EnumProperty Name="SubType" Visible="false">
+    <EnumProperty.DataSource>
+      <DataSource Persistence="DesignTimeItemPropertiesStorage" ItemType="None" PersistedName="SubType" HasConfigurationCondition="false" />
+    </EnumProperty.DataSource>
+    <EnumValue Name="Designer" />
+    <EnumValue Name="Component" />
+    <EnumValue Name="UserControl" />
+    <EnumValue Name="Form" />
+    <EnumValue Name="Code" />
+  </EnumProperty>
+  <StringProperty Name="URL" ReadOnly="true" Visible="false">
+    <StringProperty.DataSource>
+      <DataSource ItemType="None" PersistedName="FullPath" Persistence="Intrinsic" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <BoolProperty Name="Visible" Visible="false" />
+</Rule>

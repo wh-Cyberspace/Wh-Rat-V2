@@ -1,0 +1,44 @@
+<!--
+***********************************************************************************************
+Microsoft.NetNative.ImportAfter.targets
+
+WARNING:  DO NOT MODIFY this file unless you are knowledgeable about MSBuild and have
+          created a backup copy.  Incorrect changes to this file will make it
+          impossible to load or build your projects from the command-line or the IDE.
+
+Copyright (C) Microsoft Corporation. All rights reserved.
+***********************************************************************************************
+-->
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <UseCacheToolChain Condition="'$(DotNetNativeVersion)'!=''">true</UseCacheToolChain>
+    <!-- In general, DotNetNativeVersion and DotNetNativeLibraryVersion should be the same, but keep some flexibility just in case -->
+    <DotNetNativeLibraryVersion Condition="'$(DotNetNativeLibraryVersion)'==''">$(DotNetNativeVersion)</DotNetNativeLibraryVersion>
+  </PropertyGroup>
+
+  <!-- Projects that set DotNetNativeVersion get the offline package they requested -->
+  <PropertyGroup Condition="'$(UseCacheToolChain)'=='true'">
+    <DotNetNativeCompilerProps Condition="'$(DotNetNativeCompilerProps)'==''">$(MSBuildProgramFiles32)\Microsoft SDKs\NuGetPackages\Microsoft.Net.Native.Compiler\$(DotNetNativeVersion)\build\Microsoft.Net.Native.Compiler.props</DotNetNativeCompilerProps>
+    <ProjectNTargets Condition="'$(ProjectNTargets)'==''">$(MSBuildProgramFiles32)\Microsoft SDKs\NuGetPackages\Microsoft.Net.Native.Compiler\$(DotNetNativeVersion)\build\Microsoft.Net.Native.Compiler.targets</ProjectNTargets>
+
+    <DotNetNativeSharedLibraryarmProps Condition="'$(DotNetNativeSharedLibraryarmProps)'==''">$(MSBuildProgramFiles32)\Microsoft SDKs\NuGetPackages\Microsoft.Net.Native.SharedLibrary-arm\$(DotNetNativeLibraryVersion)\build\Microsoft.Net.Native.SharedLibrary-arm.props</DotNetNativeSharedLibraryarmProps>
+    <DotNetNativeSharedLibraryx64Props Condition="'$(DotNetNativeSharedLibraryx64Props)'==''">$(MSBuildProgramFiles32)\Microsoft SDKs\NuGetPackages\Microsoft.Net.Native.SharedLibrary-x64\$(DotNetNativeLibraryVersion)\build\Microsoft.Net.Native.SharedLibrary-x64.props</DotNetNativeSharedLibraryx64Props>
+    <DotNetNativeSharedLibraryx86Props Condition="'$(DotNetNativeSharedLibraryx86Props)'==''">$(MSBuildProgramFiles32)\Microsoft SDKs\NuGetPackages\Microsoft.Net.Native.SharedLibrary-x86\$(DotNetNativeLibraryVersion)\build\Microsoft.Net.Native.SharedLibrary-x86.props</DotNetNativeSharedLibraryx86Props>
+    <DotNetNativeSharedLibraryarmTargets Condition="'$(DotNetNativeSharedLibraryarmTargets)'==''">$(MSBuildProgramFiles32)\Microsoft SDKs\NuGetPackages\Microsoft.Net.Native.SharedLibrary-arm\$(DotNetNativeLibraryVersion)\build\Microsoft.Net.Native.SharedLibrary-arm.targets</DotNetNativeSharedLibraryarmTargets>
+    <DotNetNativeSharedLibraryx64Targets Condition="'$(DotNetNativeSharedLibraryx64Targets)'==''">$(MSBuildProgramFiles32)\Microsoft SDKs\NuGetPackages\Microsoft.Net.Native.SharedLibrary-x64\$(DotNetNativeLibraryVersion)\build\Microsoft.Net.Native.SharedLibrary-x64.targets</DotNetNativeSharedLibraryx64Targets>
+    <DotNetNativeSharedLibraryx86Targets Condition="'$(DotNetNativeSharedLibraryx86Targets)'==''">$(MSBuildProgramFiles32)\Microsoft SDKs\NuGetPackages\Microsoft.Net.Native.SharedLibrary-x86\$(DotNetNativeLibraryVersion)\build\Microsoft.Net.Native.SharedLibrary-x86.targets</DotNetNativeSharedLibraryx86Targets>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(UseCacheToolChain)'!='true'">
+    <ProjectNTargets Condition="'$(ProjectNTargets)'=='' and '$(PlatformTarget)'!='ARM64'">$(MSBuildProgramFiles32)\MSBuild\15.0\.Net\.NetNative\15.0.24211\Microsoft.NetNative.targets</ProjectNTargets>
+  </PropertyGroup>
+  <Import Condition="'$(ProjectNProfileEnabled)' == 'true' and exists('$(DotNetNativeCompilerProps)')" Project="$(DotNetNativeCompilerProps)" />
+  <Import Condition="'$(ProjectNProfileEnabled)' == 'true' and exists('$(ProjectNTargets)')" Project="$(ProjectNTargets)" />
+  <Import Condition="'$(ProjectNProfileEnabled)' == 'true' and exists('$(DotNetNativeSharedLibraryarmProps)')" Project="$(DotNetNativeSharedLibraryarmProps)" />
+  <Import Condition="'$(ProjectNProfileEnabled)' == 'true' and exists('$(DotNetNativeSharedLibraryx64Props)')" Project="$(DotNetNativeSharedLibraryx64Props)" />
+  <Import Condition="'$(ProjectNProfileEnabled)' == 'true' and exists('$(DotNetNativeSharedLibraryx86Props)')" Project="$(DotNetNativeSharedLibraryx86Props)" />
+  <Import Condition="'$(ProjectNProfileEnabled)' == 'true' and exists('$(DotNetNativeSharedLibraryarmTargets)')" Project="$(DotNetNativeSharedLibraryarmTargets)" />
+  <Import Condition="'$(ProjectNProfileEnabled)' == 'true' and exists('$(DotNetNativeSharedLibraryx64Targets)')" Project="$(DotNetNativeSharedLibraryx64Targets)" />
+  <Import Condition="'$(ProjectNProfileEnabled)' == 'true' and exists('$(DotNetNativeSharedLibraryx86Targets)')" Project="$(DotNetNativeSharedLibraryx86Targets)" />
+
+</Project>

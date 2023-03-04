@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information. -->
+<Rule Name="CodeAnalysisPropertyPage" Description="설정" DisplayName="코드 분석" PageTemplate="generic" Order="500" xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <Rule.Categories>
+    <Category Name="AllAnalyzers" DisplayName="모든 분석기" />
+    <Category Name="NetAnalyzers" DisplayName=".NET 분석기" />
+  </Rule.Categories>
+  <Rule.DataSource>
+    <DataSource Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" HasConfigurationCondition="False" />
+  </Rule.DataSource>
+  <BoolProperty Name="RunAnalyzersDuringBuild" DisplayName="빌드 시 실행" Description="빌드 시 항상 코드 분석을 실행합니다." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2173147" Category="AllAnalyzers" />
+  <BoolProperty Name="RunAnalyzersDuringLiveAnalysis" DisplayName="실시간 분석 시 실행" Description="입력할 때 편집기에서 코드 분석을 실시간으로 실행합니다." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2173147" Category="AllAnalyzers" />
+  <BoolProperty Name="EnforceCodeStyleInBuild" DisplayName="빌드 시 코드 스타일 적용(실험적)" Description="빌드 시 코드 스타일에 대한 진단을 생성합니다." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2172995" Category="NetAnalyzers" />
+  <BoolProperty Name="EnableNETAnalyzers" DisplayName=".NET 분석기 사용" Description=".NET 분석기를 실행하여 API 사용을 지원합니다." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2173090" Category="NetAnalyzers" />
+  <EnumProperty Name="AnalysisLevel" DisplayName="분석 수준" Description="프로젝트에서 실행해야 하는 분석기 집합입니다." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2173091" Category="NetAnalyzers">
+    <EnumValue Name="none" DisplayName="없음" />
+    <EnumValue Name="preview" DisplayName="미리 보기" />
+    <EnumValue Name="latest" DisplayName="최신" />
+    <EnumValue Name="5.0" DisplayName="5.0" />
+    <EnumValue Name="6.0" DisplayName="6.0" />
+  </EnumProperty>
+</Rule>

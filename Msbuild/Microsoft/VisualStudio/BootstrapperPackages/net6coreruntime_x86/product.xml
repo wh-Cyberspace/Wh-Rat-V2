@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+
+<Product xmlns="http://schemas.microsoft.com/developer/2004/01/bootstrapper" ProductCode="Microsoft.NetCore.CoreRuntime.6.0.x86">
+
+  <!-- Defines list of files to be copied on build -->
+  <PackageFiles CopyAllPackageFiles="false">
+    <PackageFile Name="dotnet-runtime-6.0.0-rc.2.21480.5-win-x86.exe"
+                 HomeSite="https://go.microsoft.com/fwlink/?linkid=2173906"
+                 PublicKey="0" />
+    <PackageFile Name="NetCoreCheck.exe" />
+  </PackageFiles>
+
+  <!-- Run the NetCoreCheck tool that will determine if the necessary framework is installed -->
+  <InstallChecks>
+    <ExternalCheck Property="NetCoreCheck" PackageFile="NetCoreCheck.exe" Arguments="Microsoft.NETCore.App 6.0.0-rc.2"/>
+  </InstallChecks>
+
+  <!-- Defines how to invoke the setup for the .Net Runtime 6.0 -->
+  <Commands Reboot="Defer">
+    <Command PackageFile="dotnet-runtime-6.0.0-rc.2.21480.5-win-x86.exe" Arguments=' /q '>
+
+      <!-- These checks determine whether the package is to be installed -->
+      <InstallConditions>
+        <!-- Block install on less than Windows 7 RTM -->
+        <FailIf Property="VersionNT" Compare="VersionLessThan" Value="6.1.0" String="InvalidPlatformWinNT"/>
+        <!-- NetCoreCheck returning 0 means the runtime is already installed -->
+        <BypassIf Property="NetCoreCheck" Compare="ValueEqualTo" Value="0"/>
+        <!-- Block install if user does not have admin privileges -->
+        <FailIf Property="AdminUser" Compare="ValueEqualTo" Value="false" String="AdminRequired"/>
+      </InstallConditions>
+
+      <ExitCodes>
+        <ExitCode Value="0" Result="Success"/>
+        <ExitCode Value="3010" Result="SuccessReboot"/>
+        <DefaultExitCode Result="Fail" FormatMessageFromSystem="true" String="GeneralFailure" />
+      </ExitCodes>
+
+    </Command>
+  </Commands>
+</Product>

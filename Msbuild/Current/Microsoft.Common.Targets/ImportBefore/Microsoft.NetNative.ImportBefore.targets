@@ -1,0 +1,26 @@
+<!--
+***********************************************************************************************
+Microsoft.NetNative.ImportBefore.targets
+
+WARNING:  DO NOT MODIFY this file unless you are knowledgeable about MSBuild and have
+          created a backup copy.  Incorrect changes to this file will make it
+          impossible to load or build your projects from the command-line or the IDE.
+
+Copyright (C) Microsoft Corporation. All rights reserved.
+***********************************************************************************************
+-->
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <_ProjectNPlatformSupported Condition="'$(TargetPlatformIdentifier)' == 'UAP'">true</_ProjectNPlatformSupported>
+    <_ProjectNProjectSupported Condition="'$(AppxPackage)' == 'true'">true</_ProjectNProjectSupported>
+    
+    <!-- Denotes that Microsoft .Net Native is supported by this kind of project so corresponding UI elements should be visible -->
+    <CanUseProjectN Condition="'$(_ProjectNPlatformSupported)' == 'true' and '$(_ProjectNProjectSupported)' == 'true'">true</CanUseProjectN>
+    
+    <UseDotNetNativeToolchain Condition="'$(UseDotNetNativeToolchain)' == ''">$(UseProjectNToolchain)</UseDotNetNativeToolchain>
+
+    <ProjectNProfileEnabled Condition="'$(CanUseProjectN)'=='true'">true</ProjectNProfileEnabled>
+    <ProjectNSettingsTargets Condition="'$(ProjectNSettingsTargets)'==''">$(MSBuildProgramFiles32)\MSBuild\15.0\.Net\.NetNative\15.0.24211\Microsoft.NetNative.Settings.targets</ProjectNSettingsTargets>
+  </PropertyGroup>
+  <Import Condition="'$(ProjectNProfileEnabled)' == 'true' and exists('$(ProjectNSettingsTargets)')" Project="$(ProjectNSettingsTargets)" />
+</Project>

@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--Copyright, Microsoft Corporation, All rights reserved.-->
+<Rule
+  Name="CopyFile"
+  DisplayName="Copy File"
+  Order="100"
+  PageTemplate="tool"
+  xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <Rule.DataSource>
+    <DataSource Persistence="ProjectFile" ItemType="CopyFileToFolders" HasConfigurationCondition="true" />
+  </Rule.DataSource>
+  <Rule.Categories>
+    <Category Name="General" DisplayName="General" Description="General" />
+  </Rule.Categories>
+  <StringListProperty Name="DestinationFolders" DisplayName="Destination Directories" 
+                  Description="Folders to copy the file to."
+                  Category="General"
+                  Subtype="folder">
+  </StringListProperty>
+  <StringProperty Name="DestinationFileName" DisplayName="Destination File Name"
+                  Description="File Name to copy the file to."
+                  Category="General">
+  </StringProperty>
+  <BoolProperty Name="TreatOutputAsContent" Category="General" DisplayName="Treat Destination Files As Content" 
+                    Description="Specify whether the destination file(s) are a deployable content.">
+  </BoolProperty>
+  <StringProperty Name="RootFolder" DisplayName="Content Root Folder"
+                  Description="Content root folder to use for packaging."
+                  Category="General"
+                  Subtype="folder">
+  </StringProperty>
+  <DynamicEnumProperty Name="CopyFileAfterTargets" Category="General" DisplayName="Execute After"
+                       Description="Specifies the targets for 'Copy File' to run after.  This is the same for all copied files in the project."
+                       EnumProvider="Targets">
+    <DynamicEnumProperty.DataSource>
+      <DataSource Persistence="ProjectFile" HasConfigurationCondition="true" ItemType="" />
+    </DynamicEnumProperty.DataSource>
+    <DynamicEnumProperty.ProviderSettings>
+      <NameValuePair Name="Exclude" Value="^Compute"/>
+    </DynamicEnumProperty.ProviderSettings>
+  </DynamicEnumProperty>
+  <DynamicEnumProperty Name="CopyFileBeforeTargets" Category="General" DisplayName="Execute Before"
+                       Description="Specifies the targets for 'Copy File' to run before.  This is the same for all copied files in the project."
+                       EnumProvider="Targets">
+    <DynamicEnumProperty.DataSource>
+      <DataSource Persistence="ProjectFile" HasConfigurationCondition="true" ItemType="" />
+    </DynamicEnumProperty.DataSource>
+    <DynamicEnumProperty.ProviderSettings>
+      <NameValuePair Name="Exclude" Value="^Compute"/>
+    </DynamicEnumProperty.ProviderSettings>
+  </DynamicEnumProperty>
+</Rule>

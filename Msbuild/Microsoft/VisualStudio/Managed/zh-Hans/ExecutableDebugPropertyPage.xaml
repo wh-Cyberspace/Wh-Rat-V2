@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information. -->
+<Rule Name="ExecutableDebugPropertyPage" Description="与启动和调试指定可执行文件关联的属性。" DisplayName="可执行文件" PageTemplate="commandNameBasedDebugger" xmlns:sys="clr-namespace:System;assembly=mscorlib" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <Rule.Metadata>
+    <sys:String x:Key="CommandName">Executable</sys:String>
+    <!-- KnownImageIds.ImageCatalogGuid -->
+    <sys:Guid x:Key="ImageMonikerGuid">AE27A6B0-E345-4288-96DF-5EAF394EE369</sys:Guid>
+    <!-- KnownImageIds.Execute -->
+    <sys:Int32 x:Key="ImageMonikerId">1173</sys:Int32>
+  </Rule.Metadata>
+  <Rule.DataSource>
+    <DataSource Persistence="LaunchProfile" HasConfigurationCondition="False" ItemType="LaunchProfile" />
+  </Rule.DataSource>
+  <StringProperty Name="ExecutablePath" DisplayName="可执行文件" Description="要运行的可执行文件的路径。" Subtype="file" />
+  <StringProperty Name="CommandLineArguments" DisplayName="命令行参数" Description="要传递到可执行文件的命令行参数。" />
+  <StringProperty Name="WorkingDirectory" DisplayName="工作目录" Description="将在其中启动进程的工作目录的路径。" Subtype="folder" />
+  <BoolProperty Name="RemoteDebugEnabled" DisplayName="使用远程计算机" Description="指示调试器应附加到远程计算机上的进程。" />
+  <StringProperty Name="RemoteDebugMachine" DisplayName="远程计算机名称" Description="采用 &quot;name:port&quot; 格式的远程计算机的名称和端口号。">
+    <StringProperty.Metadata>
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>(has-evaluated-value "Executable" "RemoteDebugEnabled" true)</NameValuePair.Value>
+      </NameValuePair>
+      <NameValuePair Name="DependsOn" Value="Executable::RemoteDebugMachine" />
+    </StringProperty.Metadata>
+  </StringProperty>
+  <DynamicEnumProperty Name="AuthenticationMode" DisplayName="身份验证模式" Description="连接到远程计算机时要使用的身份验证方案。" EnumProvider="AuthenticationModeEnumProvider">
+    <DynamicEnumProperty.Metadata>
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>(has-evaluated-value "Executable" "RemoteDebugEnabled" true)</NameValuePair.Value>
+      </NameValuePair>
+      <NameValuePair Name="DependsOn" Value="Executable::RemoteDebugMachine" />
+    </DynamicEnumProperty.Metadata>
+  </DynamicEnumProperty>
+  <StringProperty Name="EnvironmentVariables" DisplayName="环境变量" Description="在运行进程之前要设置的环境变量。变量由逗号(,)分隔，变量名称和值以等号(=)分隔。示例: var1=value1,var2=value2,var3=value3。变量中出现的逗号和等号可使用正斜杠(/)进行转义。" />
+  <BoolProperty Name="NativeDebugging" DisplayName="启用本机代码调试" Description="启用对托管代码和本机代码的调试，这也被称为混合模式调试。" />
+  <BoolProperty Name="SqlDebugging" DisplayName="启用 SQL Server 调试" Description="启用 SQL 脚本和存储过程的调试。" />
+  <BoolProperty Name="WebView2Debugging" DisplayName="启用 WebView2 调试" Description="为基于 Microsoft Edge (Chromium)的 WebView2 启用 JavaScript 调试器。需要 JavaScript 诊断组件。" />
+</Rule>

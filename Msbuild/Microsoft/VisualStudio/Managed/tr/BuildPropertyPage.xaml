@@ -1,0 +1,251 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information. -->
+<Rule Name="Build" Description="Projenin nasıl derleneceğini denetleyen özellikleri belirtir." DisplayName="Derleme" PageTemplate="generic" Order="200" xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <Rule.Categories>
+    <Category Name="General" DisplayName="Genel" />
+    <Category Name="ErrorsAndWarnings" Description="Derleme işlemi için hata ve uyarı seçeneklerini yapılandırır." DisplayName="Hatalar ve uyarılar" />
+    <Category Name="Output" Description="Derleme işlemi için çıkış seçeneklerini yapılandırır." DisplayName="Çıkış" />
+    <Category Name="Events" Description="Derlemeden önce ve sonra çalıştırılan özel olayları yapılandırır." DisplayName="Olaylar" />
+    <Category Name="StrongNaming" Description="Derleme çıktılarının tanımlayıcı ad imzasını yapılandırır." DisplayName="Tanımlayıcı adlandırma" />
+    <Category Name="Advanced" DisplayName="Gelişmiş" Description="Uygulamanın gelişmiş ayarları." />
+  </Rule.Categories>
+  <Rule.DataSource>
+    <DataSource Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" HasConfigurationCondition="True" />
+  </Rule.DataSource>
+  <StringProperty Name="DefineConstants" DisplayName="Koşullu derleme sembolleri" Description="Üzerinde koşullu derlemenin gerçekleştirileceği sembolleri belirtir. Sembolleri noktalı virgülle (';') ayırın." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147079" Category="General" />
+  <DynamicEnumProperty Name="PlatformTarget" DisplayName="Platform target" Description="Specifies the processor to be targeted by the output file. Choose 'Any CPU' to specify that any processor is acceptable, allowing the application to run on the broadest range of hardware." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147129" Category="General" EnumProvider="PlatformTargetEnumProvider" MultipleValuesAllowed="False">
+    <DynamicEnumProperty.DataSource>
+      <DataSource Persistence="ProjectFileWithInterception" HasConfigurationCondition="False" />
+    </DynamicEnumProperty.DataSource>
+  </DynamicEnumProperty>
+  <EnumProperty Name="Nullable" DisplayName="Null atanabilir" Description="Proje genelinde C# null atanabilir bağlamını belirtir. Yalnızca C# 8.0 veya üzerini kullanan projeler için kullanılabilir." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2146796" Category="General">
+    <EnumProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" />
+    </EnumProperty.DataSource>
+    <EnumProperty.Metadata>
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>(has-csharp-lang-version-or-greater "8.0")</NameValuePair.Value>
+      </NameValuePair>
+    </EnumProperty.Metadata>
+    <EnumValue Name="disable" DisplayName="Devre dışı bırak" />
+    <EnumValue Name="enable" DisplayName="Etkinleştir" />
+    <EnumValue Name="warnings" DisplayName="Uyarılar" />
+    <EnumValue Name="annotations" DisplayName="Ek Açıklamalar" />
+  </EnumProperty>
+  <BoolProperty Name="ImplicitUsings" DisplayName="Örtük genel kullanımlar" Description="Proje SDK'sı tarafından bildirilmiş örtük genel kullanımları etkinleştir." Category="General">
+    <BoolProperty.DataSource>
+      <DataSource Persistence="ProjectFileWithInterception" SourceOfDefaultValue="AfterContext" HasConfigurationCondition="False" />
+    </BoolProperty.DataSource>
+    <BoolProperty.Metadata>
+      <NameValuePair Name="SearchTerms" Value="örtük" />
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>(has-csharp-lang-version-or-greater "10")</NameValuePair.Value>
+      </NameValuePair>
+    </BoolProperty.Metadata>
+  </BoolProperty>
+  <BoolProperty Name="Prefer32Bit" DisplayName="32 biti tercih et" Description="Hem 32 bit hem de 64 bit uygulamaları destekleyen sistemlerde 32 bit modunda çalıştırın." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2166468" Category="General">
+    <BoolProperty.Metadata>
+      <NameValuePair Name="DependsOn" Value="Build::PlatformTarget" />
+      <NameValuePair Name="DependsOn" Value="Application::OutputType" />
+      <NameValuePair Name="VisibilityCondition">
+        <!-- Visibility based on: https://github.com/dotnet/msbuild/blob/9bcc06cbe19ae2482ab18eab90a82fd079b26897/src/Tasks/Microsoft.NETFramework.CurrentVersion.props#L87 -->
+        <NameValuePair.Value>
+          (and
+            (has-net-framework)
+            (has-evaluated-value "Build" "PlatformTarget" "AnyCPU")
+            (or
+              (has-evaluated-value "Application" "OutputType" "Exe")
+              (has-evaluated-value "Application" "OutputType" "WinExe")
+              (has-evaluated-value "Application" "OutputType" "AppContainerExe")
+            )
+          )
+        </NameValuePair.Value>
+      </NameValuePair>
+    </BoolProperty.Metadata>
+  </BoolProperty>
+  <!-- Localization Notice: 'unsafe' is used as a keyword in the description and should not be translated -->
+  <BoolProperty Name="AllowUnsafeBlocks" DisplayName="Güvenli olmayan kod" Description="'güvenli olmayan' anahtar sözcüğü kullanan kodun derlenmesine izin verin." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2146797" Category="General">
+    <BoolProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" />
+    </BoolProperty.DataSource>
+    <BoolProperty.Metadata>
+      <NameValuePair Name="SearchTerms" Value="işaretçiler" />
+    </BoolProperty.Metadata>
+  </BoolProperty>
+  <BoolProperty Name="Optimize" DisplayName="Kodu iyileştir" Description="Daha küçük, daha hızlı ve daha verimli çıktılar için derleyici iyileştirmelerini etkinleştirin." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147080" Category="General">
+    <BoolProperty.Metadata>
+      <NameValuePair Name="SearchTerms" Value="optimize et;optimizasyon" />
+    </BoolProperty.Metadata>
+  </BoolProperty>
+  <EnumProperty Name="DebugType" DisplayName="Hata ayıklama sembolleri" Description="Derleme sırasında oluşturulan hata ayıklama sembollerinin türünü belirtir." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2173089" Category="General">
+    <EnumProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" Persistence="ProjectFileWithInterception" />
+    </EnumProperty.DataSource>
+    <EnumProperty.Metadata>
+      <NameValuePair Name="SearchTerms" Value="hata ayıklama türü" />
+    </EnumProperty.Metadata>
+    <EnumValue Name="none" DisplayName="Sembol gösterilmiyor" />
+    <!--
+    Note that 'pdbonly' is the same as 'full'.
+    <EnumValue Name="pdbonly"
+               DisplayName="PDB Only" />
+    -->
+    <EnumValue Name="full" DisplayName="PDB dosyası, geçerli platform" />
+    <EnumValue Name="portable" DisplayName="PDB dosyası, platformlar arasında taşınabilir" />
+    <EnumValue Name="embedded" DisplayName="DLL/EXE içine gömülü, platformlar arasında taşınabilir" />
+  </EnumProperty>
+  <EnumProperty Name="WarningLevel" DisplayName="Uyarı düzeyi" Description="Derleyici uyarılarını görüntüleme düzeyini belirtir." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2146798" Category="ErrorsAndWarnings">
+    <EnumValue Name="0" DisplayName="0" />
+    <EnumValue Name="1" DisplayName="1" />
+    <EnumValue Name="2" DisplayName="2" />
+    <EnumValue Name="3" DisplayName="3" />
+    <EnumValue Name="4" DisplayName="4" />
+    <EnumValue Name="5" DisplayName="5" />
+  </EnumProperty>
+  <StringProperty Name="NoWarn" DisplayName="Uyarıları Gizle" Description="Derleyicinin bir veya daha fazla uyarı oluşturulabilmesini engeller. Birden çok uyarı numarasını virgül (',') veya noktalı virgül (';') ile ayırın." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147300" Category="ErrorsAndWarnings" />
+  <BoolProperty Name="TreatWarningsAsErrors" HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147301" DisplayName="Uyarıları hata olarak değerlendir" Description="Derleyicinin uyarıları hata olarak değerlendirmesini sağlayın." Category="ErrorsAndWarnings">
+    <BoolProperty.DataSource>
+      <DataSource Persistence="ProjectFileWithInterception" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+  <StringProperty Name="WarningsAsErrors" DisplayName="Belirli uyarıları hata olarak değerlendir" HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147301" Description="Belirtilen uyarıları hata olarak değerlendirir. Birden çok uyarı numarasını virgül (',') veya noktalı virgül (';') ile ayırın." Category="ErrorsAndWarnings">
+    <StringProperty.Metadata>
+      <NameValuePair Name="DependsOn" Value="Build::TreatWarningsAsErrors" />
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>(has-evaluated-value "Build" "TreatWarningsAsErrors" false)</NameValuePair.Value>
+      </NameValuePair>
+    </StringProperty.Metadata>
+  </StringProperty>
+  <StringProperty Name="WarningsNotAsErrors" DisplayName="Belirli uyarıları hata olarak değerlendirilme dışında tut" HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147301" Description="Belirtilen uyarıları hata olarak değerlendirmenin dışında tutar. Birden çok uyarı numarasını virgül (',') veya noktalı virgül (';') ile ayırın." Category="ErrorsAndWarnings">
+    <StringProperty.Metadata>
+      <NameValuePair Name="DependsOn" Value="Build::TreatWarningsAsErrors" />
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>(has-evaluated-value "Build" "TreatWarningsAsErrors" true)</NameValuePair.Value>
+      </NameValuePair>
+    </StringProperty.Metadata>
+  </StringProperty>
+  <StringProperty Name="BaseOutputPath" DisplayName="Temel çıkış yolu" Description="Derleme sırasında projenin çıkışı için temel konumu belirtir. Proje yapılandırmasını ayırt etmek için bu yola alt klasörler eklenir." Category="Output" Subtype="directory">
+    <StringProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="BaseIntermediateOutputPath" DisplayName="Temel ara çıkış yolu" Description="Derleme sırasında projenin ara çıkışı için temel konumu belirtir. Proje yapılandırmasını ayırt etmek için bu yola alt klasörler eklenir." Category="Output" Subtype="directory">
+    <StringProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <BoolProperty Name="ProduceReferenceAssembly" DisplayName="Başvuru bütünleştirilmiş kodu" Description="Projenin genel API'sini içeren bir başvuru bütünleştirilmiş kodu oluşturun." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2166115" Category="Output">
+    <BoolProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+  <BoolProperty Name="GenerateDocumentationFile" DisplayName="Belge dosyası" Description="API belgelerini içeren bir dosya oluşturun." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2165772" Category="Output">
+    <BoolProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" />
+    </BoolProperty.DataSource>
+    <BoolProperty.Metadata>
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>(has-project-capability "GenerateDocumentationFile")</NameValuePair.Value>
+      </NameValuePair>
+    </BoolProperty.Metadata>
+  </BoolProperty>
+  <!-- TODO consider removing this property from the UI altogether -->
+  <StringProperty Name="DocumentationFile" DisplayName="XML belgeleri dosya yolu" Description="API belge dosyası için isteğe bağlı yol. Varsayılan konumu kullanmak için boş bırakın." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147081" Category="Output" Subtype="file">
+    <StringProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" />
+    </StringProperty.DataSource>
+    <StringProperty.Metadata>
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>(has-evaluated-value "Build" "GenerateDocumentationFile" true)</NameValuePair.Value>
+      </NameValuePair>
+    </StringProperty.Metadata>
+  </StringProperty>
+  <StringProperty Name="PreBuildEvent" DisplayName="Derleme öncesi olayı" Description="Derleme başlamadan önce çalıştırılan komutları belirtir. Proje güncelse çalıştırmayın. Sıfır olmayan bir çıkış kodu derlemeyi çalıştırılmadan önce başarısız kılar." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2165773" Category="Events">
+    <StringProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" Persistence="ProjectFileWithInterception" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+    <StringProperty.ValueEditors>
+      <ValueEditor EditorType="MultiLineString">
+        <ValueEditor.Metadata>
+          <NameValuePair Name="UseMonospaceFont" Value="True" />
+        </ValueEditor.Metadata>
+      </ValueEditor>
+    </StringProperty.ValueEditors>
+  </StringProperty>
+  <StringProperty Name="PostBuildEvent" DisplayName="Derleme sonrası olayı" Description="Derleme tamamlandıktan sonra çalıştırılan komutları belirtir. Derleme başarısız olursa çalıştırmayın. Bat dosyalarını çağırmak için “Çağrı” işlevini kullanın. Sıfır olmayan bir çıkış kodu derlemeyi başarısız kılar." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2165773" Category="Events">
+    <StringProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" Persistence="ProjectFileWithInterception" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+    <StringProperty.ValueEditors>
+      <ValueEditor EditorType="MultiLineString">
+        <ValueEditor.Metadata>
+          <NameValuePair Name="UseMonospaceFont" Value="True" />
+        </ValueEditor.Metadata>
+      </ValueEditor>
+    </StringProperty.ValueEditors>
+  </StringProperty>
+  <EnumProperty Name="RunPostBuildEvent" DisplayName="Derleme sonrası olayının çalıştırılacağı zaman" Description="Derleme sonrası olayının hangi koşulda yürütüleceğini belirtir." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2165773" Category="Events">
+    <EnumProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" PersistedName="RunPostBuildEvent" Persistence="ProjectFileWithInterception" SourceOfDefaultValue="AfterContext" />
+    </EnumProperty.DataSource>
+    <EnumValue Name="Always" DisplayName="Her Zaman" />
+    <EnumValue Name="OnBuildSuccess" DisplayName="Derleme başarılı olduğunda" IsDefault="True" />
+    <EnumValue Name="OnOutputUpdated" DisplayName="Çıkış güncelleştirildiğinde" />
+  </EnumProperty>
+  <BoolProperty Name="SignAssembly" Description="Daha güçlü bir ad vermek için çıkış bütünleştirilmiş kodunu imzalayın." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147136" DisplayName="Bütünleştirilmiş kodu imzala" Category="StrongNaming">
+    <BoolProperty.DataSource>
+      <DataSource Persistence="ProjectFileWithInterception" SourceOfDefaultValue="BeforeContext" HasConfigurationCondition="False" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+  <StringProperty Name="AssemblyOriginatorKeyFile" DisplayName="Tanımlayıcı ad anahtar dosyası" Category="StrongNaming" Subtype="file">
+    <StringProperty.Metadata>
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>(has-evaluated-value "Build" "SignAssembly" true)</NameValuePair.Value>
+      </NameValuePair>
+    </StringProperty.Metadata>
+    <StringProperty.DataSource>
+      <DataSource Persistence="ProjectFileWithInterception" SourceOfDefaultValue="BeforeContext" HasConfigurationCondition="False" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <BoolProperty Name="DelaySign" Description="Özel anahtara erişim kısıtlandığında gecikmeli imzalamayı kullanın. Ortak anahtar, bütünleştirilmiş kod devredilene kadar ertelenen özel anahtar bilgilerinin derlenip eklenmesi sırasında kullanılır." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147243" DisplayName="Yalnızca gecikmeli imzala" Category="StrongNaming">
+    <BoolProperty.Metadata>
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>(has-evaluated-value "Build" "SignAssembly" true)</NameValuePair.Value>
+      </NameValuePair>
+    </BoolProperty.Metadata>
+    <BoolProperty.DataSource>
+      <DataSource Persistence="ProjectFileWithInterception" SourceOfDefaultValue="BeforeContext" HasConfigurationCondition="False" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+  <StringProperty Name="LangVersion" DisplayName="Dil sürümü" Description="Bu projede kod için kullanılabilen dilin sürümü." HelpUrl="https://aka.ms/csharp-versions" ReadOnly="true" Category="Advanced">
+    <StringProperty.ValueEditors>
+      <ValueEditor EditorType="String">
+        <ValueEditor.Metadata>
+          <NameValuePair Name="ShowEvaluatedPreviewOnly" Value="True" />
+        </ValueEditor.Metadata>
+      </ValueEditor>
+    </StringProperty.ValueEditors>
+  </StringProperty>
+  <BoolProperty Name="CheckForOverflowUnderflow" DisplayName="Aritmetik taşmayı denetle" Description="Tamsayı aritmetiği aralık dışında değerler oluşturduğunda özel durumları atın." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2166113" Category="Advanced">
+    <BoolProperty.Metadata>
+      <NameValuePair Name="SearchTerms" Value="işaretli;işaretlenmemiş" />
+    </BoolProperty.Metadata>
+  </BoolProperty>
+  <BoolProperty Name="Deterministic" DisplayName="Belirlenimci" Description="Aynı girdiler için aynı derleme çıktıları oluşturun." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2165770" Category="Advanced" />
+  <EnumProperty Name="ErrorReport" DisplayName="Derleyici iç hatası raporlama" Description="İç derleyici hatası (ICE) raporlarını Microsoft'a gönderin." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2165771" Category="Advanced">
+    <EnumProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" />
+    </EnumProperty.DataSource>
+    <EnumValue Name="none" DisplayName="Hiçbir zaman gönderme" />
+    <EnumValue Name="prompt" DisplayName="Göndermeden önce sor" />
+    <EnumValue Name="queue" DisplayName="Kuyruk" />
+    <EnumValue Name="send" DisplayName="Gönder" />
+  </EnumProperty>
+  <EnumProperty Name="FileAlignment" DisplayName="Dosya hizalama" Description="Çıkış dosyasının bölümlerinin hizalanacağı konumu bayt olarak belirtir." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2166114" Category="Advanced">
+    <EnumValue Name="512" DisplayName="512" />
+    <EnumValue Name="1024" DisplayName="1024" />
+    <EnumValue Name="2048" DisplayName="2048" />
+    <EnumValue Name="4096" DisplayName="4096" />
+    <EnumValue Name="8192" DisplayName="8192" />
+  </EnumProperty>
+</Rule>

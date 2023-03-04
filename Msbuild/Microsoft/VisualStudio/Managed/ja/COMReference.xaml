@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information. -->
+<Rule Name="ComReference" Description="COM 参照のプロパティ" DisplayName="COM 参照" PageTemplate="generic" xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <Rule.DataSource>
+    <DataSource HasConfigurationCondition="False" ItemType="COMReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+  </Rule.DataSource>
+  <StringListProperty Name="Aliases" Description="この参照へのエイリアスのコンマ区切りのリストです。" DisplayName="エイリアス" Separator=",">
+    <StringListProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="COMReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </StringListProperty.DataSource>
+  </StringListProperty>
+  <BoolProperty Name="CopyLocal" Description="参照が出力ディレクトリにコピーされるかどうかを示します。" DisplayName="ローカルにコピー">
+    <BoolProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="COMReference" PersistedName="Private" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+  <BoolProperty Name="EmbedInteropTypes" Description="このアセンブリ内で定義される型をターゲット アセンブリに埋め込むかどうかを示します。" DisplayName="相互運用型の埋め込み">
+    <BoolProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="COMReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+  <StringProperty Name="Guid" Description="COM サーバーの GUID です。" DisplayName="CLSID" />
+  <StringProperty Name="Identity" Description="参照されたアセンブリのセキュリティ ID です。System.Reflection.Assembly.Evidence または System.Security.Policy.Evidence を参照してください。" DisplayName="ID" ReadOnly="True">
+    <StringProperty.DataSource>
+      <DataSource PersistedName="{}{Identity}" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="IsImplicitlyDefined" ReadOnly="True" Visible="False" />
+  <BoolProperty Name="Isolated" DisplayName="Isolated" />
+  <StringProperty Name="Lcid" Description="COM サーバーの LCID です。" DisplayName="ロケール" />
+  <IntProperty Name="VersionMajor" DisplayName="メジャー バージョン" />
+  <IntProperty Name="VersionMinor" DisplayName="マイナー バージョン" />
+  <BoolProperty Name="Visible" ReadOnly="True" Visible="False" />
+  <StringProperty Name="WrapperTool" DisplayName="ラッパー ツール" />
+  <!-- NOTE this property will never be populated for unresolved items, but is included to make the UI consistent -->
+  <StringProperty Name="ResolvedPath" DisplayName="パス" Description="参照されているファイルの場所です。" ReadOnly="True" />
+  <!-- NOTE this property will never be populated for unresolved items, but is included to make the UI consistent -->
+  <StringProperty Name="Version" DisplayName="バージョン" Description="参照のバージョンです。" ReadOnly="True" />
+</Rule>

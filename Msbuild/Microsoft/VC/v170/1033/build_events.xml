@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--Copyright, Microsoft Corporation, All rights reserved.-->
+<Rule Name="ConfigurationBuildEvents" 
+      DisplayName="Build Events" 
+      PageTemplate="tool" 
+      Order="90"
+      xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <Rule.DataSource>
+    <DataSource Persistence="ProjectFile" HasConfigurationCondition="true" />
+  </Rule.DataSource>
+  <Rule.Categories>
+    <Category Name="PreBuild" DisplayName="Pre-Build Event"/>
+    <Category Name="PreLink" DisplayName="Pre-Link Event"/>
+    <Category Name="PostBuild" DisplayName="Post-Build Event"/>
+  </Rule.Categories>
+  <StringProperty Name="PreBuildCommand"
+                  Category="PreBuild"
+                  DisplayName="Command Line"
+                  Description="Specifies a command line for the pre-build event tool to run."
+                  F1Keyword="VC.Project.IVCEventTool.CommandLine">
+    <StringProperty.ValueEditors>
+      <ValueEditor EditorType="DefaultCommandPropertyEditor" DisplayName="&lt;Edit...&gt;"/>
+    </StringProperty.ValueEditors>
+    <StringProperty.DataSource>
+      <DataSource Persistence="ProjectFile" HasConfigurationCondition="true" ItemType="PreBuildEvent" PersistedName="Command" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="PreBuildMessage" Category="PreBuild" DisplayName="Description" Description="Specifies a description for the pre-build event tool to display." F1Keyword="VC.Project.IVCEventTool.Description">
+    <StringProperty.DataSource>
+      <DataSource Persistence="ProjectFile" HasConfigurationCondition="true" ItemType="PreBuildEvent" PersistedName="Message" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <BoolProperty Name="PreBuildEventUseInBuild" Category="PreBuild" DisplayName="Use In Build" Description="Specifies whether this build event is excluded from the build for the current configuration." F1Keyword="VC.Project.IVCEventTool.ExcludedFromBuild">
+  </BoolProperty>
+
+  <StringProperty Name="PreLinkCommand" Category="PreLink" DisplayName="Command Line" Description="Specifies a command line for the pre-link event tool to run." F1Keyword="VC.Project.IVCEventTool.CommandLine">
+    <StringProperty.ValueEditors>
+      <ValueEditor EditorType="DefaultCommandPropertyEditor" DisplayName="&lt;Edit...&gt;"/>
+    </StringProperty.ValueEditors>
+    <StringProperty.DataSource>
+      <DataSource Persistence="ProjectFile" HasConfigurationCondition="true" ItemType="PreLinkEvent" PersistedName="Command" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="PreLinkMessage" Category="PreLink" DisplayName="Description" Description="Specifies a description for the pre-link event tool to display." F1Keyword="VC.Project.IVCEventTool.Description">
+    <StringProperty.DataSource>
+      <DataSource Persistence="ProjectFile" HasConfigurationCondition="true" ItemType="PreLinkEvent" PersistedName="Message" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <BoolProperty Name="PreLinkEventUseInBuild" Category="PreLink" DisplayName="Use In Build" Description="Specifies whether this build event is excluded from the build for the current configuration." F1Keyword="VC.Project.IVCEventTool.ExcludedFromBuild">
+  </BoolProperty>
+
+  <StringProperty Name="PostBuildCommand" Category="PostBuild" DisplayName="Command Line" Description="Specifies a command line for the post-build event tool to run." F1Keyword="VC.Project.IVCEventTool.CommandLine">
+    <StringProperty.ValueEditors>
+      <ValueEditor EditorType="DefaultCommandPropertyEditor" DisplayName="&lt;Edit...&gt;"/>
+    </StringProperty.ValueEditors>
+    <StringProperty.DataSource>
+      <DataSource Persistence="ProjectFile" HasConfigurationCondition="true" ItemType="PostBuildEvent" PersistedName="Command" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="PostBuildMessage" Category="PostBuild" DisplayName="Description" Description="Specifies a description for the post-build event tool to display." F1Keyword="VC.Project.IVCEventTool.Description">
+    <StringProperty.DataSource>
+      <DataSource Persistence="ProjectFile" HasConfigurationCondition="true" ItemType="PostBuildEvent" PersistedName="Message" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <BoolProperty Name="PostBuildEventUseInBuild" Category="PostBuild" DisplayName="Use In Build" Description="Specifies whether this build event is excluded from the build for the current configuration." F1Keyword="VC.Project.IVCEventTool.ExcludedFromBuild">
+  </BoolProperty>
+</Rule>

@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information. -->
+<Rule Name="ExecutableDebugPropertyPage" Description="Belirtilen yürütülebilir dosyayı başlatma ve hata ayıklama ile ilişkili özellikler." DisplayName="Yürütülebilir" PageTemplate="commandNameBasedDebugger" xmlns:sys="clr-namespace:System;assembly=mscorlib" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <Rule.Metadata>
+    <sys:String x:Key="CommandName">Executable</sys:String>
+    <!-- KnownImageIds.ImageCatalogGuid -->
+    <sys:Guid x:Key="ImageMonikerGuid">AE27A6B0-E345-4288-96DF-5EAF394EE369</sys:Guid>
+    <!-- KnownImageIds.Execute -->
+    <sys:Int32 x:Key="ImageMonikerId">1173</sys:Int32>
+  </Rule.Metadata>
+  <Rule.DataSource>
+    <DataSource Persistence="LaunchProfile" HasConfigurationCondition="False" ItemType="LaunchProfile" />
+  </Rule.DataSource>
+  <StringProperty Name="ExecutablePath" DisplayName="Yürütülebilir" Description="Çalıştırılacak yürütülebilir dosyanın yolu." Subtype="file" />
+  <StringProperty Name="CommandLineArguments" DisplayName="Komut satırı bağımsız değişkenleri" Description="Yürütülebilir dosyaya geçirilecek komut satırı bağımsız değişkenleri." />
+  <StringProperty Name="WorkingDirectory" DisplayName="Çalışma dizini" Description="İşlemin başlatılacağı çalışma dizininin yolu." Subtype="folder" />
+  <BoolProperty Name="RemoteDebugEnabled" DisplayName="Uzak makine kullan" Description="Hata ayıklayıcının uzak makinedeki bir işleme eklenmesi gerektiğini belirtir." />
+  <StringProperty Name="RemoteDebugMachine" DisplayName="Uzak makine adı" Description="Uzak makinenin 'ad:bağlantı noktası' biçimindeki adı ve bağlantı noktası numarası.">
+    <StringProperty.Metadata>
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>(has-evaluated-value "Executable" "RemoteDebugEnabled" true)</NameValuePair.Value>
+      </NameValuePair>
+      <NameValuePair Name="DependsOn" Value="Executable::RemoteDebugMachine" />
+    </StringProperty.Metadata>
+  </StringProperty>
+  <DynamicEnumProperty Name="AuthenticationMode" DisplayName="Kimlik doğrulaması modu" Description="Uzak makineye bağlanırken kullanılacak kimlik doğrulaması düzeni." EnumProvider="AuthenticationModeEnumProvider">
+    <DynamicEnumProperty.Metadata>
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>(has-evaluated-value "Executable" "RemoteDebugEnabled" true)</NameValuePair.Value>
+      </NameValuePair>
+      <NameValuePair Name="DependsOn" Value="Executable::RemoteDebugMachine" />
+    </DynamicEnumProperty.Metadata>
+  </DynamicEnumProperty>
+  <StringProperty Name="EnvironmentVariables" DisplayName="Ortam değişkenleri" Description="İşlemi çalıştırmadan önce ayarlanacak ortam değişkenleri. Bağımız değişkenler virgülle (,), değişken adları ve değerleri eşittir işaretiyle (=) ayrılır. Örnek: değişken1=değer1,değişken2=değer2,değişken3=değer3. Bağımsız değişkenlerdeki virgül ve eşittir işaretleri için kaçış karakteri olarak eğik çizgi (/) kullanabilirsiniz." />
+  <BoolProperty Name="NativeDebugging" DisplayName="Yerel kod üzerinde hata ayıklamayı etkinleştir" Description="Yönetilen ve yerel kod için birlikte hata ayıklamayı (karma mod hata ayıklama olarak da bilinir) etkinleştirin." />
+  <BoolProperty Name="SqlDebugging" DisplayName="SQL Server hata ayıklamasını etkinleştir" Description="SQL komut dosyaları ve saklı yordamlar için hata ayıklamayı etkinleştirin." />
+  <BoolProperty Name="WebView2Debugging" DisplayName="WebView2 hata ayıklamayı etkinleştir" Description="Microsoft Edge (Chromium) tabanlı WebView2 için JavaScript hata ayıklayıcısını etkinleştir. JavaScript Tanılama bileşenini gerektirir." />
+</Rule>

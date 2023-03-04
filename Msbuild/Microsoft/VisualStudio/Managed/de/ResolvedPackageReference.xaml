@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information. -->
+<Rule Name="ResolvedPackageReference" Description="Paketverweiseigenschaften" DisplayName="Paketverweis" PageTemplate="generic" xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <Rule.DataSource>
+    <DataSource HasConfigurationCondition="False" ItemType="PackageReference" MSBuildTarget="ResolvePackageDependenciesDesignTime" Persistence="ResolvedReference" SourceOfDefaultValue="AfterContext" SourceType="TargetResults" />
+  </Rule.DataSource>
+  <StringListProperty Name="Aliases" Description="Eine durch Trennzeichen getrennte Liste von Aliasen für Assemblyverweise, die in diesem Paket enthalten sind." DisplayName="Aliase" Separator=",">
+    <StringListProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="PackageReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </StringListProperty.DataSource>
+  </StringListProperty>
+  <StringProperty Name="BrowsePath" ReadOnly="True" Visible="False">
+    <StringProperty.DataSource>
+      <DataSource PersistedName="Path" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="ExcludeAssets" Description="Aus diesem Verweis auszuschließende Ressourcen." DisplayName="Ausgeschlossene Assets">
+    <StringProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="PackageReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="DiagnosticLevel" ReadOnly="True" Visible="False" />
+  <BoolProperty Name="GeneratePathProperty" Description="Gibt an, ob eine MSBuild-Eigenschaft mit dem Speicherort des Stammverzeichnisses des Pakets generiert werden soll. Der Name der generierten Eigenschaft weist das Format &quot;Pkg[Paket-ID]&quot; auf, wobei &quot;[Paket-ID]&quot; der ID des Pakets entspricht. Hierbei müssen Punkte (.) jedoch durch Unterstriche (_) ersetzt werden." DisplayName="Pfadeigenschaft generieren">
+    <BoolProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="PackageReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+  <StringProperty Name="IncludeAssets" Description="In diesen Verweis einzuschließende Ressourcen." DisplayName="Enthaltene Ressourcen">
+    <StringProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="PackageReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="IsImplicitlyDefined" ReadOnly="True" Visible="False" />
+  <StringProperty Name="Name" ReadOnly="True" DisplayName="Name" />
+  <StringProperty Name="NoWarn" Description="Durch Trennzeichen getrennte Liste von Warnungen, die für dieses Paket unterdrückt werden sollen." DisplayName="Warnungen unterdrücken" Visible="True">
+    <StringProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="PackageReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="OriginalItemSpec" ReadOnly="True" Visible="False" />
+  <StringProperty Name="Path" Description="Speicherort des Pakets, auf das verwiesen wird." ReadOnly="True" DisplayName="Pfad" />
+  <StringProperty Name="PrivateAssets" Description="Private Ressourcen in diesem Verweis." DisplayName="Private Objekte">
+    <StringProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="PackageReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <!-- NOTE since 16.7 the SDK only returns "Package" items, however we keep this field to allow filtering in the case a user explicitly uses an older SDK version -->
+  <StringProperty Name="Type" ReadOnly="True" Visible="False" />
+  <StringProperty Name="Version" Description="Version der Abhängigkeit." DisplayName="Version" ReadOnly="True">
+    <StringProperty.DataSource>
+      <DataSource PersistenceStyle="Attribute" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <BoolProperty Name="Visible" ReadOnly="True" Visible="False" />
+  <BoolProperty Name="TreatAsUsed" ReadOnly="True" Visible="False" />
+</Rule>

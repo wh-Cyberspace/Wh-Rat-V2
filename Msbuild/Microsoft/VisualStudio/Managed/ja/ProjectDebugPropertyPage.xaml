@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information. -->
+<Rule Name="ProjectDebugPropertyPage" Description="プロジェクト出力の起動とデバッグに関連付けられたプロパティ。" DisplayName="プロジェクト" PageTemplate="commandNameBasedDebugger" xmlns:sys="clr-namespace:System;assembly=mscorlib" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <Rule.Metadata>
+    <sys:String x:Key="CommandName">Project</sys:String>
+    <!-- KnownImageIds.ImageCatalogGuid -->
+    <sys:Guid x:Key="ImageMonikerGuid">AE27A6B0-E345-4288-96DF-5EAF394EE369</sys:Guid>
+    <!-- KnownImageIds.Application -->
+    <sys:Int32 x:Key="ImageMonikerId">165</sys:Int32>
+  </Rule.Metadata>
+  <Rule.DataSource>
+    <DataSource Persistence="LaunchProfile" HasConfigurationCondition="False" ItemType="LaunchProfile" />
+  </Rule.DataSource>
+  <StringProperty Name="CommandLineArguments" DisplayName="コマンド ライン引数" Description="実行可能ファイルに渡すコマンド ライン引数。" />
+  <StringProperty Name="WorkingDirectory" DisplayName="作業ディレクトリ" Description="プロセスが開始される作業ディレクトリへのパス。" Subtype="folder" />
+  <BoolProperty Name="RemoteDebugEnabled" DisplayName="リモート マシンを使用する" Description="リモート マシン上のプロセスにデバッガーをアタッチする必要があることを示します。" />
+  <StringProperty Name="RemoteDebugMachine" DisplayName="リモート マシン名" Description="'name:port' 形式のリモート マシンの名前とポート番号。">
+    <StringProperty.Metadata>
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>(has-evaluated-value "Project" "RemoteDebugEnabled" true)</NameValuePair.Value>
+      </NameValuePair>
+      <NameValuePair Name="DependsOn" Value="Project::RemoteDebugMachine" />
+    </StringProperty.Metadata>
+  </StringProperty>
+  <DynamicEnumProperty Name="AuthenticationMode" DisplayName="認証モード" Description="リモート マシンへの接続時に使用する認証方式。" EnumProvider="AuthenticationModeEnumProvider">
+    <DynamicEnumProperty.Metadata>
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>(has-evaluated-value "Project" "RemoteDebugEnabled" true)</NameValuePair.Value>
+      </NameValuePair>
+      <NameValuePair Name="DependsOn" Value="Project::RemoteDebugMachine" />
+    </DynamicEnumProperty.Metadata>
+  </DynamicEnumProperty>
+  <StringProperty Name="EnvironmentVariables" DisplayName="環境変数" Description="プロセスを実行する前に設定する環境変数。変数はコンマ (,) で区切られ、変数名と値は等号 (=) で区切られます。例: var1=value1,var2=value2,var3=value3。変数内に表示されるコンマと等号は、スラッシュ (/) を使用してエスケープできます。" />
+  <BoolProperty Name="HotReloadEnabled" DisplayName="ホット リロードを有効にする" Description="実行中のアプリケーションにコードの変更を適用します。">
+    <BoolProperty.Metadata>
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>
+          (and
+            (has-project-capability "SupportsHotReload")
+            (not (has-evaluated-value "Project" "RemoteDebugEnabled" true)))</NameValuePair.Value>
+      </NameValuePair>
+    </BoolProperty.Metadata>
+  </BoolProperty>
+  <BoolProperty Name="NativeDebugging" DisplayName="ネイティブ コードのデバッグを有効にする" Description="マネージドおよびネイティブ コードのデバッグを同時に有効にします。これは、混合モード デバッグとも呼ばれます。" />
+  <BoolProperty Name="SqlDebugging" DisplayName="SQL Server デバッグを有効にする" Description="SQL スクリプトおよびストアド プロシージャのデバッグを有効にします。" />
+  <BoolProperty Name="WebView2Debugging" DisplayName="WebView2 デバッグを有効にする" Description="Microsoft Edge (Chromium) ベースの WebView2 の JavaScript デバッガーを有効にします。JavaScript 診断コンポーネントが必要です。" />
+</Rule>

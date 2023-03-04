@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--Copyright, Microsoft Corporation, All rights reserved.-->
+<Rule
+      Name="ConfigurationGeneral"
+      DisplayName="General"
+      PageTemplate="generic"
+      Description="General"
+      xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <Rule.Categories>
+    <Category Name="General" DisplayName="General" Description="General" />
+    <Category Name="ProjectDefaults" DisplayName="Project Defaults" Description="Project Defaults" />
+  </Rule.Categories>
+  <Rule.DataSource>
+    <DataSource Persistence="ProjectFile" Label="Configuration" />
+  </Rule.DataSource>
+  <StringProperty Name="OutDir" DisplayName="Output Directory"
+                  Description="Specifies a relative path to the output file directory; can include environment variables."
+                  Category="General" Default="$(SolutionDir)$(ConfigurationName)"
+                  Subtype="folder"
+                  F1Keyword="VC.Project.VCConfiguration.OutputDirectory">
+                  <StringProperty.DataSource>
+                     <DataSource Persistence="ProjectFile" Label="" />
+                  </StringProperty.DataSource>
+  </StringProperty>
+                  
+  <StringProperty Name="IntDir" DisplayName="Intermediate Directory"
+                  Description="Specifies a relative path to the intermediate file directory; can include environment variables."
+                  Category="General" Default="$(ConfigurationName)"
+                  Subtype="folder"
+                  F1Keyword="VC.Project.VCConfiguration.IntermediateDirectory">
+                  <StringProperty.DataSource>
+                     <DataSource Persistence="ProjectFile" Label="" />
+                  </StringProperty.DataSource>
+  </StringProperty>
+  <EnumProperty Name="ConfigurationType" DisplayName="Configuration Type"
+                Description="Specifies the type of output this configuration generates."
+                Category="ProjectDefaults"
+                F1Keyword="VC.Project.VCConfiguration.ConfigurationType">
+    <EnumValue Name="Makefile" DisplayName="Makefile" Description="Makefile" />
+    <EnumValue Name="Application" DisplayName="Application (.exe)" Description="Application (.exe)" />
+    <EnumValue Name="DynamicLibrary" DisplayName="Dynamic Library (.dll)" Description="Dynamic Library (.dll)" />
+    <EnumValue Name="StaticLibrary" DisplayName="Static library (.lib)" Description="Static Library (.lib)" />
+    <EnumValue Name="Utility" DisplayName="Utility" Description="Utility" />
+  </EnumProperty>
+
+  <EnumProperty Name="CLRSupport" DisplayName="Common Language Runtime Support"
+                Description="Select the Common Language Runtime support your code uses."
+                Category="ProjectDefaults"
+                F1Keyword="VC.Project.VCConfiguration.ManagedExtensions">
+    <EnumValue Name="false" DisplayName="No Common Language Runtime Support"
+               Description="No Common Language Runtime Support" />
+    <EnumValue Name="true" DisplayName="Common Language Runtime Support (/clr)"
+               Description="Common Language Runtime Support (/clr)"/>
+    <EnumValue Name="Pure" DisplayName="Pure MSIL Common Language Runtime Support (/clr:pure)"
+               Description="Pure MSIL Common Language Runtime Support (/clr:pure)" />
+    <EnumValue Name="Safe" DisplayName="Safe MSIL Common Language Runtime Support (/clr:safe)"
+               Description="Safe MSIL Common Language Runtime Support (/clr:safe)" />
+  </EnumProperty>
+  <StringProperty Name="TargetFrameworkVersion" DisplayName=".NET Target Framework Version"
+                Description="Version of the .NET Framework that is targeted by the project. This only applies if 'Common Language Runtime Support' is set."
+                ReadOnly="true"
+                Category="ProjectDefaults"
+                F1Keyword="VC.Project.TargetFrameworkVersion"/>
+
+  <StringProperty Name="BuildLogFile" DisplayName="Build Log File"
+                  Description="Specifies the build log file to write to when build logging is enabled."
+                  F1Keyword="VC.Project.VCConfiguration.BuildLogFile"
+                  Category="General" Default="$(ProjectDir)\$(MSBuildProjectName).log"
+                  Subtype="file">
+    <StringProperty.DataSource>
+      <DataSource Persistence="ProjectFile" ItemType="BuildLog" PersistedName="Path" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="_ProjectFileVersion" DisplayName="Project File Version"
+                Description="Specifies the version of the conversion tool used to create this project file."
+                Category="General" Visible="false">
+    <StringProperty.DataSource>
+      <DataSource Persistence="ProjectFile" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="ProjectGuid" Visible="False">
+    <StringProperty.DataSource>
+      <DataSource Persistence="ProjectFile" Label="Globals" HasConfigurationCondition="False" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <EnumProperty Name="UseOfMfc"  Visible="false">
+    <EnumValue Name="false" />
+    <EnumValue Name="Static" />
+    <EnumValue Name="Dynamic" />
+  </EnumProperty>
+  <EnumProperty Name="UseOfAtl" Visible="false">
+    <EnumValue Name="false" />
+    <EnumValue Name="Static" />
+    <EnumValue Name="Dynamic" />
+  </EnumProperty>
+  <EnumProperty Name="CharacterSet" Visible="false">
+    <EnumValue Name="NotSet" />
+    <EnumValue Name="Unicode" />
+    <EnumValue Name="MultiByte" />
+  </EnumProperty>
+  <StringProperty Name="PlatformToolset" Visible="False" />
+  <StringProperty Name="TargetFrameworkMoniker" Visible="false" />
+  <StringProperty Name="TargetPath" Visible="False" />
+  <StringProperty Name="MSBuildProjectDirectory" Visible="false" />
+  <StringProperty Name="PackageAction" Visible="false" Description="The MSBuild target to use when packaging a project." />
+  <StringProperty Name="DefaultContentType" Visible="false" Description="The default content type name to use when adding files." />
+  <StringProperty Name="VCInstallDir" Visible="false" />
+  <StringProperty Name="VCIDEInstallDir" Visible="false" />
+  <StringProperty Name="VSInstallDir" Visible="false" />
+  <StringProperty Name="Platform" Visible="false" />
+  <StringProperty Name="Configuration" Visible="false" />
+  <StringProperty Name="DebuggerSymbolsPath" Visible="false" />
+  <BoolProperty Name="WindowsAppContainer" Visible="false" />
+  <StringProperty Name="TargetPlatformVersion" Visible="false" />
+  <BoolProperty Name="UseDebugLibraries" Visible="false" />
+  <BoolProperty Name="EnableManagedIncrementalBuild" Visible="false" />
+  <StringProperty Name="AssemblySearchPaths" Visible="false" />
+  <StringProperty Name="DefaultPlatformToolset" Visible="false" />
+  <BoolProperty Name="EnableDesignTimeBuild" Visible="false" />
+  <BoolProperty Name="AppContainerApplication" Visible="false" />
+  <EnumProperty Name="TargetRuntime" Visible="false">
+    <EnumValue Name="Managed" />
+    <EnumValue Name="Native" />
+    <EnumValue Name="AppHost" DisplayName="Windows app" />
+  </EnumProperty>
+</Rule>

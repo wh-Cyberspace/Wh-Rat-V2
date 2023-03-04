@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.-->
+<Rule Name="EditorConfigFiles" Description="文件属性" DisplayName=".editorconfig 文件" PageTemplate="generic" PropertyPagesHidden="true" xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <Rule.Categories>
+    <Category Name="Advanced" DisplayName="高级" />
+    <Category Name="Misc" DisplayName="杂项" />
+  </Rule.Categories>
+  <Rule.DataSource>
+    <DataSource HasConfigurationCondition="False" ItemType="EditorConfigFiles" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+  </Rule.DataSource>
+  <DynamicEnumProperty Name="{}{ItemType}" Category="Advanced" Description="该文件与生成和部署过程的关系。" DisplayName="生成操作" EnumProvider="ItemTypes" />
+  <BoolProperty Name="AutoGen" Visible="false" />
+  <EnumProperty Name="CopyToOutputDirectory" Category="Advanced" Description="指定将源文件复制到输出目录。" DisplayName="复制到输出目录">
+    <EnumValue Name="Never" DisplayName="不复制" />
+    <EnumValue Name="Always" DisplayName="始终复制" />
+    <EnumValue Name="PreserveNewest" DisplayName="如果较新则复制" />
+  </EnumProperty>
+  <StringProperty Name="CustomTool" Visible="false">
+    <StringProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="EditorConfigFiles" PersistedName="Generator" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="CustomToolNamespace" Category="Advanced" Description="用于放置自定义工具的输出的命名空间。" DisplayName="自定义工具命名空间" />
+  <StringProperty Name="DependentUpon" Visible="false" />
+  <BoolProperty Name="DesignTime" Visible="false" />
+  <BoolProperty Name="DesignTimeSharedInput" Visible="false" />
+  <StringProperty Name="Extension" ReadOnly="true" Visible="False">
+    <StringProperty.DataSource>
+      <DataSource ItemType="EditorConfigFiles" PersistedName="Extension" Persistence="Intrinsic" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="FileNameAndExtension" Category="Misc" Description="文件或文件夹的名称。" DisplayName="文件名" ReadOnly="true">
+    <StringProperty.DataSource>
+      <DataSource ItemType="EditorConfigFiles" PersistedName="FileNameAndExtension" Persistence="Intrinsic" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="FullPath" Category="Misc" Description="文件位置。" DisplayName="完整路径" ReadOnly="true">
+    <StringProperty.DataSource>
+      <DataSource ItemType="EditorConfigFiles" PersistedName="FullPath" Persistence="Intrinsic" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="Generator" Category="Advanced" Description="指定一个工具，该工具在设计时转换文件，并将该转换的输出放在另一个文件中。例如，数据集(.xsd)文件附带默认自定义工具。" DisplayName="自定义工具" />
+  <StringProperty Name="Identity" ReadOnly="true" Visible="false">
+    <StringProperty.DataSource>
+      <DataSource ItemType="EditorConfigFiles" PersistedName="Identity" Persistence="Intrinsic" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="LastGenOutput" Visible="false" />
+  <StringProperty Name="Link" Visible="false">
+    <StringProperty.DataSource>
+      <DataSource PersistenceStyle="Attribute" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <EnumProperty Name="SubType" Visible="false">
+    <EnumProperty.DataSource>
+      <DataSource Persistence="DesignTimeItemPropertiesStorage" ItemType="EditorConfigFiles" PersistedName="SubType" HasConfigurationCondition="false" />
+    </EnumProperty.DataSource>
+    <EnumValue Name="Designer" />
+    <EnumValue Name="Component" />
+    <EnumValue Name="UserControl" />
+    <EnumValue Name="Form" />
+    <EnumValue Name="Code" />
+  </EnumProperty>
+  <StringProperty Name="URL" ReadOnly="true" Visible="false">
+    <StringProperty.DataSource>
+      <DataSource ItemType="EditorConfigFiles" PersistedName="FullPath" Persistence="Intrinsic" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <BoolProperty Name="Visible" Visible="false" />
+</Rule>

@@ -1,0 +1,18 @@
+<!--
+***********************************************************************************************
+Microsoft.TypeScript.DNX.targets
+
+WARNING:  DO NOT MODIFY this file unless you are knowledgeable about MSBuild and have
+          created a backup copy.  Incorrect changes to this file will make it
+          impossible to load or build your web deploy projects from the command-line or the IDE.
+
+This file defines the changes to the standard TypeScript build process for TypeScript files in DNX projects.
+
+Copyright (C) Microsoft Corporation. All rights reserved.
+***********************************************************************************************
+-->
+<!--
+NOTE:
+  This file is left in the product since it's referenced in existing projects,
+  so removing it would cause these projects to fail to load.
+-->

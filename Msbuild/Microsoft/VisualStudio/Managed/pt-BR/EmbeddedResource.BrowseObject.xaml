@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.-->
+<Rule Name="EmbeddedResource" Description="Propriedades do Arquivo" DisplayName="Recurso Inserido" PageTemplate="generic" PropertyPagesHidden="true" xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <Rule.Categories>
+    <Category Name="Advanced" DisplayName="Avançado" />
+    <Category Name="Misc" DisplayName="Diversos" />
+  </Rule.Categories>
+  <Rule.DataSource>
+    <DataSource HasConfigurationCondition="False" ItemType="EmbeddedResource" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+  </Rule.DataSource>
+  <DynamicEnumProperty Name="{}{ItemType}" Category="Advanced" Description="Como o arquivo está relacionado aos processos de compilação e implantação." DisplayName="Ação de compilação" EnumProvider="ItemTypes" />
+  <BoolProperty Name="AutoGen" Visible="false" />
+  <EnumProperty Name="CopyToOutputDirectory" Category="Advanced" Description="Especifica se o arquivo fonte deve ser copiado no diretório de saída." DisplayName="Copiar para Diretório de Saída">
+    <EnumValue Name="Never" DisplayName="Não copiar" />
+    <EnumValue Name="Always" DisplayName="Copiar sempre" />
+    <EnumValue Name="PreserveNewest" DisplayName="Copiar se for mais novo" />
+  </EnumProperty>
+  <StringProperty Name="CustomTool" Visible="false">
+    <StringProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="EmbeddedResource" PersistedName="Generator" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="CustomToolNamespace" Category="Advanced" Description="O namespace em que o resultado da ferramenta personalizada é colocado." DisplayName="Namespace da Ferramenta Personalizada" />
+  <StringProperty Name="DependentUpon" Visible="false" />
+  <BoolProperty Name="DesignTime" Visible="false" />
+  <BoolProperty Name="DesignTimeSharedInput" Visible="false" />
+  <StringProperty Name="Extension" ReadOnly="true" Visible="False">
+    <StringProperty.DataSource>
+      <DataSource ItemType="EmbeddedResource" PersistedName="Extension" Persistence="Intrinsic" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="FileNameAndExtension" Category="Misc" Description="Nome do arquivo ou da pasta." DisplayName="Nome do Arquivo" ReadOnly="true">
+    <StringProperty.DataSource>
+      <DataSource ItemType="EmbeddedResource" PersistedName="FileNameAndExtension" Persistence="Intrinsic" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="FullPath" Category="Misc" Description="Localização do arquivo." DisplayName="Caminho Completo" ReadOnly="true">
+    <StringProperty.DataSource>
+      <DataSource ItemType="EmbeddedResource" PersistedName="FullPath" Persistence="Intrinsic" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="Generator" Category="Advanced" Description="Especifica a ferramenta que transforma um arquivo em tempo de design e coloca o resultado dessa transformação em outro arquivo. Por exemplo, um arquivo de conjunto de dados (.xsd) vem com uma ferramenta personalizada padrão." DisplayName="Ferramenta Personalizada" />
+  <StringProperty Name="Identity" ReadOnly="true" Visible="false">
+    <StringProperty.DataSource>
+      <DataSource ItemType="EmbeddedResource" PersistedName="Identity" Persistence="Intrinsic" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="LastGenOutput" Visible="false" />
+  <StringProperty Name="Link" Visible="false">
+    <StringProperty.DataSource>
+      <DataSource PersistenceStyle="Attribute" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <EnumProperty Name="SubType" Visible="false">
+    <EnumProperty.DataSource>
+      <DataSource Persistence="DesignTimeItemPropertiesStorage" ItemType="EmbeddedResource" PersistedName="SubType" HasConfigurationCondition="false" />
+    </EnumProperty.DataSource>
+    <EnumValue Name="Designer" />
+    <EnumValue Name="Component" />
+    <EnumValue Name="UserControl" />
+    <EnumValue Name="Form" />
+    <EnumValue Name="Code" />
+  </EnumProperty>
+  <StringProperty Name="URL" ReadOnly="true" Visible="false">
+    <StringProperty.DataSource>
+      <DataSource ItemType="EmbeddedResource" PersistedName="FullPath" Persistence="Intrinsic" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <BoolProperty Name="Visible" Visible="false" />
+</Rule>

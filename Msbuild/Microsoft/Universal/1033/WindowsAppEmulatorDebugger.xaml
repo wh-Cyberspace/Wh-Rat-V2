@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Copyright, Microsoft Corporation, All rights reserved.-->
+<Rule 
+  Name="WindowsAppEmulatorDebugger"
+  DisplayName="Emulator"
+  PageTemplate="debugger"
+  Order="100"
+  Description="Windows App Emulator Debugger options"
+  xmlns:sys="clr-namespace:System;assembly=mscorlib"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns="http://schemas.microsoft.com/build/2009/properties">
+
+  <Rule.Metadata>
+    <sys:Guid x:Key="DebugTargetTypeCommandGuid">FEEA6E9D-77D8-423F-9EDE-3970CBB76125</sys:Guid>
+    <sys:UInt32 x:Key="DebugTargetTypeCommandId">0x500</sys:UInt32>
+    <sys:String x:Key="DebugTargetDropdownEnum">WindowsAppEmulatorID</sys:String>
+  </Rule.Metadata>
+  <Rule.DataSource>
+    <DataSource Persistence="UserFile" />
+  </Rule.DataSource>
+  <DynamicEnumProperty Name="WindowsAppEmulatorID" DisplayName="Debug Target" EnumProvider="WindowsAppEmulators"
+                        Description="Specifies the emulator to use for debugging. If no emulators are installed please use 'Download Emulator 8.2...' in debug target dropdown"
+                        F1Keyword="VC.Project.IVCAppHostRemoteDebugPageObject.MachineName"/>
+  <BoolProperty
+    Name="DebuggerLaunchApplication"
+    DisplayName="Launch Application"
+    F1Keyword="VC.Project.IVCAppHostRemoteDebugPageObject.LaunchApplication"
+    Description="Specifies whether to launch my application immediately or wait to debug my application when it starts running."/>
+  <EnumProperty
+    Name="DebuggerType"
+    DisplayName="Debugger Type"
+    F1Keyword="VC.Project.IVCAppHostRemoteDebugPageObject.DebuggerType"
+    Description="Specifies which code type to debug.">
+    <EnumProperty.Metadata>
+      <NameValuePair Name="IsDebugType" Value="true"/>
+    </EnumProperty.Metadata>
+    <EnumValue Name="NativeOnly" DisplayName="Native Only"/>
+    <EnumValue Name="ManagedOnly" DisplayName="Managed Only"/>
+    <EnumValue Name="Script" DisplayName="Script Only" />
+    <EnumValue Name="Mixed" DisplayName="Managed and Native"/>
+    <EnumValue Name="NativeWithScript" DisplayName="Script and Native"/>
+  </EnumProperty>
+  <StringProperty
+    Name="LayoutDir"
+    DisplayName="Package Layout Path"
+    Description="Location of the package layout where the binary output will be copied. This location may also contain non-binary assets for the project." />
+  <StringProperty
+    Name="CommandLineArgs"
+    DisplayName="Command Line Arguments"
+    Description="Command line arguments passed to the debugger." />
+</Rule>
+

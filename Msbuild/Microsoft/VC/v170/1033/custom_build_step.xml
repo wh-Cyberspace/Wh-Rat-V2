@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--Copyright, Microsoft Corporation, All rights reserved.-->
+<Rule
+  Name="ConfigurationCustomBuildStep"
+  DisplayName="Custom Build Step"
+  Order="100"
+  PageTemplate="tool"
+  xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <Rule.DataSource>
+    <DataSource Persistence="ProjectFile" ItemType="CustomBuildStep" HasConfigurationCondition="true" />
+  </Rule.DataSource>
+  <Rule.Categories>
+    <Category Name="General" DisplayName="General" Description="General" />
+  </Rule.Categories>
+  <StringProperty Name="Command" Category="General" DisplayName="Command Line" Description="Specifies a command line for the custom build step." F1Keyword="VC.Project.VCCustomBuildStep.Command">
+    <StringProperty.ValueEditors>
+      <ValueEditor EditorType="DefaultCommandPropertyEditor" DisplayName="&lt;Edit...&gt;"/>
+    </StringProperty.ValueEditors>
+  </StringProperty>
+  <StringProperty Name="Message" Category="General" DisplayName="Description" Description="Specifies a description for the custom build step." F1Keyword="VC.Project.VCCustomBuildStep.Message"/>
+  <StringListProperty Name="Outputs" Category="General" DisplayName="Outputs" Description="Specifies the output files the custom build step generates." F1Keyword="VC.Project.VCCustomBuildStep.Outputs"/>
+  <StringListProperty Name="Inputs" Category="General" DisplayName="Additional Dependencies" Description="Specifies any additional input files to use for the custom build step." F1Keyword="VC.Project.VCCustomBuildStep.AdditionalInputs"/>
+  <BoolProperty Name="TreatOutputAsContent" Category="General" DisplayName="Treat Output As Content" F1Keyword="VC.Project.VCCustomBuildStep.TreatOutputAsContent"
+                      Description="Specify whether the output file is a deployable content.">
+  </BoolProperty>
+  <StringProperty Name="RootFolder" DisplayName="Content Root Folder"
+                  Description="Content root folder to use for packaging."
+                  Category="General"
+                  Subtype="folder">
+  </StringProperty>
+  <DynamicEnumProperty Name="CustomBuildAfterTargets" Category="General" DisplayName="Execute After" Description="Specifies the targets for the custom build step and tool to run after." F1Keyword="VC.Project.VCCustomBuildStep.CustomBuildAfterTargets"
+                       EnumProvider="Targets">
+    <DynamicEnumProperty.DataSource>
+      <DataSource Persistence="ProjectFile" HasConfigurationCondition="true" ItemType="" />
+    </DynamicEnumProperty.DataSource>
+    <DynamicEnumProperty.ProviderSettings>
+      <NameValuePair Name="Exclude" Value="^CustomBuild|^Compute"/>
+    </DynamicEnumProperty.ProviderSettings>
+  </DynamicEnumProperty>
+  <DynamicEnumProperty Name="CustomBuildBeforeTargets" Category="General" DisplayName="Execute Before" Description="Specifies the targets for the custom build step and tool to run before." F1Keyword="VC.Project.VCCustomBuildStep.CustomBuildBeforeTargets"
+                       EnumProvider="Targets">
+    <DynamicEnumProperty.DataSource>
+      <DataSource Persistence="ProjectFile" HasConfigurationCondition="true" ItemType="" />
+    </DynamicEnumProperty.DataSource>
+    <DynamicEnumProperty.ProviderSettings>
+      <NameValuePair Name="Exclude" Value="^CustomBuild|^Compute"/>
+    </DynamicEnumProperty.ProviderSettings>
+  </DynamicEnumProperty>
+</Rule>

@@ -1,0 +1,12 @@
+F:\MY-ALL-PROJECT\Home-Work\Cal-R47\WindowsApp1\bin\Release\WindowsApp1.exe.config
+F:\MY-ALL-PROJECT\Home-Work\Cal-R47\WindowsApp1\bin\Release\WindowsApp1.exe
+F:\MY-ALL-PROJECT\Home-Work\Cal-R47\WindowsApp1\bin\Release\WindowsApp1.pdb
+F:\MY-ALL-PROJECT\Home-Work\Cal-R47\WindowsApp1\bin\Release\WindowsApp1.xml
+F:\MY-ALL-PROJECT\Home-Work\Cal-R47\WindowsApp1\obj\Release\WindowsApp1.vbproj.SuggestedBindingRedirects.cache
+F:\MY-ALL-PROJECT\Home-Work\Cal-R47\WindowsApp1\obj\Release\WindowsApp1.Form1.resources
+F:\MY-ALL-PROJECT\Home-Work\Cal-R47\WindowsApp1\obj\Release\WindowsApp1.Resources.resources
+F:\MY-ALL-PROJECT\Home-Work\Cal-R47\WindowsApp1\obj\Release\WindowsApp1.vbproj.GenerateResource.cache
+F:\MY-ALL-PROJECT\Home-Work\Cal-R47\WindowsApp1\obj\Release\WindowsApp1.vbproj.CoreCompileInputs.cache
+F:\MY-ALL-PROJECT\Home-Work\Cal-R47\WindowsApp1\obj\Release\WindowsApp1.exe
+F:\MY-ALL-PROJECT\Home-Work\Cal-R47\WindowsApp1\obj\Release\WindowsApp1.xml
+F:\MY-ALL-PROJECT\Home-Work\Cal-R47\WindowsApp1\obj\Release\WindowsApp1.pdb

@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information. -->
+<Rule Name="ResolvedProjectReference" Description="项目引用属性" DisplayName="项目引用" PageTemplate="generic" xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <Rule.DataSource>
+    <DataSource HasConfigurationCondition="False" ItemType="ProjectReference" MSBuildTarget="ResolveProjectReferencesDesignTime2" Persistence="ResolvedReference" SourceOfDefaultValue="AfterContext" SourceType="TargetResults" />
+  </Rule.DataSource>
+  <StringListProperty Name="Aliases" Description="此引用的别名的逗号分隔列表。" DisplayName="别名" Separator=",">
+    <StringListProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="ProjectReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </StringListProperty.DataSource>
+  </StringListProperty>
+  <StringProperty Name="BrowsePath" ReadOnly="True" Visible="False">
+    <StringProperty.DataSource>
+      <DataSource ItemType="ProjectReference" PersistedName="Identity" Persistence="Intrinsic" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <BoolProperty Name="CopyLocal" Description="指示是否将引用复制到输出目录。" DisplayName="复制本地">
+    <BoolProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="ProjectReference" PersistedName="Private" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+  <BoolProperty Name="CopyLocalSatelliteAssemblies" Description="指示是否应将引用目标的附属程序集复制到此项目的输出目录中。" DisplayName="复制本地附属程序集">
+    <BoolProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="ProjectReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+  <StringProperty Name="Culture" Description="程序集元数据中“区域性”字段的值。" DisplayName="区域性" ReadOnly="True" />
+  <StringProperty Name="Description" Description="程序集元数据中“标题”字段的值。" DisplayName="说明" ReadOnly="True" />
+  <StringProperty Name="DiagnosticLevel" ReadOnly="True" Visible="False" />
+  <BoolProperty Name="EmbedInteropTypes" Description="指示是否将此程序集中定义的类型嵌入目标程序集。" DisplayName="嵌入互操作类型">
+    <BoolProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="ProjectReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+  <StringProperty Name="ExcludeAssets" Description="要从此引用中排除的资产。" DisplayName="排除资产">
+    <StringProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="ProjectReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <EnumProperty Name="FileType" ReadOnly="True" Visible="False">
+    <EnumValue Name="Assembly" />
+    <EnumValue Name="ActiveX" />
+    <EnumValue Name="Native Assembly" />
+  </EnumProperty>
+  <StringProperty Name="FusionName" ReadOnly="True" Visible="False" />
+  <StringProperty Name="HintPath" Visible="false" />
+  <StringProperty Name="Identity" Description="所引用程序集的安全标识(参见 System.Reflection.Assembly.Evidence 或 System.Security.Policy.Evidence)。" DisplayName="标识" ReadOnly="True">
+    <StringProperty.DataSource>
+      <DataSource PersistedName="{}{Identity}" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="IncludeAssets" Description="要从此引用中包括的资产。" DisplayName="包括资产">
+    <StringProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="ProjectReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="IsImplicitlyDefined" ReadOnly="True" Visible="False" />
+  <BoolProperty Name="IsWinMDFile" Visible="false" />
+  <StringProperty Name="Name" ReadOnly="True" Visible="false" />
+  <StringProperty Name="OriginalItemSpec" ReadOnly="True" Visible="False" />
+  <StringProperty Name="PrivateAssets" Description="此引用中的私有资产。" DisplayName="私有资产">
+    <StringProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="ProjectReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="Project" Visible="False" />
+  <BoolProperty Name="ReferenceOutputAssembly" Description="该值指示编译器是否应包括对目标项目主输出程序集的引用。" DisplayName="引用输出程序集">
+    <BoolProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="ProjectReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+  <StringProperty Name="RequiredTargetFramework" Visible="False" />
+  <StringProperty Name="ResolvedPath" Description="所引用的文件的位置。" DisplayName="路径" ReadOnly="True">
+    <StringProperty.DataSource>
+      <DataSource PersistedName="Identity" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="RuntimeVersion" ReadOnly="True" Visible="False" />
+  <StringProperty Name="SDKIdentity" Visible="false" />
+  <BoolProperty Name="SpecificVersion" Visible="False" />
+  <BoolProperty Name="StrongName" ReadOnly="True" Visible="False" />
+  <StringProperty Name="Version" Description="引用的版本。" DisplayName="版本" ReadOnly="True" />
+  <BoolProperty Name="Visible" ReadOnly="True" Visible="False" />
+  <BoolProperty Name="WinMDFile" ReadOnly="True" Visible="false" />
+  <BoolProperty Name="TreatAsUsed" Description="指示应将此引用看作是已被使用一样。" DisplayName="视为已使用" ReadOnly="True" Visible="True" />
+</Rule>

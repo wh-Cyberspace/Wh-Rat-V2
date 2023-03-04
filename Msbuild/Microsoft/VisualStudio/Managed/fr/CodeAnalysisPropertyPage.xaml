@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information. -->
+<Rule Name="CodeAnalysisPropertyPage" Description="Paramètres" DisplayName="Analyse du code" PageTemplate="generic" Order="500" xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <Rule.Categories>
+    <Category Name="AllAnalyzers" DisplayName="Tous les analyseurs" />
+    <Category Name="NetAnalyzers" DisplayName="Analyseurs .NET" />
+  </Rule.Categories>
+  <Rule.DataSource>
+    <DataSource Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" HasConfigurationCondition="False" />
+  </Rule.DataSource>
+  <BoolProperty Name="RunAnalyzersDuringBuild" DisplayName="E&amp;xécuter au moment de la génération" Description="Exécutez toujours l’analyse du code sur la Build." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2173147" Category="AllAnalyzers" />
+  <BoolProperty Name="RunAnalyzersDuringLiveAnalysis" DisplayName="Exécuter au moment de l'ana&amp;lyse en temps réel" Description="Exécutez l’analyse du code en temps réel dans l’éditeur pendant que vous tapez." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2173147" Category="AllAnalyzers" />
+  <BoolProperty Name="EnforceCodeStyleInBuild" DisplayName="Appliquer le style de code lors de la génération (expérimental)" Description="Produisez des diagnostics sur le style du code lors de la génération." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2172995" Category="NetAnalyzers" />
+  <BoolProperty Name="EnableNETAnalyzers" DisplayName="Activer les analyseurs .NET" Description="Exécutez les analyseurs .NET pour vous aider à utiliser l’API." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2173090" Category="NetAnalyzers" />
+  <EnumProperty Name="AnalysisLevel" DisplayName="Niveau d'analyse" Description="Ensemble d’analyseurs qui doivent être exécutés dans le projet." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2173091" Category="NetAnalyzers">
+    <EnumValue Name="none" DisplayName="Aucun" />
+    <EnumValue Name="preview" DisplayName="Préversion" />
+    <EnumValue Name="latest" DisplayName="Plus récent" />
+    <EnumValue Name="5.0" DisplayName="5.0" />
+    <EnumValue Name="6.0" DisplayName="6.0" />
+  </EnumProperty>
+</Rule>

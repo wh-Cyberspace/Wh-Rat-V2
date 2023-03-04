@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--Copyright, Microsoft Corporation, All rights reserved.-->
+<Rule
+      Name="ConfigurationGeneralAdvanced"
+      OverrideMode="Extend"
+      xmlns="http://schemas.microsoft.com/build/2009/properties">
+
+
+  <EnumProperty Name="TargetFramework"
+              DisplayName=".NET Core Target Framework"
+              Description="Version of the .NET Core that is targeted by the project. This only applies if 'Common Language Runtime Support' is set to .NET Core."
+              Category="CLR"
+              F1Keyword="VC.Project.TargetFrameworkVersion">
+    <EnumProperty.DataSource>
+      <DataSource Persistence="ProjectFile" Label="Globals" HasConfigurationCondition="False" />
+    </EnumProperty.DataSource>
+    <EnumValue Name="netcoreapp3.1" DisplayName=".NET Core 3.1" />
+    <EnumValue Name="net5.0" DisplayName=".NET 5.0" />
+  </EnumProperty>
+
+  <StringProperty Name="TargetFrameworkVersion"
+                Visible="false"
+                DisplayName=".NET Target Framework Version"
+                Description="Version of the .NET Framework that is targeted by the project. This only applies if 'Common Language Runtime Support' is set."
+                Category="CLR"
+                F1Keyword="VC.Project.TargetFrameworkVersion">
+    <StringProperty.DataSource>
+      <DataSource Persistence="ProjectFile" Label="Globals" HasConfigurationCondition="False" />
+    </StringProperty.DataSource>
+  </StringProperty>
+
+  <BoolProperty Name="EnableManagedIncrementalBuild"
+                Visible="false" 
+                DisplayName="Enable Managed Incremental Build"
+                Description="Enables managed incremental build scenarios using metagen."
+                Category="CLR"
+                F1Keyword="VC.Project.VCConfiguration.EnableManagedIncrementalBuild">
+    <BoolProperty.DataSource>
+      <DataSource Persistence="ProjectFile" Label="" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+
+</Rule>

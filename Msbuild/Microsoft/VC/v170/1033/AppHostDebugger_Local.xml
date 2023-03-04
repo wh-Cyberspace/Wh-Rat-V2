@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--Copyright, Microsoft Corporation, All rights reserved.-->
+<Rule 
+  Name="AppHostLocalDebugger"
+  DisplayName="Local Machine"
+  PageTemplate="debugger"
+  Order="100"
+  Description="Local Debugger options"
+  xmlns:sys="clr-namespace:System;assembly=mscorlib"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns="http://schemas.microsoft.com/build/2009/properties">
+
+  <Rule.Metadata>
+    <sys:Guid x:Key="DebugTargetTypeCommandGuid">FEEA6E9D-77D8-423F-9EDE-3970CBB76125</sys:Guid>
+    <sys:UInt32 x:Key="DebugTargetTypeCommandId">0x200</sys:UInt32>
+  </Rule.Metadata>
+  <Rule.DataSource>
+    <DataSource Persistence="UserFile" />
+  </Rule.DataSource>
+  <Rule.Categories>
+    <Category Name="StartOptions" DisplayName="Start Options" Description="Start Options"/>
+    <Category Name="GPUOptions" DisplayName="GPU Options" Description="GPU Options"/>
+  </Rule.Categories>
+  <BoolProperty 
+    Name="DebuggerLaunchApplication" 
+    DisplayName="Launch Application" 
+    Category="StartOptions"
+    F1Keyword="VC.Project.IVCAppHostLocalDebugPageObject.LaunchApplication"
+    Description="Specifies whether to launch my application immediately or wait to debug my application when it starts running."/>
+  <BoolProperty
+    Name="AllowLocalNetworkLoopback"
+    DisplayName="Allow Local Network Loopback"
+    Category="StartOptions"
+    F1Keyword="VC.Project.IVCAppHostLocalDebugPageObject.AllowLocalNetworkLoopback"
+    Description="When debugging a Windows Store app, allows you to use local services, debug network traffic, and use a local loopback for communicating with components on the same machine."/>
+  <EnumProperty 
+    Name="DebuggerType" 
+    DisplayName="Debugger Type" 
+    Category="StartOptions"
+    F1Keyword="VC.Project.IVCAppHostLocalDebugPageObject.DebuggerType"
+    Description="Specifies which code type to debug.">
+    <EnumProperty.Metadata>
+      <NameValuePair Name="IsDebugType" Value="true"/>
+    </EnumProperty.Metadata>
+    <EnumValue Name="NativeOnly" DisplayName="Native Only"/>
+    <EnumValue Name="ManagedCore" DisplayName="Managed Only"/>
+    <EnumValue Name="GPUOnly" DisplayName="GPU Only (C++ AMP)"/>
+    <EnumValue Name="Script" DisplayName="Script Only"/>
+    <EnumValue Name="NativeWithManagedCore" DisplayName="Managed and Native"/>
+    <EnumValue Name="NativeWithScript" DisplayName="Script and Native"/>
+  </EnumProperty>
+  <DynamicEnumProperty Name="GPUDebuggerTargetType" 
+                       DisplayName="Debugging Accelerator Type" 
+                       Category="GPUOptions"
+                       EnumProvider="GPUTargets"
+                       F1Keyword="VC.Project.IVCAppHostLocalDebugPageObject.GPUDebuggerTargetType"
+                       Description="The debugging accelerator type to use for debugging the GPU code.  (Available when the GPU debugger is active.)">
+    <DynamicEnumProperty.Metadata>
+      <NameValuePair Name="ParentPropertyName" Value="DebuggerType"/>
+      <NameValuePair Name="ParentPropertyValue" Value="GPUOnly"/>
+    </DynamicEnumProperty.Metadata>
+  </DynamicEnumProperty>
+  <EnumProperty Name="GPURefDebuggerBreakOnAllThreads" 
+                DisplayName="GPU Default Breakpoint Behavior"
+                Category="GPUOptions"
+                Description="Sets how often the GPU debugger breaks."
+                F1Keyword="VC.Project.IVCAppHostLocalDebugPageObject.BreakpointBehavior">
+    <EnumValue Name="GPURefBreakOncePerWarp" DisplayName="Break once per warp"
+               Description="Break once per warp" />
+    <EnumValue Name="GPURefBreakForCPUThread" DisplayName="Break for every thread (like CPU behavior)"
+               Description="Break for every thread (like CPU behavior)" />
+    <EnumProperty.Metadata>
+      <NameValuePair Name="ParentPropertyName" Value="DebuggerType"/>
+      <NameValuePair Name="ParentPropertyValue" Value="GPUOnly"/>
+    </EnumProperty.Metadata>
+  </EnumProperty>
+  <DynamicEnumProperty Name="DebuggerAmpDefaultAccelerator"
+                       DisplayName="Amp Default Accelerator"
+                       EnumProvider="AmpAccelerators"
+                       F1Keyword="VC.Project.IVCAppHostLocalDebugPageObject.AmpDefaultAccelerator"
+                       Description="Override C++ AMP's default accelerator selection. Property does not apply when debugging managed code.">
+  </DynamicEnumProperty>
+  <StringProperty
+    Name="LayoutDir"
+    DisplayName="Package Layout Path"
+    Description="Location of the package layout where the binary output will be copied. This location may also contain non-binary assets for the project." />
+  <StringProperty
+    Name="CommandLineArgs"
+    DisplayName="Command Line Arguments"
+    Description="Command line arguments passed to the debugger." />
+</Rule>

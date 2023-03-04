@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+***********************************************************************************************
+Microsoft.TypeScript.targets
+
+WARNING:  DO NOT MODIFY this file unless you are knowledgeable about MSBuild and have
+          created a backup copy.  Incorrect changes to this file will make it
+          impossible to load or build your web deploy projects from the command-line or the IDE.
+
+This file defines the steps in the standard build process for TypeScript files.
+
+Copyright (C) Microsoft Corporation. All rights reserved.
+***********************************************************************************************
+-->
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TypeScriptSdkDir>$(MSBuildProgramFiles32)\Microsoft SDKs\TypeScript</TypeScriptSdkDir>
+    <PreferredUILang Condition="'$(BuildingInsideVisualStudio)' == 'true' and '$(PreferredUILang)' == ''">$([System.Globalization.CultureInfo]::CurrentUICulture.Name)</PreferredUILang>
+  </PropertyGroup>
+
+  <!-- Import all the props under the versions folder -->
+  <!-- This will be sorted, see https://msdn.microsoft.com/en-us/library/92x05xfs.aspx#Anchor_3 -->
+  <!-- Each props file defines $(LastKnownTypeScriptVersion) -->
+  <Import Project="$(TypeScriptSdkDir)\versions\*" />
+
+  <PropertyGroup Label="TypeScriptToolsVersionHandling">
+    <!-- If the user specified "Latest", pick the latest available -->
+    <TypeScriptEffectiveToolsVersion Condition="'$(TypeScriptToolsVersion)' == 'Latest'">$(LastKnownTypeScriptVersion)</TypeScriptEffectiveToolsVersion>
+    <TypeScriptEffectiveToolsVersion Condition="'$(TypeScriptToolsVersion)' != 'Latest'">$(TypeScriptToolsVersion)</TypeScriptEffectiveToolsVersion>
+
+    <!-- Prefer NuGet tools version -->
+    <TypeScriptEffectiveToolsVersion Condition="'$(TypeScriptNuGetToolsVersion)'!=''">$(TypeScriptNuGetToolsVersion)</TypeScriptEffectiveToolsVersion>
+
+    <!-- If the user didn't specify a TypeScriptToolsVersion, set the warning state -->
+    <TypeScriptVersionCheckResult Condition="'$(TypeScriptEffectiveToolsVersion)' == ''">NoneSpecified</TypeScriptVersionCheckResult>
+
+    <!-- If the user specified a specific version and it's found -->
+    <TypeScriptVersionCheckResult Condition="'$(TypeScriptEffectiveToolsVersion)' != '' AND Exists('$(TypeScriptSdkDir)\$(TypeScriptEffectiveToolsVersion)\tsc.js')">Good</TypeScriptVersionCheckResult>
+
+    <!-- If the user specified a specific version but that version isn't installed, use the latest version and set the warning state -->
+    <TypeScriptVersionCheckResult Condition="'$(LastKnownTypeScriptVersion)' != '' AND '$(TypeScriptEffectiveToolsVersion)' != '' AND !Exists('$(TypeScriptSdkDir)\$(TypeScriptEffectiveToolsVersion)\tsc.js') AND
+      '$(TypeScriptEffectiveToolsVersion)' &gt; '$(LastKnownTypeScriptVersion)' ">Downgrade</TypeScriptVersionCheckResult>
+    <TypeScriptVersionCheckResult Condition="'$(LastKnownTypeScriptVersion)' != '' AND '$(TypeScriptEffectiveToolsVersion)' != '' AND !Exists('$(TypeScriptSdkDir)\$(TypeScriptEffectiveToolsVersion)\tsc.js') AND
+      '$(TypeScriptEffectiveToolsVersion)' &lt; '$(LastKnownTypeScriptVersion)' ">Upgrade</TypeScriptVersionCheckResult>
+
+    <!-- No SDK is installed (the default case in VS 2022). Set this value to show a deprecation warning on build. -->
+    <TypeScriptVersionCheckResult Condition="'$(TypeScriptToolsVersion)' != '' AND '$(LastKnownTypeScriptVersion)' == ''">NoSdk</TypeScriptVersionCheckResult>
+
+    <!-- If we're using a Nuget package, don't care whether the SDK is found or not -->
+    <TypeScriptVersionCheckResult Condition="'$(TypeScriptNuGetToolsVersion)' != ''">Good</TypeScriptVersionCheckResult>
+
+    <!-- In case of a problem with the user-specified tools version, fall back to the latest available version -->
+    <TypeScriptEffectiveToolsVersion Condition="$(TypeScriptVersionCheckResult) != 'Good' ">$(LastKnownTypeScriptVersion)</TypeScriptEffectiveToolsVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PropertyPageSchema Include="$(MSBuildThisFileDirectory)\$(LocaleFolder)TypeScriptProjectProperties.xaml;">
+      <Context>Project</Context>
+    </PropertyPageSchema>
+  </ItemGroup>
+
+  <!-- Opt-in to contributing UI elements to the Dev17 .NET project system properties UI -->
+  <ItemGroup>
+    <ProjectCapability Include="ProjectPropertiesEditor" />
+  </ItemGroup>
+
+  <!-- At least one SDK must be installed for FormatLocalizedString to exist, and if no SDKs are installed, there's nothing to report -->
+  <Target Name="ReportTypeScriptVersion" BeforeTargets="Build" Condition="$(LastKnownTypeScriptVersion) != ''">
+    <FormatLocalizedString Condition="'$(TypeScriptVersionCheckResult)' == 'NoneSpecified'"
+      Culture="$(PreferredUILang)"
+      Name="TypeScriptNoVersionWarning"
+      Arguments="$(LastKnownTypeScriptVersion)">
+      <Output TaskParameter="String" PropertyName="TypeScriptNoVersionWarning" />
+    </FormatLocalizedString>
+
+    <FormatLocalizedString Condition="'$(TypeScriptVersionCheckResult)' == 'Downgrade' OR '$(TypeScriptVersionCheckResult)' == 'Upgrade'"
+      Culture="$(PreferredUILang)"
+      Name="TypeScriptVersionMismatchWarning"
+      Arguments="$(TypeScriptToolsVersion);$(LastKnownTypeScriptVersion)">
+      <Output TaskParameter="String" PropertyName="TypeScriptVersionMismatchWarning" />
+    </FormatLocalizedString>
+
+    <PropertyGroup>
+      <!-- Don't emit any warnings about TS version if TypeScriptCompileBlocked is set or if there is nothing to compile -->
+      <TypeScriptShowVersionWarning Condition="'$(TypeScriptShowVersionWarning)' == '' AND '$(TypeScriptCompileBlocked)' != 'true' AND ('@(ConfigFiles)' != '' OR '@(TypeScriptCompile)' != '')">true</TypeScriptShowVersionWarning>
+    </PropertyGroup>
+
+    <Warning Condition="'$(TypeScriptShowVersionWarning)' == 'true' AND '$(TypeScriptVersionCheckResult)' == 'NoneSpecified'" Text="$(TypeScriptNoVersionWarning)" />
+    <Warning Condition="'$(TypeScriptShowVersionWarning)' == 'true' AND ('$(TypeScriptVersionCheckResult)' == 'Downgrade' OR '$(TypeScriptVersionCheckResult)' == 'Upgrade')" Text="$(TypeScriptVersionMismatchWarning)" />
+    <Warning Condition="'$(TypeScriptBuildMode)' == 'true' AND ($(TypeScriptToolsVersion.StartsWith('2.')) OR $(TypeScriptToolsVersion.StartsWith('1.')))" Text="TypeScriptBuildMode requires TypeScriptToolsVersion 3.0 or higher" />
+  </Target>
+
+   <!-- Now import the actual version specific typescript targets -->
+
+   <!-- Give preference to TypeScriptToolsVersion if defined by user -->
+   <Import Condition="$(EnableTypeScriptNuGetTarget) == '' AND ($(TypeScriptToolsVersion) != '' AND Exists('$(TypeScriptSdkDir)\$(TypeScriptToolsVersion)\build\Microsoft.TypeScript.targets'))"
+		   Project="$(TypeScriptSdkDir)\$(TypeScriptToolsVersion)\build\Microsoft.TypeScript.targets" />
+
+   <!-- Note that LastKnownTypeScriptVersion may be empty if the machine has no SDKs (Dev17 no longer requires one to exist)-->
+   <Import Condition="$(EnableTypeScriptNuGetTarget) == '' AND ($(TypeScriptToolsVersion) == '' OR !Exists('$(TypeScriptSdkDir)\$(TypeScriptToolsVersion)\build\Microsoft.TypeScript.targets')) AND $(LastKnownTypeScriptVersion) != ''"
+      Project="$(TypeScriptSdkDir)\$(LastKnownTypeScriptVersion)\build\Microsoft.TypeScript.targets" />
+</Project>

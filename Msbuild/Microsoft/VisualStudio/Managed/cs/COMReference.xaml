@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information. -->
+<Rule Name="ComReference" Description="Vlastnosti odkazu na model COM" DisplayName="Odkaz na model COM" PageTemplate="generic" xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <Rule.DataSource>
+    <DataSource HasConfigurationCondition="False" ItemType="COMReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+  </Rule.DataSource>
+  <StringListProperty Name="Aliases" Description="Seznam aliasů tohoto odkazu oddělených čárkou" DisplayName="Aliasy" Separator=",">
+    <StringListProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="COMReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </StringListProperty.DataSource>
+  </StringListProperty>
+  <BoolProperty Name="CopyLocal" Description="Určuje, jestli se odkaz zkopíruje do výstupního adresáře." DisplayName="Kopírovat místně">
+    <BoolProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="COMReference" PersistedName="Private" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+  <BoolProperty Name="EmbedInteropTypes" Description="Určuje, zda typy definované v tomto sestavení budou vloženy do cílového sestavení." DisplayName="Vložit typy spolupráce">
+    <BoolProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="COMReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+  <StringProperty Name="Guid" Description="Identifikátor GUID serveru COM" DisplayName="CLSID" />
+  <StringProperty Name="Identity" Description="Identita zabezpečení odkazovaného sestavení (viz System.Reflection.Assembly.Evidence nebo System.Security.Policy.Evidence)" DisplayName="Identita" ReadOnly="True">
+    <StringProperty.DataSource>
+      <DataSource PersistedName="{}{Identity}" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="IsImplicitlyDefined" ReadOnly="True" Visible="False" />
+  <BoolProperty Name="Isolated" DisplayName="Izolovaný" />
+  <StringProperty Name="Lcid" Description="Identifikátor LCID serveru COM" DisplayName="Národní prostředí" />
+  <IntProperty Name="VersionMajor" DisplayName="Hlavní verze" />
+  <IntProperty Name="VersionMinor" DisplayName="Podverze" />
+  <BoolProperty Name="Visible" ReadOnly="True" Visible="False" />
+  <StringProperty Name="WrapperTool" DisplayName="Nástroj obálky" />
+  <!-- NOTE this property will never be populated for unresolved items, but is included to make the UI consistent -->
+  <StringProperty Name="ResolvedPath" DisplayName="Cesta" Description="Umístění odkazovaného souboru" ReadOnly="True" />
+  <!-- NOTE this property will never be populated for unresolved items, but is included to make the UI consistent -->
+  <StringProperty Name="Version" DisplayName="Verze" Description="Verze odkazu" ReadOnly="True" />
+</Rule>

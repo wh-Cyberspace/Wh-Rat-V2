@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--Copyright, Microsoft Corporation, All rights reserved.-->
+<Rule
+  Name="AppHostRemoteDebugger"
+  DisplayName="Remote Machine"
+  PageTemplate="debugger"
+  Order="400"
+  Description="Remote Debugger options"
+  xmlns:sys="clr-namespace:System;assembly=mscorlib"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns="http://schemas.microsoft.com/build/2009/properties">
+    <Rule.Metadata>
+        <sys:Guid x:Key="DebugTargetTypeCommandGuid">FEEA6E9D-77D8-423F-9EDE-3970CBB76125</sys:Guid>
+        <sys:UInt32 x:Key="DebugTargetTypeCommandId">0x400</sys:UInt32>
+    </Rule.Metadata>
+
+    <Rule.DataSource>
+        <DataSource Persistence="UserFile" />
+    </Rule.DataSource>
+
+    <Rule.Categories>
+        <Category Name="StartOptions" DisplayName="Start Options" Description="Start Options"/>
+        <Category Name="AdvancedRemoteDeploymentOptions" DisplayName="Advanced remote deployment options" Description="Advanced remote deployment options"/>
+    </Rule.Categories>
+
+    <BoolProperty 
+        Name="RemoteDebugEnabled"
+        Category="StartOptions"
+        Description="Specifies if remote debug is enabled."/>
+
+    <StringProperty 
+        Name="RemoteDebugMachine"
+        Category="StartOptions"
+        Description="Specifies the name of the machine to use when debugging remotely. Use the Find button to find nearby machines."/>
+
+    <EnumProperty
+        Name="AuthenticationMode"
+        Category="StartOptions"
+        Description="Specifies what level of authentication is required when debugging on remote devices.">
+        <EnumValue Name="Windows" DisplayName="Windows"/>
+        <EnumValue Name="Universal" DisplayName="Universal (Unencrypted Protocol)"/>
+        <EnumValue Name="None" DisplayName="None"/>
+    </EnumProperty>
+
+    <EnumProperty Name="DeploymentType" Category="AdvancedRemoteDeploymentOptions">
+        <EnumValue Name="CopyToDevice" DisplayName="Copy files to device"/>
+        <EnumValue Name="RegisterFromNetwork" DisplayName="Register layout from network"/>
+    </EnumProperty>
+    <StringProperty
+        Name="PackageRegistrationPath"
+        Category="AdvancedRemoteDeploymentOptions"
+        Description="For 'Copy To Device' deployment, this denotes the physical location on the remote device where the layout will be copied and is an optional parameter. For 'Register From Network', this denotes a remote network location of the package layout and is a required parameter."/>
+    <BoolProperty
+        Name="RemoveNonLayoutFiles"
+        Category="AdvancedRemoteDeploymentOptions"
+        Description="Specifies whether the files that are not a part of the layout be removed from target device during deployment - This is applicable only for 'Copy To Device' deployment."/>
+</Rule>

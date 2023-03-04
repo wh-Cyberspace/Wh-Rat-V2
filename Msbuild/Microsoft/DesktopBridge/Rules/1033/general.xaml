@@ -1,0 +1,333 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Rule
+	Name="ConfigurationGeneral"
+    OverrideMode="Replace"
+	DisplayName="General"
+	PageTemplate="generic"
+	Description="General"
+    PropertyPagesHidden="True"    
+	xmlns="http://schemas.microsoft.com/build/2009/properties">
+    
+    <Rule.DataSource>
+        <DataSource Label="Configuration"
+                    Persistence="ProjectFile"
+                    SourceOfDefaultValue="AfterContext"
+                    HasConfigurationCondition="True"/>
+    </Rule.DataSource>
+
+    <Rule.Categories>
+        <Category Name="General" DisplayName="General"/>
+    </Rule.Categories>
+
+
+    <StringListProperty Name="AvailablePlatforms"
+                      Separator=","
+                      Visible="False" />
+
+    <StringProperty Name="BaseIntermediateOutputPath"
+                  Visible="False" />
+
+    <StringProperty Name="Configuration"
+                  Visible="False" />
+
+    <StringProperty Name="DebuggerSymbolsPath"
+                  Visible="False" />
+
+    <StringProperty Name="DefaultContentType"
+                  Visible="False" />
+
+    <StringProperty Name="DefaultPlatform"
+                  Visible="False" />
+
+    <BoolProperty Name="DisableFastUpToDateCheck"
+                Visible="False">
+        <BoolProperty.DataSource>
+            <DataSource HasConfigurationCondition="False"
+                  PersistedName="DisableFastUpToDateCheck"
+                  Persistence="ProjectFile"
+                  SourceOfDefaultValue="AfterContext" />
+        </BoolProperty.DataSource>
+    </BoolProperty>
+
+    <StringProperty Name="DocumentationFile"
+                  Visible="False" />
+
+    <StringProperty Name="IntDir"
+                  Visible="False" />
+
+    <StringProperty Name="IntermediateOutputPath"
+                  Visible="False" />
+
+    <StringProperty Name="LanguageServiceId"
+                  ReadOnly="True"
+                  Visible="False" />
+
+    <StringProperty Name="LanguageServiceName"
+                  ReadOnly="True"
+                  Visible="False" />
+
+    <StringProperty Name="MinimumVisualStudioVersion"
+                  Visible="False" />
+
+    <StringProperty Name="MSBuildAllProjects"
+                  Visible="False" />
+
+    <StringProperty Name="MSBuildProjectDirectory"
+                  Visible="False" />
+
+    <StringProperty Name="MSBuildProjectFullPath"
+                  Visible="False" />
+
+    <StringProperty Name="MSBuildProjectExtensionsPath"
+                  ReadOnly="True"
+                  Visible="False" />
+
+    <StringProperty Name="Name"
+                  Visible="False" />
+
+    <StringProperty Name="NETCoreSdkVersion"
+                  ReadOnly="True"
+                  Visible="False" />
+
+    <StringProperty Name="NuGetPackageFolders"
+                  ReadOnly="True"
+                  Visible="False" />
+
+    <StringProperty Name="OneAppCapabilities"
+                  Visible="False" />
+
+    <BoolProperty Name="Optimize"
+                Visible="False" />
+
+    <StringProperty Name="OutputName"
+                  Visible="False" />
+
+    <StringProperty Name="OutDir"
+                  Visible="False" />
+
+
+    <StringProperty Name="ProjectGuid" Visible="false"/>
+
+    <StringProperty
+        Name="OutputPath"
+        DisplayName="Output Path"
+        Category="General"
+        Description="Specifies the location for the output from the build operation."
+        Visible="False" />
+
+    <EnumProperty Name="OutputType"
+                Visible="False" >
+        <EnumValue Name="Library" />
+        <EnumValue Name="Exe" />
+        <EnumValue Name="WinExe" />
+        <EnumValue Name="AppContainerExe" />
+        <EnumValue Name="WinMDObj" />
+        <EnumProperty.DataSource>
+            <DataSource HasConfigurationCondition="False"
+                  PersistedName="OutputType"
+                  Persistence="ProjectFile"
+                  SourceOfDefaultValue="AfterContext" />
+        </EnumProperty.DataSource>
+    </EnumProperty>
+
+    <StringProperty Name="PackageAction"
+                  Visible="False" />
+
+    <StringProperty Name="Platform"
+                  Visible="False" />
+
+    <StringProperty Name="ProjectAssetsFile"
+                  ReadOnly="true"
+                  Visible="False" />
+
+    <StringProperty Name="ProjectDir"
+                  Visible="False" />
+
+    <StringListProperty Name="ProjectTypeGuids"
+                      Visible="False" />
+
+    <StringProperty Name="ProjectUISubcaption"
+                  Visible="False" />
+
+    <StringProperty Name="RootNamespace"
+                  Visible="False" >
+        <StringProperty.DataSource>
+            <DataSource HasConfigurationCondition="False"
+                  Label="Configuration"
+                  Persistence="ProjectFile"
+                  SourceOfDefaultValue="AfterContext" />
+        </StringProperty.DataSource>
+    </StringProperty>
+
+    <StringProperty Name="SDKExtensionDirectoryRoot"
+                  Visible="False" />
+
+    <StringProperty Name="SDKReferenceDirectoryRoot"
+                  Visible="False" />
+
+    <StringProperty Name="SDKReferenceRegistryRoot"
+                  Visible="False" />
+
+    <StringProperty Name="SharedItemContextSubProjectGuid"
+                  Visible="False">
+        <StringProperty.DataSource>
+            <DataSource HasConfigurationCondition="False"
+                  Persistence="UserFile"
+                  SourceOfDefaultValue="AfterContext" />
+        </StringProperty.DataSource>
+    </StringProperty>
+
+    <StringProperty Name="SharedProjectAppliesTo"
+                  Visible="False" />
+
+    <BoolProperty Name="ShowAllFiles"
+                Visible="False">
+        <BoolProperty.DataSource>
+            <DataSource HasConfigurationCondition="False"
+                  Persistence="UserFile"
+                  SourceOfDefaultValue="AfterContext" />
+        </BoolProperty.DataSource>
+    </BoolProperty>
+
+    <BoolProperty Name="SuppressOutOfDateMessageOnBuild"
+                Visible="False" />
+
+    <StringProperty Name="TargetFramework"
+                  Visible="False" >
+        <StringProperty.DataSource>
+            <DataSource HasConfigurationCondition="False"
+                  PersistedName="TargetFramework"
+                  Persistence="ProjectFile"
+                  SourceOfDefaultValue="AfterContext" />
+        </StringProperty.DataSource>
+    </StringProperty>
+
+    <StringProperty Name="TargetFrameworkIdentifier"
+                  Visible="False" >
+        <StringProperty.DataSource>
+            <DataSource HasConfigurationCondition="False"
+                  PersistedName="TargetFrameworkIdentifier"
+                  Persistence="ProjectFile"
+                  SourceOfDefaultValue="AfterContext" />
+        </StringProperty.DataSource>
+    </StringProperty>
+
+    <StringProperty Name="TargetFrameworkProfile"
+                  Visible="False" >
+        <StringProperty.DataSource>
+            <DataSource HasConfigurationCondition="False"
+                  PersistedName="TargetFrameworkProfile"
+                  Persistence="ProjectFile"
+                  SourceOfDefaultValue="AfterContext" />
+        </StringProperty.DataSource>
+    </StringProperty>
+
+    <StringProperty Name="TargetFrameworks"
+                  Visible="False" >
+        <StringProperty.DataSource>
+            <DataSource HasConfigurationCondition="False"
+                  PersistedName="TargetFrameworks"
+                  Persistence="ProjectFile"
+                  SourceOfDefaultValue="AfterContext" />
+        </StringProperty.DataSource>
+    </StringProperty>
+
+    <StringProperty Name="TargetFrameworkVersion"
+                  Visible="False" >
+        <StringProperty.DataSource>
+            <DataSource HasConfigurationCondition="False"
+                  PersistedName="TargetFrameworkVersion"
+                  Persistence="ProjectFile"
+                  SourceOfDefaultValue="AfterContext" />
+        </StringProperty.DataSource>
+    </StringProperty>
+
+    <StringProperty Name="TargetPath"
+                  Visible="False" />
+
+    <StringProperty Name="TargetPlatformWinMDLocation"
+                  Visible="False" />
+
+    <EnumProperty Name="TargetRuntime"
+                Visible="False">
+        <EnumValue Name="Managed" />
+        <EnumValue Name="Native" />
+        <EnumValue Name="AppHost" />
+    </EnumProperty>
+
+    <StringProperty Name="TemplateLanguage"
+                  ReadOnly="True"
+                  Visible="False" />
+
+    <StringProperty Name="VCInstallDir"
+                  Visible="False" />
+
+    <StringProperty Name="VSInstallDir"
+                  Visible="False" />
+
+    <BoolProperty Name="WindowsAppContainer"
+                Visible="False" />
+
+    <BoolProperty Name="WinMDAssembly"
+                Visible="False" />
+
+    <StringProperty Name="WinRTReferenceTabs"
+                  Visible="False" />
+
+    <StringProperty Name="EntryPointProjectUniqueName" Visible="False">
+        <StringProperty.DataSource>
+            <DataSource Persistence="ProjectFile" HasConfigurationCondition="false" />
+        </StringProperty.DataSource>
+    </StringProperty>
+
+    <StringProperty Name="EntryPointExe" Visible="False">
+        <StringProperty.DataSource>
+            <DataSource Persistence="ProjectFile" HasConfigurationCondition="false" />
+        </StringProperty.DataSource>
+    </StringProperty>
+
+    <StringProperty Name="DefaultLanguage" Visible="false" Category="General"/>
+    <StringProperty Name="AppxPackageRecipe" Visible="false" />
+
+    <StringProperty Name="AppxBundle" Visible="false"/>
+    <StringProperty Name="FinalAppxManifestName" Visible="false" />
+    <StringProperty Name="ProjectPriFullPath" Visible="false" />
+    <StringProperty Name="LayoutDir" Visible="false" />
+
+    <BoolProperty Name="IgnoreLocalNetworkLoopback" Visible="false" />
+    <BoolProperty Name="AllowLocalNetworkLoopback" Visible="false" />
+    <BoolProperty Name="ContainsStartupTask" Visible="False" />
+    
+    <StringProperty Name="TargetPlatformIdentifier" Visible="false">
+    <StringProperty.DataSource>
+        <DataSource Persistence="ProjectFile" Label="Configuration" HasConfigurationCondition="false" />
+    </StringProperty.DataSource>
+    </StringProperty>
+
+    <StringProperty Name="TargetPlatformVersion" DisplayName="Target version" Category="General" Visible="false">
+        <StringProperty.DataSource>
+            <DataSource Persistence="ProjectFile" Label="Configuration" HasConfigurationCondition="false" />
+        </StringProperty.DataSource>
+    </StringProperty>
+
+    <StringProperty Name="TargetPlatformMinVersion" Visible="false" Category="General">
+        <StringProperty.DataSource>
+            <DataSource Persistence="ProjectFile" Label="Configuration" HasConfigurationCondition="false" />
+        </StringProperty.DataSource>
+    </StringProperty>
+
+    <StringProperty Name="SDKIdentifier" Visible="false">
+        <StringProperty.DataSource>
+            <DataSource Persistence="ProjectFile" Label="Configuration" HasConfigurationCondition="false" />
+        </StringProperty.DataSource>
+    </StringProperty>
+
+    <StringProperty Name="SDKVersion" Visible="false">
+        <StringProperty.DataSource>
+            <DataSource Persistence="ProjectFile" Label="Configuration" HasConfigurationCondition="false" />
+        </StringProperty.DataSource>
+    </StringProperty>
+
+    <StringProperty Name="WapProjPath" Visible="False" Category="General" />
+    
+</Rule>

@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information. -->
+<Rule Name="ComReference" Description="Właściwości odwołania COM" DisplayName="Odwołanie COM" PageTemplate="generic" xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <Rule.DataSource>
+    <DataSource HasConfigurationCondition="False" ItemType="COMReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+  </Rule.DataSource>
+  <StringListProperty Name="Aliases" Description="Rozdzielona przecinkami lista aliasów do tego odwołania." DisplayName="Aliasy" Separator=",">
+    <StringListProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="COMReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </StringListProperty.DataSource>
+  </StringListProperty>
+  <BoolProperty Name="CopyLocal" Description="Wskazuje, czy odwołanie będzie kopiowane do katalogu wyjściowego." DisplayName="Kopia lokalna">
+    <BoolProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="COMReference" PersistedName="Private" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+  <BoolProperty Name="EmbedInteropTypes" Description="Wskazuje, czy typy zdefiniowane w tym zestawie będą osadzone w zestawie docelowym." DisplayName="Osadź typy międzyoperacyjne">
+    <BoolProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="COMReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+  <StringProperty Name="Guid" Description="Identyfikator GUID serwera COM." DisplayName="CLSID" />
+  <StringProperty Name="Identity" Description="Tożsamość zabezpieczeń zestawu, do którego się odwoływano (zobacz System.Reflection.Assembly.Evidence lub System.Security.Policy.Evidence)." DisplayName="Tożsamość" ReadOnly="True">
+    <StringProperty.DataSource>
+      <DataSource PersistedName="{}{Identity}" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="IsImplicitlyDefined" ReadOnly="True" Visible="False" />
+  <BoolProperty Name="Isolated" DisplayName="Izolowany" />
+  <StringProperty Name="Lcid" Description="Identyfikator LCID serwera COM." DisplayName="Ustawienia regionalne" />
+  <IntProperty Name="VersionMajor" DisplayName="Wersja główna" />
+  <IntProperty Name="VersionMinor" DisplayName="Wersja pomocnicza" />
+  <BoolProperty Name="Visible" ReadOnly="True" Visible="False" />
+  <StringProperty Name="WrapperTool" DisplayName="Narzędzie otoki" />
+  <!-- NOTE this property will never be populated for unresolved items, but is included to make the UI consistent -->
+  <StringProperty Name="ResolvedPath" DisplayName="Ścieżka" Description="Lokalizacja pliku, którego dotyczy odwołanie." ReadOnly="True" />
+  <!-- NOTE this property will never be populated for unresolved items, but is included to make the UI consistent -->
+  <StringProperty Name="Version" DisplayName="Wersja" Description="Wersja odwołania." ReadOnly="True" />
+</Rule>

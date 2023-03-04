@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information. -->
+<Rule Name="PackageReference" Description="Właściwości odwołania do pakietu" DisplayName="Odwołanie do pakietu" PageTemplate="generic" xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <Rule.DataSource>
+    <DataSource HasConfigurationCondition="False" ItemType="PackageReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+  </Rule.DataSource>
+  <StringListProperty Name="Aliases" Description="Rozdzielana przecinkami lista aliasów odwołań do zestawów zawartych w tym pakiecie." DisplayName="Aliasy" Separator="," />
+  <StringProperty Name="ExcludeAssets" Description="Zasoby do wykluczenia z tego odwołania." DisplayName="Wykluczone zasoby" />
+  <BoolProperty Name="GeneratePathProperty" Description="Wskazuje, czy należy generowania właściwość MSBuild z lokalizacją katalogu głównego pakietu. Nazwa właściwości generowane jest w formie 'Pkg [PackageID]', gdzie '[PackageID] 'jest identyfikator pakietu z okresów'.' zastąpione znakami podkreślenia '_'." DisplayName="Generuj właściwość ścieżki" />
+  <StringProperty Name="IncludeAssets" Description="Zasoby do uwzględnienia z tego odwołania." DisplayName="Uwzględnione zasoby" />
+  <StringProperty Name="IsImplicitlyDefined" ReadOnly="True" Visible="False" />
+  <StringProperty Name="Name" ReadOnly="True" DisplayName="Nazwa">
+    <StringProperty.DataSource>
+      <DataSource PersistedName="{}{Identity}" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="NoWarn" Description="Rozdzielona przecinkami lista ostrzeżeń, które mają zostać pominięte dla tego pakietu." DisplayName="Pomiń ostrzeżenia" />
+  <!-- NOTE this property will never be populated for unresolved items, but is included to make the UI consistent -->
+  <StringProperty Name="Path" Description="Lokalizacja pakietu, którego dotyczy odwołanie." DisplayName="Ścieżka" ReadOnly="True" />
+  <StringProperty Name="PrivateAssets" Description="Prywatne zasoby w tym odwołaniu." DisplayName="Prywatne zasoby" />
+  <StringProperty Name="Version" Description="Wersja zależności." DisplayName="Wersja" ReadOnly="True">
+    <StringProperty.DataSource>
+      <DataSource PersistenceStyle="Attribute" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <BoolProperty Name="Visible" ReadOnly="True" Visible="False" />
+  <BoolProperty Name="TreatAsUsed" ReadOnly="True" Visible="False" />
+</Rule>

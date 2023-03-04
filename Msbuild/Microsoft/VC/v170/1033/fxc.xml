@@ -1,0 +1,214 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--Copyright, Microsoft Corporation, All rights reserved.-->
+<ProjectSchemaDefinitions xmlns="http://schemas.microsoft.com/build/2009/properties" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+  <Rule Name="FXC"
+        PageTemplate="tool"
+        DisplayName="HLSL Compiler"
+        SwitchPrefix="/"
+        Order="300">
+
+    <Rule.Categories>
+      <Category Name="General" DisplayName="General" />
+      <Category Name="Advanced" DisplayName="Advanced" />
+      <Category Name="Output Files" DisplayName="Output Files" />
+      <Category Name="All Options" DisplayName="All Options" Subtype="Search" />
+      <Category Name="Command Line" DisplayName="Command Line" Subtype="CommandLine" />
+    </Rule.Categories>
+
+    <Rule.DataSource>
+      <DataSource Persistence="ProjectFile" ItemType="FxCompile" Label="" HasConfigurationCondition="true" />
+    </Rule.DataSource>
+
+    <StringListProperty Subtype="folder"
+                        Name="AdditionalIncludeDirectories"
+                        DisplayName="Additional Include Directories"
+                        Description="Specifies one or more directories to add to the include path; separate with semi-colons if more than one. (/I[path])"
+                        Category="General"
+                        Switch="I"
+                        F1Keyword="VC.Project.FXCompilerTool.AdditionalIncludeDirectories">
+    </StringListProperty>
+
+    <BoolProperty Name="SuppressStartupBanner"
+                  DisplayName="Suppress Startup Banner"
+                  Description="Suppresses the display of the startup banner and information message. (/nologo)"
+                  Category="Advanced"
+                  Switch="nologo"
+                  F1Keyword="VC.Project.FXCompilerTool.SuppressStartupBanner">
+    </BoolProperty>
+
+    <StringProperty Name="EntryPointName"
+                    DisplayName="Entrypoint Name"
+                    Description="Specifies the name of the entry point for the shader (/E[name])"
+                    Category="General"
+                    Switch="E"
+                    F1Keyword="VC.Project.FXCompilerTool.EntryPointName">
+    </StringProperty>
+
+    <BoolProperty Name="TreatWarningAsError"
+                  DisplayName="Treat Warnings As Errors"
+                  Description="Treats all compiler warnings as errors. For a new project, it may be best to use /WX in all compilations; resolving all warnings will ensure the fewest possible hard-to-find code defects."
+                  Category="Advanced"
+                  Switch="WX"
+                  F1Keyword="VC.Project.FXCompilerTool.TreatWarningAsError">
+    </BoolProperty>
+
+    <BoolProperty Name="DisableOptimizations"
+                  DisplayName="Disable Optimizations"
+                  Description="Disable optimizations. /Od implies /Gfp though output may not be identical to /Od /Gfp."
+                  Category="General"
+                  Switch="Od"
+                  F1Keyword="VC.Project.FXCompilerTool.DisableOptimizations">
+    </BoolProperty>
+
+    <BoolProperty Name="EnableDebuggingInformation"
+                  DisplayName="Enable Debugging Information"
+                  Description="Enable debugging information."
+                  Category="General"
+                  Switch="Zi"
+                  F1Keyword="VC.Project.FXCompilerTool.EnableDebuggingInformation">
+    </BoolProperty>
+
+    <EnumProperty Name="ShaderType"
+                  DisplayName="Shader Type"
+                  Description="Specifies the type of shader.  (/T [type]_[model])"
+                  Category="General"
+                  Switch="T"
+                  F1Keyword="VC.Project.FXCompilerTool.ShaderType">
+      <EnumValue Name="Effect" Switch="fx" DisplayName="Effect">
+        <Argument Property="ShaderModel" IsRequired="true" Separator="_" />
+      </EnumValue>
+      <EnumValue Name="Vertex" Switch="vs" DisplayName="Vertex Shader">
+        <Argument Property="ShaderModel" IsRequired="true" Separator="_" />
+      </EnumValue>
+      <EnumValue Name="Pixel" Switch="ps" DisplayName="Pixel Shader">
+        <Argument Property="ShaderModel" IsRequired="true" Separator="_" />
+      </EnumValue>
+      <EnumValue Name="Geometry" Switch="gs" DisplayName="Geometry Shader">
+        <Argument Property="ShaderModel" IsRequired="true" Separator="_" />
+      </EnumValue>
+      <EnumValue Name="Hull" Switch="hs" DisplayName="Hull Shader">
+        <Argument Property="ShaderModel" IsRequired="true" Separator="_" />
+      </EnumValue>
+      <EnumValue Name="Domain" Switch="ds" DisplayName="Domain Shader">
+        <Argument Property="ShaderModel" IsRequired="true" Separator="_" />
+      </EnumValue>
+      <EnumValue Name="Compute" Switch="cs" DisplayName="Compute Shader">
+        <Argument Property="ShaderModel" IsRequired="true" Separator="_" />
+      </EnumValue>
+      <EnumValue Name="Library" Switch="lib" DisplayName="Library">
+        <Argument Property="ShaderModel" IsRequired="true" Separator="_" />
+      </EnumValue>
+      <EnumValue Name="Mesh" Switch="ms" DisplayName="Mesh Shader">
+        <Argument Property="ShaderModel" IsRequired="true" Separator="_" />
+      </EnumValue>
+      <EnumValue Name="Amplification" Switch="as" DisplayName="Amplification Shader">
+        <Argument Property="ShaderModel" IsRequired="true" Separator="_" />
+      </EnumValue>
+      <EnumValue Name="RootSignature" Switch="" DisplayName="Generate Root Signature Object">
+        <Argument Property="ShaderModel" IsRequired="true" Separator=" " />
+      </EnumValue>
+    </EnumProperty>
+
+    <DynamicEnumProperty Name="ShaderModel"
+                         DisplayName="Shader Model"
+                         Description="Specifies the shader model. Some shader types can only be used with recent shader models (/T [type]_[model])"
+                         Category="General"
+                         F1Keyword="VC.Project.FXCompilerTool.ShaderModel"
+                         EnumProvider="ShaderModelEnumProvider"
+                         />
+
+    <BoolProperty Name="AllResourcesBound"
+                  DisplayName="All Resources Bound"
+                  Description="Compiler will assume that all resources that a shader may reference are bound and are in good state for the duration of shader execution (/all_resources_bound). Available for Shader Model 5.1 and above."
+                  Category="General"
+                  Switch="all_resources_bound"
+                  F1Keyword="VC.Project.FXCompilerTool.AllResourcesBound">
+    </BoolProperty>
+
+    <BoolProperty Name="EnableUnboundedDescriptorTables"
+                  DisplayName="Enable Unbounded Descriptor Tables"
+                  Description="Inform the compiler that a shader may contain a declaration of a resource array with unbounded range (/enable_unbounded_descriptor_tables). Available for Shader Model 5.1 and above."
+                  Category="General"
+                  Switch="enable_unbounded_descriptor_tables"
+                  F1Keyword="VC.Project.FXCompilerTool.EnableUnboundedDescriptorTables">
+    </BoolProperty>
+
+    <StringProperty Name="SetRootSignature"
+                    DisplayName="Set Root Signature"
+                    Description="Attach root signature to shader bytecode (/setrootsignature). Available for Shader Model 5.0 and above."
+                    Category="General"
+                    Switch="setrootsignature"
+                    F1Keyword="VC.Project.FXCompilerTool.SetRootSignature">
+    </StringProperty>
+
+    <StringListProperty Name="PreprocessorDefinitions"
+                        DisplayName="Preprocessor Definitions"
+                        Description="Defines preprocessing symbols for your source file."
+                        Category="General"
+                        Switch="D "
+                        F1Keyword="VC.Project.FXCompilerTool.PreprocessorDefinitions">
+    </StringListProperty>
+
+    <StringProperty Name="AdditionalOptions"
+                    DisplayName="Additional Options"
+                    Description="Additional Options"
+                    Category="Command Line"
+                    F1Keyword="VC.Project.FXCompilerTool.AdditionalOptionsPage">
+    </StringProperty>
+
+    <StringProperty Name="VariableName" DisplayName="Header Variable Name"
+                    Description="Specifies a name for the variable name in the header file (/Vn [name])"
+                    Category="Output Files" Switch="Vn" F1Keyword="VC.Project.FXCompilerTool.VariableName">
+    </StringProperty>
+
+    <StringProperty Subtype="file" Name="HeaderFileOutput" DisplayName="Header File Name"
+                    Description="Specifies a name for header file containing object code. (/Fh [name])"
+                    Category="Output Files" Switch="Fh" F1Keyword="VC.Project.FXCompilerTool.HeaderFileOutput">
+    </StringProperty>
+
+    <StringProperty Subtype="file" Name="ObjectFileOutput" DisplayName="Object File Name"
+                Description="Specifies a name for object file. (/Fo [name])"
+                Category="Output Files" Switch="Fo" F1Keyword="VC.Project.FXCompilerTool.ObjectFileOutput">
+    </StringProperty>
+
+    <EnumProperty Name="AssemblerOutput" DisplayName="Assembler Output"
+                  Description="Specifies the contents of assembly language output file. (/Fc, /Fx)"
+                  Category="Output Files" F1Keyword="VC.Project.FXCompilerTool.AssemblerOutput">
+      <EnumValue Name="NoListing" Switch="" DisplayName="No Listing" Description="No listing. ">
+      </EnumValue>
+      <EnumValue Name="AssemblyCode" Switch="Fc" DisplayName="Assembly-Only Listing" Description="Assembly code file">
+        <Argument Property="AssemblerOutputFile" IsRequired="true" Separator=" " />
+      </EnumValue>
+      <EnumValue Name="AssemblyCodeAndHex" Switch="Fx" DisplayName="Assembly Code and Hex" Description="Assembly code and hex listing file">
+        <Argument Property="AssemblerOutputFile" IsRequired="true" Separator=" " />
+      </EnumValue>
+    </EnumProperty>
+
+    <StringProperty Name="AssemblerOutputFile"
+                    Subtype="file"
+                    DisplayName="Assembler Output File"
+                    Description="Specifies file name for assembly code listing file"
+                    Category="Output Files"
+                    F1Keyword="VC.Project.FXCompilerTool.AssemblerOutputFile">
+    </StringProperty>
+
+    <BoolProperty Name="CompileD2DCustomEffect"
+                  DisplayName="Compile a Direct2D custom pixel shader effect"
+                  Description="Compile a Direct2D custom effect that contains pixel shaders. Do not use for a vertex or compute custom effect."
+                  Category="General"
+                  Switch=""
+                  F1Keyword="VC.Project.FXCompilerTool.CompileD2DCustomEffect">
+    </BoolProperty>
+
+    <BoolProperty Name="MultiProcFXC"
+                    DisplayName="Multi Processor Compilation"
+                    Description="Run multiple instances at the same time."
+                    Category="General"
+                    F1Keyword="VC.Project.FXCompilerTool.MultiProcFXC">
+      <BoolProperty.DataSource>
+        <DataSource ItemType="" />
+      </BoolProperty.DataSource>
+    </BoolProperty>
+  </Rule>
+
+</ProjectSchemaDefinitions>

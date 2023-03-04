@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information. -->
+<Rule Name="ResolvedPackageReference" Description="Vlastnosti odkazu na balíček" DisplayName="Odkaz na balíček" PageTemplate="generic" xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <Rule.DataSource>
+    <DataSource HasConfigurationCondition="False" ItemType="PackageReference" MSBuildTarget="ResolvePackageDependenciesDesignTime" Persistence="ResolvedReference" SourceOfDefaultValue="AfterContext" SourceType="TargetResults" />
+  </Rule.DataSource>
+  <StringListProperty Name="Aliases" Description="Čárkami oddělený seznam aliasů pro odkazy na sestavení obsažené v tomto balíčku" DisplayName="Aliasy" Separator=",">
+    <StringListProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="PackageReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </StringListProperty.DataSource>
+  </StringListProperty>
+  <StringProperty Name="BrowsePath" ReadOnly="True" Visible="False">
+    <StringProperty.DataSource>
+      <DataSource PersistedName="Path" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="ExcludeAssets" Description="Prostředky vyloučené z tohoto odkazu" DisplayName="Vyloučené prostředky">
+    <StringProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="PackageReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="DiagnosticLevel" ReadOnly="True" Visible="False" />
+  <BoolProperty Name="GeneratePathProperty" Description="Určuje, jestli se má generovat vlastnost MSBuildu s umístěním kořenového adresáře balíčku. Název generované vlastnosti je ve formátu Pkg[ID_balíčku], kde [ID_balíčku] je ID balíčku, ve kterém jsou tečky nahrazené podtržítky." DisplayName="Generovat vlastnost cesty">
+    <BoolProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="PackageReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+  <StringProperty Name="IncludeAssets" Description="Prostředky zahrnuté z tohoto odkazu" DisplayName="Zahrnuté prostředky">
+    <StringProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="PackageReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="IsImplicitlyDefined" ReadOnly="True" Visible="False" />
+  <StringProperty Name="Name" ReadOnly="True" DisplayName="Název" />
+  <StringProperty Name="NoWarn" Description="Seznam upozornění oddělených čárkou, která by se měla pro tento balíček potlačit" DisplayName="Potlačit upozornění" Visible="True">
+    <StringProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="PackageReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="OriginalItemSpec" ReadOnly="True" Visible="False" />
+  <StringProperty Name="Path" Description="Umístění odkazovaného balíčku" ReadOnly="True" DisplayName="Cesta" />
+  <StringProperty Name="PrivateAssets" Description="Prostředky, které jsou v tomto odkazu soukromé" DisplayName="Soukromé prostředky">
+    <StringProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="PackageReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <!-- NOTE since 16.7 the SDK only returns "Package" items, however we keep this field to allow filtering in the case a user explicitly uses an older SDK version -->
+  <StringProperty Name="Type" ReadOnly="True" Visible="False" />
+  <StringProperty Name="Version" Description="Verze závislosti" DisplayName="Verze" ReadOnly="True">
+    <StringProperty.DataSource>
+      <DataSource PersistenceStyle="Attribute" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <BoolProperty Name="Visible" ReadOnly="True" Visible="False" />
+  <BoolProperty Name="TreatAsUsed" ReadOnly="True" Visible="False" />
+</Rule>

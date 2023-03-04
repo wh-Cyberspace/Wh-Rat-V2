@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+***********************************************************************************************
+Microsoft.Web.IISSupport.targets
+
+WARNING:  DO NOT MODIFY this file unless you are knowledgeable about MSBuild and have
+          created a backup copy.  Incorrect changes to this file will make it
+          impossible to load or build your projects from the command-line or the IDE.
+
+Copyright (C) Microsoft Corporation. All rights reserved.
+***********************************************************************************************
+-->
+
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup Condition="'$(BuildForIIS)' == 'true'">
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+  </PropertyGroup>
+
+  <Target
+     Name="ResolveAdditionalReferenceCopyLocalPathsForIIS"
+     Condition="'$(BuildForIIS)' == 'true'"
+     DependsOnTargets="RunResolvePublishAssembliesForIIS"
+     AfterTargets="ResolveReferences"
+     >
+
+    <!--
+      Copy publish assemblies that not already included in ReferenceCopyLocalPaths
+      via CopyLocalLockFileAssemblies=true. This will include RID-specific assets 
+      that would be published in  the runtimes/ folder, but excluded from 
+      CopyLocalLockFileAssemblies when no RuntimeIdentifier is set.
+    -->
+    <ItemGroup Condition="'$(RuntimeIdentifier)' == ''">
+      <!-- 
+       NOTE: The exclusion here is to ensure that we do not override any existing 
+             ReferenceCopyLocalPaths with assets from RunResolvedPublishAssemblies.
+             The ReferenceCopyLocalPaths can have conflicts resolved that are not 
+             also resolved in the publish set, and publish currently relies on copy
+             local paths having precedence over it to ensure conflict resolution 
+             applies. We must preserve that precedence here.
+     -->
+      <_RidSpecificAssembliesByDestination
+        Include="@(ResolvedAssembliesToPublish->'%(DestinationSubPath)')"
+        Exclude="@(ReferenceCopyLocalPaths->'%(DestinationSubDirectory)%(Filename)%(Extension)')"
+        OriginalItemSpec="%(ResolvedAssembliesToPublish.Identity)"
+       />
+
+      <_RidSpecificAssembliesByDestination
+        DestinationSubDirectory="%(_RidSpecificAssembliesByDestination.RelativeDir)"
+       />
+
+      <ReferenceCopyLocalPaths
+        Include="@(_RidSpecificAssembliesByDestination->'%(OriginalItemSpec)')"
+        Exclude="@(ReferenceCopyLocalPaths)"
+       />
+    </ItemGroup>
+
+    <!--
+       Copy reference assemblies needed for runtime compilation to refs/ folder. Only 
+       those that are not a also runtime assemblies and therefore already included in 
+       ReferenceCopyLocalPaths via CopyLocalLockFileAssemblies=true are needed.
+      -->
+    <ItemGroup Condition="'$(PreserveCompilationContext)' == 'true'">
+      <ReferenceCopyLocalPaths
+        Include="@(ReferencePath)"
+        Exclude="@(ReferenceCopyLocalPaths)"
+        DestinationSubDirectory="$(RefAssembliesFolderName)\"
+        />
+    </ItemGroup>
+
+  </Target>
+
+  <!-- 
+     We only need to call RunResolvePublishAssemblies during build when we do not 
+     have a RuntimeIdentifier.Otherwise, we already have everything we need from
+     CopyLocalLockFileAssemblies.
+   -->
+  <Target
+    Name="RunResolvePublishAssembliesForIIS"
+    Condition="'$(RuntimeIdentifier)' == ''"
+    DependsOnTargets="RunResolvePublishAssemblies"
+  />
+
+  <!-- 
+     Clean up an empty refs folder left behind if a previous build was for IIS.
+   -->
+  <Target
+    Name="CleanupEmptyRefsFolder"
+    Condition="'$(BuildForIIS)' != 'true'"
+    AfterTargets="Build"
+    >
+    <PropertyGroup>
+      <_RefsFolderFullPath>$(TargetDir)$(RefAssembliesFolderName)</_RefsFolderFullPath>
+      <_isAspNetCoreProject Condition="'%(ProjectCapability.Identity)' == 'DotNetCoreWeb'">true</_isAspNetCoreProject>
+    </PropertyGroup>
+
+    <ItemGroup Condition="'$(_isAspNetCoreProject)' == 'true'">
+      <_FilesInRefsFolder Include="$(_RefsFolderFullPath)\**\*" />
+    </ItemGroup>
+
+    <RemoveDir Directories="$(_RefsFolderFullPath)" ContinueOnError="true" Condition="'$(_isAspNetCoreProject)' == 'true' and '@(_FilesInRefsFolder ->Count())' == '0'" />
+
+  </Target>
+
+</Project>

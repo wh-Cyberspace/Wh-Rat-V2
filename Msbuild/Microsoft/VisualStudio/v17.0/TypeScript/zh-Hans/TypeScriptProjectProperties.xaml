@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Copyright, Microsoft Corporation, All rights reserved.-->
+<Rule Name="TypeScriptBuild" DisplayName="TypeScript" PageTemplate="generic" Description="TypeScript Build Properties" xmlns="http://schemas.microsoft.com/build/2009/properties">
+
+  <Rule.Categories>
+    <Category Name="General" DisplayName="General"/>
+    <Category Name="Output" DisplayName="Output"/>
+    <Category Name="Debugging" DisplayName="Debugging"/>
+  </Rule.Categories>
+
+  <Rule.DataSource>
+    <DataSource Persistence="ProjectFile" Label="Configuration"/>
+  </Rule.DataSource>
+
+<!-- General -->
+  <EnumProperty Name="TypeScriptTarget" DisplayName="ECMAScript 版本" Category="General" Description="要用于已生成的 JavaScript 的 ECMAScript 版本">
+    <EnumValue Name="ES3" DisplayName="ECMAScript 3"/>
+    <EnumValue Name="ES5" DisplayName="ECMAScript 5"/>
+    <EnumValue Name="ES6" DisplayName="ECMAScript 6"/>
+    <EnumValue Name="ES2016" DisplayName="ECMAScript 2016"/>
+    <EnumValue Name="ES2017" DisplayName="ECMAScript 2017"/>
+    <EnumValue Name="ES2018" DisplayName="ECMAScript 2018"/>
+    <EnumValue Name="ES2019" DisplayName="ECMAScript 2019"/>
+    <EnumValue Name="ES2020" DisplayName="ECMAScript 2020"/>
+    <EnumValue Name="ES2021" DisplayName="ECMAScript 2021"/>
+    <EnumValue Name="ESNext" DisplayName="ECMAScript Next"/>
+  </EnumProperty>
+
+  <EnumProperty Name="TypeScriptJSXEmit" DisplayName=".tsx 文件的编译模式" Category="General" Description="为 .tsx 文件指定 JSX 代码编译模式，这不会影响 .ts 文件">
+    <EnumProperty.DataSource> <!-- Indicates there is an interceptor used to specify the default value for TypeScriptJSXEmit -->
+      <DataSource HasConfigurationCondition="False" Persistence="ProjectFileWithInterception"/>
+    </EnumProperty.DataSource>
+    <EnumValue Name="none" DisplayName="无"/>
+    <EnumValue Name="preserve" DisplayName="保留 JSX 元素"/>
+    <EnumValue Name="react" DisplayName="发出 JSX 元素的 React 调用"/>
+  </EnumProperty>
+  
+  <EnumProperty Name="TypeScriptModuleKind" DisplayName="模块系统" Category="General" Description="外部模块代码生成目标">
+    <EnumProperty.DataSource>
+      <!-- Indicates there is an interceptor used to specify the default value for TypeScriptModuleKind -->
+      <DataSource HasConfigurationCondition="False" Persistence="ProjectFileWithInterception"/>
+    </EnumProperty.DataSource>
+    <EnumValue Name="none" DisplayName="无"/>
+    <EnumValue Name="amd" DisplayName="AMD"/>
+    <EnumValue Name="commonjs" DisplayName="CommonJS"/>
+    <EnumValue Name="umd" DisplayName="UMD"/>
+    <EnumValue Name="system" DisplayName="系统"/>
+  </EnumProperty>
+
+  <BoolProperty Name="TypeScriptCompileOnSaveEnabled" DisplayName="Compile on save" Category="General" Description="Recompile sources on save"/>
+
+  <BoolProperty Name="TypeScriptNoImplicitAny" DisplayName="Do not allow implicit 'any' types" Category="General" Description="Enable warnings on expressions and declarations with an implied 'any' type"/>
+
+<!-- Output -->
+  <BoolProperty Name="TypeScriptRemoveComments" DisplayName="Remove comments from JavaScript output" Category="Output" Description="Do not emit comments to output"/>
+
+  <StringProperty Name="TypeScriptOutFile" DisplayName="将 JavaScript 输出合并到文件中" Category="Output" Description="将输出重定向到文件中"/>
+
+  <StringProperty Name="TypeScriptOutDir" DisplayName="将 JavaScript 输出重定向到目录" Category="Output" Description="将输出重定向到不同于源目录的目录"/>
+
+  <BoolProperty Name="TypeScriptGeneratesDeclarations" DisplayName="Generate declaration files" Category="Output" Description="Generate corresponding d.ts file"/>
+
+   <BoolProperty Name="TypeScriptNoEmitOnError" DisplayName="Do not emit outputs if any errors are reported" Category="Output" Description="Doesn't emit output if errors are found"/>
+
+<!-- Debugging -->
+  <BoolProperty Name="TypeScriptSourceMap" DisplayName="Generate source maps" Category="Debugging" Description="Generates corresponding .map file"/>
+
+  <StringProperty Name="TypeScriptMapRoot" DisplayName="指定源映射的根目录" Category="Debugging" Description="发送源映射，使得在调试期间源映射将位于源映射根目录中"/>
+
+  <StringProperty Name="TypeScriptSourceRoot" DisplayName="指定 TypeScript 文件的根目录" Category="Debugging" Description="发送源映射，使得在调试期间源映射将位于源根目录中"/>
+
+</Rule>

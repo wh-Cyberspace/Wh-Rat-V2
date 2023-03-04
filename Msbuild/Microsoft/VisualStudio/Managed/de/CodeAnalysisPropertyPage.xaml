@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information. -->
+<Rule Name="CodeAnalysisPropertyPage" Description="Einstellungen" DisplayName="Code Analysis" PageTemplate="generic" Order="500" xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <Rule.Categories>
+    <Category Name="AllAnalyzers" DisplayName="Alle Diagnoseanalysetool" />
+    <Category Name="NetAnalyzers" DisplayName=".NET-Analysetools" />
+  </Rule.Categories>
+  <Rule.DataSource>
+    <DataSource Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" HasConfigurationCondition="False" />
+  </Rule.DataSource>
+  <BoolProperty Name="RunAnalyzersDuringBuild" DisplayName="Beim Erstellen ausführen" Description="Führen Sie Code Analysis immer beim Erstellen aus." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2173147" Category="AllAnalyzers" />
+  <BoolProperty Name="RunAnalyzersDuringLiveAnalysis" DisplayName="Bei Liveanalyse ausführen" Description="Führen Sie Code Analysis während der Eingabe live im Editor aus." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2173147" Category="AllAnalyzers" />
+  <BoolProperty Name="EnforceCodeStyleInBuild" DisplayName="Codeformat beim Erstellen erzwingen (experimentell)" Description="Erstellen Sie die Diagnose zum Codeformat beim Erstellen." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2172995" Category="NetAnalyzers" />
+  <BoolProperty Name="EnableNETAnalyzers" DisplayName=".NET-Diagnoseanalysetool aktivieren" Description="Führen Sie .NET-Diagnoseanalysetool aus, um die API-Nutzung zu unterstützen." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2173090" Category="NetAnalyzers" />
+  <EnumProperty Name="AnalysisLevel" DisplayName="Analyseebene" Description="Die Diagnoseanalysetools, die im Projekt ausgeführt werden soll." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2173091" Category="NetAnalyzers">
+    <EnumValue Name="none" DisplayName="Keine" />
+    <EnumValue Name="preview" DisplayName="Vorschau" />
+    <EnumValue Name="latest" DisplayName="Neueste" />
+    <EnumValue Name="5.0" DisplayName="5.0" />
+    <EnumValue Name="6.0" DisplayName="6.0" />
+  </EnumProperty>
+</Rule>

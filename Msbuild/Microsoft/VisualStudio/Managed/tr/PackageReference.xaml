@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information. -->
+<Rule Name="PackageReference" Description="Paket Başvurusu Özellikleri" DisplayName="Paket Başvurusu" PageTemplate="generic" xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <Rule.DataSource>
+    <DataSource HasConfigurationCondition="False" ItemType="PackageReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+  </Rule.DataSource>
+  <StringListProperty Name="Aliases" Description="Bu pakette bulunan bütünleştirilmiş kod başvurularına yönelik diğer adların virgülle ayrılmış listesi." DisplayName="Diğer Adlar" Separator="," />
+  <StringProperty Name="ExcludeAssets" Description="Bu başvuruya dahil edilmeyecek varlıklar." DisplayName="Hariç Tutulan Varlıklar" />
+  <BoolProperty Name="GeneratePathProperty" Description="Paket kök dizini konumuyla bir MSBuild özelliği oluşturulup oluşturulmayacağını belirtir. Oluşturulan özellik adı 'Pkg[PackageID]' biçimindedir. Burada '[PackageID]', noktalar '.' alt çizgi '_' ile değiştirilmiş olarak paketin adıdır." DisplayName="Yol Özelliği Oluştur" />
+  <StringProperty Name="IncludeAssets" Description="Bu başvurudan eklenecek varlıklar." DisplayName="Dahil Edilen Varlıklar" />
+  <StringProperty Name="IsImplicitlyDefined" ReadOnly="True" Visible="False" />
+  <StringProperty Name="Name" ReadOnly="True" DisplayName="Ad">
+    <StringProperty.DataSource>
+      <DataSource PersistedName="{}{Identity}" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="NoWarn" Description="Bu paket için gizlenmesi gereken virgülle ayrılmış uyarı listesi." DisplayName="Uyarıları Gizle" />
+  <!-- NOTE this property will never be populated for unresolved items, but is included to make the UI consistent -->
+  <StringProperty Name="Path" Description="Başvurulan paketin konumu." DisplayName="Yol" ReadOnly="True" />
+  <StringProperty Name="PrivateAssets" Description="Bu başvuruda özel olan varlıklar." DisplayName="Özel Varlıklar" />
+  <StringProperty Name="Version" Description="Bağımlılık sürümü." DisplayName="Sürüm" ReadOnly="True">
+    <StringProperty.DataSource>
+      <DataSource PersistenceStyle="Attribute" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <BoolProperty Name="Visible" ReadOnly="True" Visible="False" />
+  <BoolProperty Name="TreatAsUsed" ReadOnly="True" Visible="False" />
+</Rule>

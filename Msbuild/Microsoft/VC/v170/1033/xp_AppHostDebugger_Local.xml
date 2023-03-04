@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--Copyright, Microsoft Corporation, All rights reserved.-->
+<Rule
+  Name="AppHostLocalDebugger"
+  DisplayName="Local Debugger"
+  PageTemplate="debugger"
+  Order="100"
+  Description="Local Debugger options"
+  xmlns:sys="clr-namespace:System;assembly=mscorlib"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns="http://schemas.microsoft.com/build/2009/properties">
+
+  <Rule.Metadata>
+    <sys:Guid x:Key="DebugTargetTypeCommandGuid">FEEA6E9D-77D8-423F-9EDE-3970CBB76125</sys:Guid>
+    <sys:UInt32 x:Key="DebugTargetTypeCommandId">0x200</sys:UInt32>
+  </Rule.Metadata>
+  <Rule.DataSource>
+    <DataSource Persistence="UserFile" />
+  </Rule.DataSource>
+  <Rule.Categories>
+    <Category Name="StartOptions" DisplayName="Start Options" Description="Start Options"/>
+  </Rule.Categories>
+  <BoolProperty
+    Name="DebuggerLaunchApplication"
+    DisplayName="Launch Application"
+    Category="StartOptions"
+    Description="Specifies whether to launch my application immediately or wait to debug my application when it starts running."/>
+  <EnumProperty
+    Name="DebuggerType"
+    DisplayName="Debugger Type"
+    Category="StartOptions"
+    Description="Specifies which debugger to enable. When set to Mixed, the debuggers for both managed and native code are invoked.">
+    <EnumValue Name="NativeOnly" DisplayName="Native Only" Description="Native Only" />
+    <EnumValue Name="ManagedOnly" DisplayName="Managed Only" Description="Managed Only" />
+    <EnumValue Name="GPUOnly" DisplayName="GPU Only (C++ AMP)" Description="GPU Only (C++ AMP)" />
+    <EnumValue Name="Script" DisplayName="Script Only" Description="Script Only" />
+    <EnumValue Name="Mixed" DisplayName="Mixed (Managed and Native)" Description="Mixed (Managed and Native)" />
+  </EnumProperty>
+  <DynamicEnumProperty Name="GPUDebuggerTargetType" DisplayName="Debugging Accelerator Type" EnumProvider="GPUTargets" Description="The debugging accelerator type to use for debugging the GPU code.  (Available when the GPU debugger is active.)" />
+  <EnumProperty Name="GPURefDebuggerBreakOnAllThreads" DisplayName="GPU Default Breakpoint Behavior"
+              Description="Sets how often the GPU debugger breaks."
+              F1Keyword="VC.Project.IVCGPURefDebugPageObject.BreakpointBehavior">
+    <EnumValue Name="GPURefBreakOncePerWarp" DisplayName="Break once per warp"
+               Description="Break once per warp" />
+    <EnumValue Name="GPURefBreakForCPUThread" DisplayName="Break for every thread (like CPU behavior)"
+               Description="Break for every thread (like CPU behavior)" />
+  </EnumProperty>
+</Rule>

@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information. -->
+<Rule Name="AssemblyReference" Description="Bütünleştirilmiş Kod Başvurusu Özellikleri" DisplayName="Derleme Başvurusu" PageTemplate="generic" xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <Rule.DataSource>
+    <DataSource HasConfigurationCondition="False" ItemType="Reference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+  </Rule.DataSource>
+  <StringListProperty Name="Aliases" Description="Bu başvurunun diğer adlarına yönelik virgülle ayrılmış bir liste." DisplayName="Diğer Adlar" Separator="," />
+  <BoolProperty Name="CopyLocal" Description="Başvurunun çıkış dizinine kopyalanıp kopyalanmayacağını gösterir." DisplayName="Yereli Kopyala">
+    <BoolProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="Reference" PersistedName="Private" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+  <BoolProperty Name="EmbedInteropTypes" Description="Bu bütünleştirilmiş kodda tanımlanan türlerin hedef bütünleştirilmiş koda katıştırılıp katıştırılmayacağını belirtir." DisplayName="Birlikte Çalışma Türlerini Ekle" />
+  <StringProperty Name="HintPath" Visible="false" />
+  <StringProperty Name="Identity" Description="Başvurulan bütünleştirilmiş kodun güvenlik kimliği (bkz. System.Reflection.Assembly.Evidence veya System.Security.Policy.Evidence)." DisplayName="Kimlik" ReadOnly="True">
+    <StringProperty.DataSource>
+      <DataSource PersistedName="{}{Identity}" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="ImageRuntime" ReadOnly="True" Visible="False" />
+  <StringProperty Name="IsImplicitlyDefined" ReadOnly="True" Visible="False" />
+  <BoolProperty Name="IsWinMDFile" Visible="false" />
+  <StringProperty Name="RequiredTargetFramework" Visible="False" />
+  <StringProperty Name="ResolvedPath" Description="Başvurulan dosyanın konumu." DisplayName="Yol" ReadOnly="True">
+    <StringProperty.DataSource>
+      <DataSource PersistedName="Identity" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="SDKName" Visible="false" />
+  <BoolProperty Name="SpecificVersion" Description="Bu bütünleştirilmiş kodun, bütünleştirilmiş kod çözümlemesine yönelik çoklu sürüm desteği kurallarına bağlı kalmadan çözümlenip çözümlenemeyeceğini belirtir." DisplayName="Belirli Bir Sürüm">
+    <BoolProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="Reference" Persistence="AssemblyReference" SourceOfDefaultValue="AfterContext" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+  <StringProperty Name="Version" Description="Başvurunun sürümü." DisplayName="Sürüm" ReadOnly="True" />
+  <BoolProperty Name="Visible" ReadOnly="True" Visible="False" />
+  <BoolProperty Name="TreatAsUsed" Description="Bu başvurunun kullanılmış gibi değerlendirilmesi gerektiğini belirtir." DisplayName="Kullanılmış olarak değerlendir" Visible="True" ReadOnly="True" />
+</Rule>

@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information. -->
+<Rule Name="Package" Description="与生成 NuGet 包相关的属性。" DisplayName="包" PageTemplate="generic" Order="400" xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <Rule.Categories>
+    <Category Name="General" DisplayName="常规" Description="包的常规设置。" />
+    <Category Name="License" DisplayName="许可证" Description="指定包的许可证。" />
+  </Rule.Categories>
+  <Rule.DataSource>
+    <DataSource Persistence="ProjectFileWithInterception" SourceOfDefaultValue="AfterContext" HasConfigurationCondition="False" />
+  </Rule.DataSource>
+  <BoolProperty Name="GeneratePackageOnBuild" DisplayName="在构建时生成 NuGet 包" Description="在生成操作期间创建包文件。" Category="General" />
+  <StringProperty Name="PackageId" DisplayName="包 ID" Description="不区分大小写的包标识符，该标识符在 nuget.org 或包所在的任何库中必须是唯一的。ID 不能包含对于 URL 无效的空格或字符，且通常遵循 .NET 命名空间规则。" HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147131" Category="General">
+    <StringProperty.Metadata>
+      <NameValuePair Name="DependsOn" Value="Application::AssemblyName" />
+    </StringProperty.Metadata>
+  </StringProperty>
+  <StringProperty Name="Version" DisplayName="包版本" Description="包的版本，遵循 major.minor.patch 模式。版本号可能包括预发布后缀。" HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147132" Category="General" />
+  <StringProperty Name="Authors" DisplayName="作者" Description="以逗号分隔的包作者列表，与 nuget.org 上的配置文件名称匹配。这些项在 nuget.org 上的 NuGet 库中显示，用于按相同的作者交叉引用包。" HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147237" Category="General">
+    <StringProperty.Metadata>
+      <NameValuePair Name="DependsOn" Value="Application::AssemblyName" />
+    </StringProperty.Metadata>
+  </StringProperty>
+  <StringProperty Name="Company" DisplayName="公司" Category="General">
+    <StringProperty.Metadata>
+      <NameValuePair Name="DependsOn" Value="Package::Authors" />
+    </StringProperty.Metadata>
+  </StringProperty>
+  <StringProperty Name="Product" DisplayName="产品" Category="General">
+    <StringProperty.Metadata>
+      <NameValuePair Name="DependsOn" Value="Application::AssemblyName" />
+    </StringProperty.Metadata>
+  </StringProperty>
+  <StringProperty Name="Description" DisplayName="说明" Description="用于 UI 显示的包的说明。" HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147238" Category="General">
+    <StringProperty.ValueEditors>
+      <ValueEditor EditorType="MultiLineString" />
+    </StringProperty.ValueEditors>
+  </StringProperty>
+  <StringProperty Name="Copyright" DisplayName="版权" Description="包的版权详细信息" HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147133" Category="General" />
+  <StringProperty Name="PackageProjectUrl" DisplayName="项目 URL" Description="包主页的 URL，通常显示在 UI 和 nuget.org 中。" HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147240" Category="General" />
+  <StringProperty Name="PackageIcon" DisplayName="图标" Description="包的图标图像。图像文件大小限制为 1 MB。受支持的文件格式包含 JPEG 和 PNG。推荐使用 128x128 的图像分辨率。" HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147134" Category="General" Subtype="file">
+    <StringProperty.ValueEditors>
+      <ValueEditor EditorType="FilePath">
+        <ValueEditor.Metadata>
+          <NameValuePair Name="FileTypeFilter" Value="Image files (*.png,*.jpg,*.jpeg)|*.png;*.jpg;*.jpeg|All files (*.*)|*.*" />
+        </ValueEditor.Metadata>
+      </ValueEditor>
+    </StringProperty.ValueEditors>
+    <StringProperty.DataSource>
+      <DataSource Persistence="ProjectFileWithInterception" HasConfigurationCondition="False" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="PackageReadmeFile" DisplayName="自述文件" Description="包的自述文件。必须为 Markdown (.md)文件。" HelpUrl="https://go.microsoft.com/fwlink/?linkid=2168540" Category="General" Subtype="file">
+    <StringProperty.ValueEditors>
+      <ValueEditor EditorType="FilePath">
+        <ValueEditor.Metadata>
+          <NameValuePair Name="FileTypeFilter" Value="Markdown files (*.md)|*.md|All files (*.*)|*.*" />
+        </ValueEditor.Metadata>
+      </ValueEditor>
+    </StringProperty.ValueEditors>
+    <StringProperty.DataSource>
+      <DataSource Persistence="ProjectFileWithInterception" HasConfigurationCondition="False" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="RepositoryUrl" DisplayName="存储库 URL" Description="指定包的源代码所在的存储库和/或从其中构建源代码的存储库的 URL。如需链接到项目页面，请改用“项目 URL”字段。" HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147241" Category="General" />
+  <StringProperty Name="RepositoryType" DisplayName="存储库类型" Description="指定存储库的类型。默认值为 &quot;git&quot;。" HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147241" Category="General" />
+  <StringProperty Name="PackageTags" DisplayName="标记" Description="以分号分隔的标记和关键字列表，描述包并通过搜索和筛选辅助包的可发现性。" HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147135" Category="General" />
+  <StringProperty Name="PackageReleaseNotes" DisplayName="发行说明" Description="此版本包中所作更改的说明，通常代替包说明用在 UI 中，如 Visual Studio 包管理器的“更新”选项卡。" HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147242" Category="General" />
+  <DynamicEnumProperty Name="NeutralLanguage" DisplayName="程序集非特定语言" EnumProvider="NeutralLanguageEnumProvider" MultipleValuesAllowed="False" Category="General" />
+  <StringProperty Name="AssemblyVersion" DisplayName="程序集版本" Category="General" />
+  <StringProperty Name="FileVersion" DisplayName="文件版本" Category="General" />
+  <!-- TODO add help URL? -->
+  <EnumProperty Name="PackageLicenseKind" DisplayName="包许可证" Description="指定项目包的许可证。" Category="License">
+    <EnumProperty.DataSource>
+      <DataSource Persistence="ProjectFileWithInterception" HasConfigurationCondition="False" />
+    </EnumProperty.DataSource>
+    <EnumValue Name="None" DisplayName="无" />
+    <EnumValue Name="Expression" DisplayName="SPDX 许可证表达式" />
+    <EnumValue Name="File" DisplayName="嵌入的文件" />
+  </EnumProperty>
+  <StringProperty Name="PackageLicenseExpression" DisplayName="许可证表达式" Description="SPDX 许可证表达式，通常在 nuget.org 等 UI 中显示。" HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147239" Category="License">
+    <StringProperty.Metadata>
+      <NameValuePair Name="DependsOn" Value="Package::PackageLicenseKind" />
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>(has-evaluated-value "Package" "PackageLicenseKind" "Expression")</NameValuePair.Value>
+      </NameValuePair>
+    </StringProperty.Metadata>
+  </StringProperty>
+  <!-- TODO add a fwlink for this action URL -->
+  <StringProperty Name="ReadAboutSpdxExpressions" DisplayName="阅读 SPDX 许可证表达式" Category="License">
+    <StringProperty.DataSource>
+      <DataSource PersistedName="ReadAboutSpdxExpressions" Persistence="ProjectFileWithInterception" HasConfigurationCondition="False" />
+    </StringProperty.DataSource>
+    <StringProperty.ValueEditors>
+      <ValueEditor EditorType="LinkAction">
+        <ValueEditor.Metadata>
+          <NameValuePair Name="Action" Value="URL" />
+          <NameValuePair Name="URL" Value="https://go.microsoft.com/fwlink/?linkid=2166116" />
+        </ValueEditor.Metadata>
+      </ValueEditor>
+    </StringProperty.ValueEditors>
+    <StringProperty.Metadata>
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>(has-evaluated-value "Package" "PackageLicenseKind" "Expression")</NameValuePair.Value>
+      </NameValuePair>
+    </StringProperty.Metadata>
+  </StringProperty>
+  <StringProperty Name="PackageLicenseFile" DisplayName="许可证文件" HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147239" Category="License" Subtype="file">
+    <StringProperty.Metadata>
+      <NameValuePair Name="DependsOn" Value="Package::PackageLicenseKind" />
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>(has-evaluated-value "Package" "PackageLicenseKind" "File")</NameValuePair.Value>
+      </NameValuePair>
+    </StringProperty.Metadata>
+  </StringProperty>
+  <BoolProperty Name="PackageRequireLicenseAcceptance" DisplayName="要求接受许可证" Description="安装此包时，提示用户接受许可证。" Category="License">
+    <BoolProperty.Metadata>
+      <NameValuePair Name="DependsOn" Value="Package::PackageLicenseKind" />
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>(not (has-evaluated-value "Package" "PackageLicenseKind" "None"))</NameValuePair.Value>
+      </NameValuePair>
+    </BoolProperty.Metadata>
+  </BoolProperty>
+</Rule>

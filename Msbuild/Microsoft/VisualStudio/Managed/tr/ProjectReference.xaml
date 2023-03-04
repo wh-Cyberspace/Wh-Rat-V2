@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information. -->
+<Rule Name="ProjectReference" Description="Proje Başvurusu Özellikleri" DisplayName="Proje Başvurusu" PageTemplate="generic" xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <Rule.DataSource>
+    <DataSource HasConfigurationCondition="False" ItemType="ProjectReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+  </Rule.DataSource>
+  <StringListProperty Name="Aliases" Description="Bu başvurunun diğer adlarına yönelik virgülle ayrılmış bir liste." DisplayName="Diğer Adlar" Separator=",">
+    <StringListProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="ProjectReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </StringListProperty.DataSource>
+  </StringListProperty>
+  <StringProperty Name="BrowsePath" ReadOnly="True" Visible="False">
+    <StringProperty.DataSource>
+      <DataSource ItemType="ProjectReference" PersistedName="Identity" Persistence="Intrinsic" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <BoolProperty Name="CopyLocal" Description="Başvurunun çıkış dizinine kopyalanıp kopyalanmayacağını gösterir." DisplayName="Yereli Kopyala">
+    <BoolProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="ProjectReference" PersistedName="Private" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+  <BoolProperty Name="CopyLocalSatelliteAssemblies" Description="Başvuru hedefinin uydu derlemelerinin bu projenin çıkış dizinine kopyalanmasının gerekli olup olmadığını gösterir." DisplayName="Yerel Uydu Derlemelerini Kopyala" />
+  <StringProperty Name="Culture" Description="Derleme meta verilerindeki kültür alanının değeri." DisplayName="Kültür" ReadOnly="True" />
+  <StringProperty Name="Description" Description="Bütünleştirilmiş kod meta verisinin Title (Başlık) alanının değeri." DisplayName="Açıklama" ReadOnly="True" />
+  <BoolProperty Name="EmbedInteropTypes" Description="Bu bütünleştirilmiş kodda tanımlanan türlerin hedef bütünleştirilmiş koda katıştırılıp katıştırılmayacağını belirtir." DisplayName="Birlikte Çalışma Türlerini Ekle">
+    <BoolProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="ProjectReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+  <StringProperty Name="ExcludeAssets" Description="Bu başvuruya dahil edilmeyecek varlıklar." DisplayName="Varlıkları Dışla" />
+  <StringProperty Name="Identity" Description="Başvurulan bütünleştirilmiş kodun güvenlik kimliği (bkz. System.Reflection.Assembly.Evidence veya System.Security.Policy.Evidence)." DisplayName="Kimlik" ReadOnly="True">
+    <StringProperty.DataSource>
+      <DataSource PersistedName="{}{Identity}" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="IncludeAssets" Description="Bu başvurudan eklenecek varlıklar." DisplayName="Varlıkları Dahil Et" />
+  <StringProperty Name="IsImplicitlyDefined" ReadOnly="True" Visible="False" />
+  <BoolProperty Name="LinkLibraryDependencies" Visible="False" />
+  <StringProperty Name="PrivateAssets" Description="Bu başvuruda özel olan varlıklar." DisplayName="Özel Varlıklar" />
+  <StringProperty Name="Project" Visible="False" />
+  <StringProperty Name="ProjectFileFullPath" Visible="False" ReadOnly="True">
+    <StringProperty.DataSource>
+      <DataSource ItemType="ProjectReference" PersistedName="FullPath" Persistence="Intrinsic" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="ReferencedProjectIdentifier" Visible="False" />
+  <BoolProperty Name="ReferenceOutputAssembly" Description="Derleyicinin hedef projenin birincil çıkış derlemesine bir başvuru içermesinin gerekli olup olmadığını gösteren bir değer." DisplayName="Başvuru Çıkış Derlemesi" />
+  <StringProperty Name="ResolvedPath" Description="Başvurulan dosyanın konumu." DisplayName="Yol" ReadOnly="True">
+    <StringProperty.DataSource>
+      <DataSource PersistedName="Identity" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <BoolProperty Name="UseLibraryDependencyInputs" Visible="False" />
+  <StringProperty Name="Version" Description="Başvurunun sürümü." DisplayName="Sürüm" ReadOnly="True" />
+  <BoolProperty Name="Visible" ReadOnly="True" Visible="False" />
+  <BoolProperty Name="TreatAsUsed" Description="Bu başvurunun kullanılmış gibi değerlendirilmesi gerektiğini belirtir." DisplayName="Kullanılmış olarak değerlendir" ReadOnly="True" Visible="True" />
+</Rule>

@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information. -->
+<Rule Name="ExecutableDebugPropertyPage" Description="Свойства, связанные с запуском и отладкой указанного исполняемого файла." DisplayName="Исполняемый файл" PageTemplate="commandNameBasedDebugger" xmlns:sys="clr-namespace:System;assembly=mscorlib" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <Rule.Metadata>
+    <sys:String x:Key="CommandName">Executable</sys:String>
+    <!-- KnownImageIds.ImageCatalogGuid -->
+    <sys:Guid x:Key="ImageMonikerGuid">AE27A6B0-E345-4288-96DF-5EAF394EE369</sys:Guid>
+    <!-- KnownImageIds.Execute -->
+    <sys:Int32 x:Key="ImageMonikerId">1173</sys:Int32>
+  </Rule.Metadata>
+  <Rule.DataSource>
+    <DataSource Persistence="LaunchProfile" HasConfigurationCondition="False" ItemType="LaunchProfile" />
+  </Rule.DataSource>
+  <StringProperty Name="ExecutablePath" DisplayName="Исполняемый файл" Description="Путь к исполняемому файлу для запуска." Subtype="file" />
+  <StringProperty Name="CommandLineArguments" DisplayName="Аргументы командной строки" Description="Аргументы командной строки для передачи исполняемому файлу." />
+  <StringProperty Name="WorkingDirectory" DisplayName="Рабочий каталог" Description="Путь к рабочему каталогу, в котором будет запущен процесс." Subtype="folder" />
+  <BoolProperty Name="RemoteDebugEnabled" DisplayName="Использование удаленного компьютера" Description="Указывает, что отладчик должен подключаться к процессу на удаленном компьютере." />
+  <StringProperty Name="RemoteDebugMachine" DisplayName="Имя удаленного компьютера" Description="Имя и номер порта удаленного компьютера в формате &quot;имя:порт&quot;.">
+    <StringProperty.Metadata>
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>(has-evaluated-value "Executable" "RemoteDebugEnabled" true)</NameValuePair.Value>
+      </NameValuePair>
+      <NameValuePair Name="DependsOn" Value="Executable::RemoteDebugMachine" />
+    </StringProperty.Metadata>
+  </StringProperty>
+  <DynamicEnumProperty Name="AuthenticationMode" DisplayName="Режим проверки подлинности" Description="Схема проверки подлинности, используемая для подключения к удаленному компьютеру." EnumProvider="AuthenticationModeEnumProvider">
+    <DynamicEnumProperty.Metadata>
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>(has-evaluated-value "Executable" "RemoteDebugEnabled" true)</NameValuePair.Value>
+      </NameValuePair>
+      <NameValuePair Name="DependsOn" Value="Executable::RemoteDebugMachine" />
+    </DynamicEnumProperty.Metadata>
+  </DynamicEnumProperty>
+  <StringProperty Name="EnvironmentVariables" DisplayName="Переменные среды" Description="Переменные среды, которые необходимо задать перед запуском процесса. Переменные разделяются запятыми (,), а имена переменных и значения разделяются знаком равенства (=). Пример: var1=value1,var2=value2,var3=value3. Запятые и знак равенства внутри переменной можно экранировать с помощью косой черты (/)." />
+  <BoolProperty Name="NativeDebugging" DisplayName="Включить отладку машинного кода" Description="Включение совместной отладки управляемого и машинного кода (смешанный режим отладки)." />
+  <BoolProperty Name="SqlDebugging" DisplayName="Включить отладку SQL Server" Description="Включение отладки скриптов SQL и хранимых процедур." />
+  <BoolProperty Name="WebView2Debugging" DisplayName="Включить отладку WebView2" Description="Включите отладчик JavaScript для WebView2 на базе Microsoft Edge (Chromium). Требуется компонент диагностики JavaScript." />
+</Rule>

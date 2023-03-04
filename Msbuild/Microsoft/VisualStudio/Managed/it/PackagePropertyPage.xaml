@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information. -->
+<Rule Name="Package" Description="Proprietà correlate alla produzione di pacchetti NuGet." DisplayName="Pacchetto" PageTemplate="generic" Order="400" xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <Rule.Categories>
+    <Category Name="General" DisplayName="Generale" Description="Impostazioni generali per il pacchetto." />
+    <Category Name="License" DisplayName="Licenza" Description="Consente di specificare la licenza per il pacchetto." />
+  </Rule.Categories>
+  <Rule.DataSource>
+    <DataSource Persistence="ProjectFileWithInterception" SourceOfDefaultValue="AfterContext" HasConfigurationCondition="False" />
+  </Rule.DataSource>
+  <BoolProperty Name="GeneratePackageOnBuild" DisplayName="Genera pacchetto NuGet durante la compilazione" Description="Produce un file di pacchetto durante le operazioni di generazione." Category="General" />
+  <StringProperty Name="PackageId" DisplayName="ID pacchetto" Description="Identificatore del pacchetto senza distinzione tra maiuscole e minuscole, che deve essere univoco in nuget.org o in qualsiasi raccolta in cui risiede il pacchetto. Gli ID non possono contenere spazi o caratteri non validi per un URL e sono in genere conformi alle regole dello spazio dei nomi .NET." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147131" Category="General">
+    <StringProperty.Metadata>
+      <NameValuePair Name="DependsOn" Value="Application::AssemblyName" />
+    </StringProperty.Metadata>
+  </StringProperty>
+  <StringProperty Name="Version" DisplayName="Versione del pacchetto" Description="Versione del pacchetto, conforme allo schema principale.secondaria.patch. I numeri di versione possono includere un suffisso di versione preliminare." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147132" Category="General" />
+  <StringProperty Name="Authors" DisplayName="Autori" Description="Elenco di autori di pacchetti delimitato da virgole, corrispondenti ai nomi dei profili in nuget.org. Vengono visualizzati nella raccolta NuGet in nuget.org e usati per eseguire il riferimento incrociato dei pacchetti dagli stessi autori." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147237" Category="General">
+    <StringProperty.Metadata>
+      <NameValuePair Name="DependsOn" Value="Application::AssemblyName" />
+    </StringProperty.Metadata>
+  </StringProperty>
+  <StringProperty Name="Company" DisplayName="Società" Category="General">
+    <StringProperty.Metadata>
+      <NameValuePair Name="DependsOn" Value="Package::Authors" />
+    </StringProperty.Metadata>
+  </StringProperty>
+  <StringProperty Name="Product" DisplayName="Prodotto" Category="General">
+    <StringProperty.Metadata>
+      <NameValuePair Name="DependsOn" Value="Application::AssemblyName" />
+    </StringProperty.Metadata>
+  </StringProperty>
+  <StringProperty Name="Description" DisplayName="Descrizione" Description="Descrizione del pacchetto per la visualizzazione dell'interfaccia utente." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147238" Category="General">
+    <StringProperty.ValueEditors>
+      <ValueEditor EditorType="MultiLineString" />
+    </StringProperty.ValueEditors>
+  </StringProperty>
+  <StringProperty Name="Copyright" DisplayName="Copyright" Description="Dettagli del copyright per il pacchetto." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147133" Category="General" />
+  <StringProperty Name="PackageProjectUrl" DisplayName="URL del progetto" Description="URL della home page del pacchetto, spesso visualizzata nell'interfaccia utente come nuget.org." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147240" Category="General" />
+  <StringProperty Name="PackageIcon" DisplayName="Icona" Description="Immagine dell'icona per il pacchetto. Le dimensioni del file immagine sono limitate a 1 MB. I formati di file supportati includono JPEG e PNG. È consigliata una risoluzione dell'immagine di 128 x 128." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147134" Category="General" Subtype="file">
+    <StringProperty.ValueEditors>
+      <ValueEditor EditorType="FilePath">
+        <ValueEditor.Metadata>
+          <NameValuePair Name="FileTypeFilter" Value="Image files (*.png,*.jpg,*.jpeg)|*.png;*.jpg;*.jpeg|All files (*.*)|*.*" />
+        </ValueEditor.Metadata>
+      </ValueEditor>
+    </StringProperty.ValueEditors>
+    <StringProperty.DataSource>
+      <DataSource Persistence="ProjectFileWithInterception" HasConfigurationCondition="False" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="PackageReadmeFile" DisplayName="LEGGIMI" Description="Documento LEGGIMI per il pacchetto. Deve essere un file Markdown (con estensione .md)." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2168540" Category="General" Subtype="file">
+    <StringProperty.ValueEditors>
+      <ValueEditor EditorType="FilePath">
+        <ValueEditor.Metadata>
+          <NameValuePair Name="FileTypeFilter" Value="Markdown files (*.md)|*.md|All files (*.*)|*.*" />
+        </ValueEditor.Metadata>
+      </ValueEditor>
+    </StringProperty.ValueEditors>
+    <StringProperty.DataSource>
+      <DataSource Persistence="ProjectFileWithInterception" HasConfigurationCondition="False" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="RepositoryUrl" DisplayName="URL del repository" Description="Consente di specificare l'URL del repository in cui risiede il codice sorgente per il pacchetto e/o da cui è in corso la compilazione. Per il collegamento alla pagina del progetto, usare il campo 'URL del progetto'." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147241" Category="General" />
+  <StringProperty Name="RepositoryType" DisplayName="Tipo di repository" Description="Specifica il tipo di repository. L'impostazione predefinita è 'git'." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147241" Category="General" />
+  <StringProperty Name="PackageTags" DisplayName="Tag" Description="Elenco di tag e parole chiave delimitati da punto e virgola che descrivono il pacchetto e facilitano l'individuabilità dei NuGet tramite ricerca e filtro." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147135" Category="General" />
+  <StringProperty Name="PackageReleaseNotes" DisplayName="Note sulla versione" Description="Descrizione delle modifiche apportate in questa versione del pacchetto, spesso usata nell'interfaccia utente, come la scheda Aggiornamenti di Gestione pacchetti di Visual Studio, in sostituzione della descrizione del pacchetto." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147242" Category="General" />
+  <DynamicEnumProperty Name="NeutralLanguage" DisplayName="Lingua di sistema dell'assembly" EnumProvider="NeutralLanguageEnumProvider" MultipleValuesAllowed="False" Category="General" />
+  <StringProperty Name="AssemblyVersion" DisplayName="Versione dell'assembly" Category="General" />
+  <StringProperty Name="FileVersion" DisplayName="Versione del file" Category="General" />
+  <!-- TODO add help URL? -->
+  <EnumProperty Name="PackageLicenseKind" DisplayName="Licenza del pacchetto" Description="Consente di specificare una licenza per il pacchetto del progetto." Category="License">
+    <EnumProperty.DataSource>
+      <DataSource Persistence="ProjectFileWithInterception" HasConfigurationCondition="False" />
+    </EnumProperty.DataSource>
+    <EnumValue Name="None" DisplayName="Nessuno" />
+    <EnumValue Name="Expression" DisplayName="Espressione della licenza SPDX" />
+    <EnumValue Name="File" DisplayName="File incorporato" />
+  </EnumProperty>
+  <StringProperty Name="PackageLicenseExpression" DisplayName="Espressione di licenza" Description="Espressione di licenza SPDX, spesso visualizzata in interfacce utente come nuget.org." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147239" Category="License">
+    <StringProperty.Metadata>
+      <NameValuePair Name="DependsOn" Value="Package::PackageLicenseKind" />
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>(has-evaluated-value "Package" "PackageLicenseKind" "Expression")</NameValuePair.Value>
+      </NameValuePair>
+    </StringProperty.Metadata>
+  </StringProperty>
+  <!-- TODO add a fwlink for this action URL -->
+  <StringProperty Name="ReadAboutSpdxExpressions" DisplayName="Informazioni sulle espressioni di licenza SPDX" Category="License">
+    <StringProperty.DataSource>
+      <DataSource PersistedName="ReadAboutSpdxExpressions" Persistence="ProjectFileWithInterception" HasConfigurationCondition="False" />
+    </StringProperty.DataSource>
+    <StringProperty.ValueEditors>
+      <ValueEditor EditorType="LinkAction">
+        <ValueEditor.Metadata>
+          <NameValuePair Name="Action" Value="URL" />
+          <NameValuePair Name="URL" Value="https://go.microsoft.com/fwlink/?linkid=2166116" />
+        </ValueEditor.Metadata>
+      </ValueEditor>
+    </StringProperty.ValueEditors>
+    <StringProperty.Metadata>
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>(has-evaluated-value "Package" "PackageLicenseKind" "Expression")</NameValuePair.Value>
+      </NameValuePair>
+    </StringProperty.Metadata>
+  </StringProperty>
+  <StringProperty Name="PackageLicenseFile" DisplayName="File di licenza" HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147239" Category="License" Subtype="file">
+    <StringProperty.Metadata>
+      <NameValuePair Name="DependsOn" Value="Package::PackageLicenseKind" />
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>(has-evaluated-value "Package" "PackageLicenseKind" "File")</NameValuePair.Value>
+      </NameValuePair>
+    </StringProperty.Metadata>
+  </StringProperty>
+  <BoolProperty Name="PackageRequireLicenseAcceptance" DisplayName="Richiedi accettazione della licenza" Description="Chiede all'utente di accettare la licenza durante l'installazione di questo pacchetto." Category="License">
+    <BoolProperty.Metadata>
+      <NameValuePair Name="DependsOn" Value="Package::PackageLicenseKind" />
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>(not (has-evaluated-value "Package" "PackageLicenseKind" "None"))</NameValuePair.Value>
+      </NameValuePair>
+    </BoolProperty.Metadata>
+  </BoolProperty>
+</Rule>

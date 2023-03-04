@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information. -->
+<Rule Name="ComReference" Description="COM 참조 속성" DisplayName="COM 참조" PageTemplate="generic" xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <Rule.DataSource>
+    <DataSource HasConfigurationCondition="False" ItemType="COMReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+  </Rule.DataSource>
+  <StringListProperty Name="Aliases" Description="이 참조에 대한 쉼표로 구분된 별칭 목록입니다." DisplayName="별칭" Separator=",">
+    <StringListProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="COMReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </StringListProperty.DataSource>
+  </StringListProperty>
+  <BoolProperty Name="CopyLocal" Description="참조를 출력 디렉터리에 복사할지 여부를 나타냅니다." DisplayName="로컬 복사">
+    <BoolProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="COMReference" PersistedName="Private" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+  <BoolProperty Name="EmbedInteropTypes" Description="이 어셈블리에 정의된 형식이 대상 어셈블리에 포함되는지 여부를 나타냅니다." DisplayName="Interop 형식 포함">
+    <BoolProperty.DataSource>
+      <DataSource HasConfigurationCondition="False" ItemType="COMReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+  <StringProperty Name="Guid" Description="COM 서버의 GUID입니다." DisplayName="CLSID" />
+  <StringProperty Name="Identity" Description="참조된 어셈블리의 보안 ID입니다(System.Reflection.Assembly.Evidence 또는 System.Security.Policy.Evidence 참조)." DisplayName="ID" ReadOnly="True">
+    <StringProperty.DataSource>
+      <DataSource PersistedName="{}{Identity}" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="IsImplicitlyDefined" ReadOnly="True" Visible="False" />
+  <BoolProperty Name="Isolated" DisplayName="격리" />
+  <StringProperty Name="Lcid" Description="COM 서버의 LCID입니다." DisplayName="로캘" />
+  <IntProperty Name="VersionMajor" DisplayName="주 버전" />
+  <IntProperty Name="VersionMinor" DisplayName="부 버전" />
+  <BoolProperty Name="Visible" ReadOnly="True" Visible="False" />
+  <StringProperty Name="WrapperTool" DisplayName="래퍼 도구" />
+  <!-- NOTE this property will never be populated for unresolved items, but is included to make the UI consistent -->
+  <StringProperty Name="ResolvedPath" DisplayName="경로" Description="참조되는 파일의 위치입니다." ReadOnly="True" />
+  <!-- NOTE this property will never be populated for unresolved items, but is included to make the UI consistent -->
+  <StringProperty Name="Version" DisplayName="버전" Description="참조의 버전입니다." ReadOnly="True" />
+</Rule>

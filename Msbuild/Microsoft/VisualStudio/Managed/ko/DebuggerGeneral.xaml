@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.-->
+<Rule Name="DebuggerGeneralProperties" Description="일반 디버거 옵션" DisplayName="디버거 일반 속성" xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <Rule.DataSource>
+    <DataSource Persistence="UserFile" SourceOfDefaultValue="AfterContext" />
+  </Rule.DataSource>
+  <StringProperty Name="DebuggerFlavor" Visible="false" />
+  <EnumProperty Name="ImageClrType" Visible="false">
+    <EnumProperty.DataSource>
+      <DataSource HasConfigurationCondition="false" PersistedName="_TargetImageClrType" Persistence="UserFile" SourceOfDefaultValue="AfterContext" />
+    </EnumProperty.DataSource>
+    <EnumValue Name="Native" />
+    <EnumValue Name="Mixed" />
+    <EnumValue Name="Managed" />
+  </EnumProperty>
+  <StringProperty Name="SymbolsPath" Description="디버거가 기호를 찾기 위해 사용하는 검색 경로입니다." DisplayName="기호 검색 경로" />
+</Rule>

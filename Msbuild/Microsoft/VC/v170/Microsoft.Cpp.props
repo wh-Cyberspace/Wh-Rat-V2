@@ -1,0 +1,84 @@
+﻿<!--
+***********************************************************************************************
+Microsoft.Cpp.Props
+
+WARNING:  DO NOT MODIFY this file unless you are knowledgeable about MSBuild and have
+          created a backup copy.  Incorrect changes to this file will make it
+          impossible to load or build your projects from the command-line or the IDE.
+
+Copyright (C) Microsoft Corporation. All rights reserved.
+***********************************************************************************************
+-->
+
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Condition="Exists('$(ForceImportBeforeCppProps)')" Project="$(ForceImportBeforeCppProps)" />
+
+  <!-- prevent unnesessary redirection to older toolsets for makefile projects -->
+  <PropertyGroup Condition="'$(PlatformToolset)' == '' and '$(ConfigurationType)' == 'Makefile'">
+    <PlatformToolset>$(DefaultPlatformToolset)</PlatformToolset>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(PlatformToolset)' == '' and '$(ConfigurationType)' != 'Makefile'">
+    <PlatformToolset Condition="'$(LegacyPlatformToolset)' == ''">$(DefaultPlatformToolset)</PlatformToolset>
+    <PlatformToolset Condition="'$(LegacyPlatformToolset)' != ''">$(LegacyPlatformToolset)</PlatformToolset>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <_RelativeToolsetFolder>$(_RelativePlatformFolder)PlatformToolsets\$(PlatformToolset)\</_RelativeToolsetFolder>
+
+    <_RelativePlatformProps>$(_RelativePlatformFolder)Platform.props</_RelativePlatformProps>
+    <_RelativePlatformTargets>$(_RelativePlatformFolder)Platform.targets</_RelativePlatformTargets>
+    <_RelativeToolsetProps>$(_RelativeToolsetFolder)Toolset.props</_RelativeToolsetProps>
+    <_RelativeToolsetTargets>$(_RelativeToolsetFolder)Toolset.targets</_RelativeToolsetTargets>
+
+    <_RelativeToolsetFiles>$(_RelativeToolsetProps);$(_RelativeToolsetTargets);$(_RelativePlatformProps);$(_RelativePlatformTargets)</_RelativeToolsetFiles>
+ 
+  </PropertyGroup>
+
+  <!-- check if the toolset exists in the current install -->
+  <PropertyGroup Condition="'$(DisableInstalledVCTargetsUse)' != 'true'">
+    <_VCTargetsPathFolders Condition="'$(DisableInstalledVCTargetsUse)' != 'true'">$(CurrentVCTargetsPath);$(AdditionalVCTargetsPath)</_VCTargetsPathFolders>
+    <_VCTargetsPathForToolset>$([Microsoft.Build.Utilities.ToolLocationHelper]::FindRootFolderWhereAllFilesExist($(_VCTargetsPathFolders), $(_RelativeToolsetFiles)))</_VCTargetsPathForToolset>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(_VCTargetsPathForToolset)' != ''">
+    <_ToolsetFound>true</_ToolsetFound>
+    <_ToolsetVCTargetsVersion>v170</_ToolsetVCTargetsVersion>
+  </PropertyGroup>
+
+  <Import Condition="'$(_ToolsetFound)' == 'true'" Project="$(VCTargetsPath)\Microsoft.Cpp.ToolsetLocation.props" />
+
+  <!-- if we did not find the toolset in the current version, try older ones -->
+  <Import Condition="'$(_ToolsetFound)' != 'true'" Project="$(VCTargetsPath)\Microsoft.Cpp.Redirect.props" />
+
+  <PropertyGroup>
+    <_ApplicationTypeAndRevisionFound Condition="'$(_ToolsetFound)' == 'true' or '$(ApplicationType)' == '' or '$(_ApplicationTypeRevisionDefaultPropsFound)' == 'true'">true</_ApplicationTypeAndRevisionFound>
+  </PropertyGroup>
+
+  <!-- If toolset still not found, try using default toolset. -->
+  <PropertyGroup Condition="'$(_ToolsetFound)' != 'true' and '$(DefaultPlatformToolset)' != ''"> 
+    <_DefaultPlatformProps>$(CurrentVCTargetsPath)$(_RelativePlatformFolder)Platform.props</_DefaultPlatformProps>
+    <_DefaultPlatformTargets>$(CurrentVCTargetsPath)$(_RelativePlatformFolder)Platform.targets</_DefaultPlatformTargets>
+    <_DefaultToolsetProps>$(CurrentVCTargetsPath)$(_RelativePlatformFolder)PlatformToolsets\$(DefaultPlatformToolset)\Toolset.props</_DefaultToolsetProps>
+    <_DefaultToolsetTargets>$(CurrentVCTargetsPath)$(_RelativePlatformFolder)PlatformToolsets\$(DefaultPlatformToolset)\Toolset.targets</_DefaultToolsetTargets>
+    <_UseDefaultToolset Condition="Exists($(_DefaultPlatformProps)) and Exists($(_DefaultPlatformTargets)) and Exists($(_DefaultToolsetProps)) and Exists($(_DefaultToolsetTargets))">true</_UseDefaultToolset>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(_UseDefaultToolset)' == 'true'">
+    <_ToolsetPropsPath>$(_DefaultToolsetProps)</_ToolsetPropsPath>
+    <_ToolsetTargetsPath>$(_DefaultToolsetTargets)</_ToolsetTargetsPath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <_ApplicationTypeAndRevisionFound Condition="'$(_ToolsetFound)' == 'true' or '$(ApplicationType)' == '' or '$(_ApplicationTypeRevisionDefaultPropsFound)' == 'true'">true</_ApplicationTypeAndRevisionFound>
+  </PropertyGroup>
+
+  <Import Condition="'$(_UseDefaultToolset)' == 'true'" Project="$(_DefaultPlatformProps)" />
+
+  <!-- Enable Address Sanitizer -->
+  <Import Condition="'$(EnableASAN)' == 'true'"  Project="$(VCTargetsPath)\Microsoft.Cpp.EnableASAN.props"/>
+
+  <!-- Import Makefile.props -->
+  <Import Condition="'$(ConfigurationType)' == 'Makefile'" Project="$(VCTargetsPath)\Microsoft.Makefile.props" />
+  <Import Condition="Exists('$(ForceImportAfterCppProps)')" Project="$(ForceImportAfterCppProps)" />
+</Project>

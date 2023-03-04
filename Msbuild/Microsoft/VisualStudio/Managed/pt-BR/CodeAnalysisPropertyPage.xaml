@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information. -->
+<Rule Name="CodeAnalysisPropertyPage" Description="Configurações" DisplayName="Análise de Código" PageTemplate="generic" Order="500" xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <Rule.Categories>
+    <Category Name="AllAnalyzers" DisplayName="Todos os analisadores" />
+    <Category Name="NetAnalyzers" DisplayName="Analisadores .NET" />
+  </Rule.Categories>
+  <Rule.DataSource>
+    <DataSource Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" HasConfigurationCondition="False" />
+  </Rule.DataSource>
+  <BoolProperty Name="RunAnalyzersDuringBuild" DisplayName="Executar na construção" Description="Sempre execute a análise de código na construção." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2173147" Category="AllAnalyzers" />
+  <BoolProperty Name="RunAnalyzersDuringLiveAnalysis" DisplayName="Executar em análise dinâmica" Description="Execute a análise de código dinâmico no editor enquanto você digita." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2173147" Category="AllAnalyzers" />
+  <BoolProperty Name="EnforceCodeStyleInBuild" DisplayName="Aplicar estilo de código na construção (experimental)" Description="Produza diagnósticos sobre o estilo de código na construção." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2172995" Category="NetAnalyzers" />
+  <BoolProperty Name="EnableNETAnalyzers" DisplayName="Habilitar os analisadores .NET" Description="Execute analisadores .NET para ajudar no uso da API." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2173090" Category="NetAnalyzers" />
+  <EnumProperty Name="AnalysisLevel" DisplayName="Nível de análise" Description="O conjunto de analisadores que devem ser executados no projeto." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2173091" Category="NetAnalyzers">
+    <EnumValue Name="none" DisplayName="Nenhum" />
+    <EnumValue Name="preview" DisplayName="Versão prévia" />
+    <EnumValue Name="latest" DisplayName="Mais recentes" />
+    <EnumValue Name="5.0" DisplayName="5.0" />
+    <EnumValue Name="6.0" DisplayName="6.0" />
+  </EnumProperty>
+</Rule>

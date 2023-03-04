@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--Copyright, Microsoft Corporation, All rights reserved.-->
+<ProjectSchemaDefinitions xmlns="http://schemas.microsoft.com/build/2009/properties" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+  <Rule Name="ShaderGraphContentTask"
+        PageTemplate="tool"
+        DisplayName="Shader Graph Content Pipeline"
+        SwitchPrefix=""
+        Order="300">
+
+    <Rule.Categories>
+      <Category Name="General" DisplayName="General" />
+    </Rule.Categories>
+
+    <Rule.DataSource>
+      <DataSource Persistence="ProjectFile" ItemType="ShaderGraphContentTask" Label="" HasConfigurationCondition="true" />
+    </Rule.DataSource>
+
+    <StringProperty Subtype="file" 
+                    Name="ContentOutput" 
+                    DisplayName="Content Output"
+                    Description="The output file for the content."
+                    Category="General" 
+                    Switch="" 
+                    F1Keyword="VC.Project.ShaderGraphContentTask.ContentOutput">
+    </StringProperty>
+
+  </Rule>
+
+  <ItemType
+   Name="ShaderGraphContentTask"
+   DisplayName="Shader Graph Content Pipeline" />
+  <FileExtension
+    Name="*.dgsl"
+    ContentType="ShaderGraphContentTask" />
+  <ContentType
+    Name="ShaderGraphContentTask"
+    DisplayName="Shader Graph Content Pipeline"
+    ItemType="ShaderGraphContentTask" />
+
+</ProjectSchemaDefinitions>

@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information. -->
+<Rule Name="ExecutableDebugPropertyPage" Description="Proprietà associate all'avvio e al debug di un file eseguibile specificato." DisplayName="Eseguibile" PageTemplate="commandNameBasedDebugger" xmlns:sys="clr-namespace:System;assembly=mscorlib" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <Rule.Metadata>
+    <sys:String x:Key="CommandName">Executable</sys:String>
+    <!-- KnownImageIds.ImageCatalogGuid -->
+    <sys:Guid x:Key="ImageMonikerGuid">AE27A6B0-E345-4288-96DF-5EAF394EE369</sys:Guid>
+    <!-- KnownImageIds.Execute -->
+    <sys:Int32 x:Key="ImageMonikerId">1173</sys:Int32>
+  </Rule.Metadata>
+  <Rule.DataSource>
+    <DataSource Persistence="LaunchProfile" HasConfigurationCondition="False" ItemType="LaunchProfile" />
+  </Rule.DataSource>
+  <StringProperty Name="ExecutablePath" DisplayName="Eseguibile" Description="Percorso dell'eseguibile da avviare." Subtype="file" />
+  <StringProperty Name="CommandLineArguments" DisplayName="Argomenti della riga di comando" Description="Argomenti della riga di comando da passare all'eseguibile." />
+  <StringProperty Name="WorkingDirectory" DisplayName="Directory di lavoro" Description="Percorso della directory di lavoro in cui verrà avviato il processo." Subtype="folder" />
+  <BoolProperty Name="RemoteDebugEnabled" DisplayName="Usa computer remoto" Description="Indica che il debugger deve collegarsi a un processo nel computer remoto." />
+  <StringProperty Name="RemoteDebugMachine" DisplayName="Nome del computer remoto" Description="Nome e numero di porta del computer remoto nel formato 'nome:porta'.">
+    <StringProperty.Metadata>
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>(has-evaluated-value "Executable" "RemoteDebugEnabled" true)</NameValuePair.Value>
+      </NameValuePair>
+      <NameValuePair Name="DependsOn" Value="Executable::RemoteDebugMachine" />
+    </StringProperty.Metadata>
+  </StringProperty>
+  <DynamicEnumProperty Name="AuthenticationMode" DisplayName="Modalità di autenticazione" Description="Schema di autenticazione da usare per la connessione al computer remoto." EnumProvider="AuthenticationModeEnumProvider">
+    <DynamicEnumProperty.Metadata>
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>(has-evaluated-value "Executable" "RemoteDebugEnabled" true)</NameValuePair.Value>
+      </NameValuePair>
+      <NameValuePair Name="DependsOn" Value="Executable::RemoteDebugMachine" />
+    </DynamicEnumProperty.Metadata>
+  </DynamicEnumProperty>
+  <StringProperty Name="EnvironmentVariables" DisplayName="Variabili di ambiente" Description="Variabili di ambiente da impostare prima di eseguire il processo. Le variabili sono delimitate da una virgola (,) e i nomi e i valori di variabile sono delimitati da un segno di uguale (=). Esempio: var1=valore1,var2=valore2,var3=valore3. Le virgole e i segni di uguale presenti in una variabile devono essere precedute da una barra (/) che rappresenta il carattere di escape." />
+  <BoolProperty Name="NativeDebugging" DisplayName="Attiva il debug di codice nativo" Description="Abilita il debug congiunto per codice gestito e nativo, noto anche come debug in modalità mista." />
+  <BoolProperty Name="SqlDebugging" DisplayName="Abilita debug SQL Server" Description="Abilita il debug di script e stored procedure SQL." />
+  <BoolProperty Name="WebView2Debugging" DisplayName="Abilitare il debug di WebView2" Description="Abilitare il debugger JavaScript per WebView2 basato su Microsoft Edge (Chromium). Richiede il componente di diagnostica JavaScript." />
+</Rule>

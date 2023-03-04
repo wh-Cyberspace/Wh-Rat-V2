@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information. -->
+<Rule Name="PackageReference" Description="パッケージ参照プロパティ" DisplayName="パッケージ参照" PageTemplate="generic" xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <Rule.DataSource>
+    <DataSource HasConfigurationCondition="False" ItemType="PackageReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+  </Rule.DataSource>
+  <StringListProperty Name="Aliases" Description="このパッケージに含まれているアセンブリ参照へのエイリアスのコンマ区切りリスト。" DisplayName="エイリアス" Separator="," />
+  <StringProperty Name="ExcludeAssets" Description="この参照から除外する資産。" DisplayName="除外された資産" />
+  <BoolProperty Name="GeneratePathProperty" Description="MSBuild プロパティをパッケージのルート ディレクトリーの場所に生成するかどうかを示します。生成されるプロパティ名は 'Pkg[PackageID]' という形式になります。'[PackageID]' はパッケージの ID で、ピリオド (.) はアンダースコア (_) に置き換えられます。" DisplayName="パス プロパティを生成する" />
+  <StringProperty Name="IncludeAssets" Description="この参照で含める資産。" DisplayName="含まれている資産" />
+  <StringProperty Name="IsImplicitlyDefined" ReadOnly="True" Visible="False" />
+  <StringProperty Name="Name" ReadOnly="True" DisplayName="名前">
+    <StringProperty.DataSource>
+      <DataSource PersistedName="{}{Identity}" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="NoWarn" Description="このパッケージで非表示にする必要がある警告のコンマ区切りリスト。" DisplayName="警告を抑制する" />
+  <!-- NOTE this property will never be populated for unresolved items, but is included to make the UI consistent -->
+  <StringProperty Name="Path" Description="参照されているパッケージの場所。" DisplayName="パス" ReadOnly="True" />
+  <StringProperty Name="PrivateAssets" Description="この参照で非公開の資産。" DisplayName="個人用アセット" />
+  <StringProperty Name="Version" Description="依存関係のバージョン。" DisplayName="バージョン" ReadOnly="True">
+    <StringProperty.DataSource>
+      <DataSource PersistenceStyle="Attribute" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <BoolProperty Name="Visible" ReadOnly="True" Visible="False" />
+  <BoolProperty Name="TreatAsUsed" ReadOnly="True" Visible="False" />
+</Rule>

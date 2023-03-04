@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information. -->
+<Rule Name="SdkReference" Description="Свойства ссылки на пакет SDK" DisplayName="Ссылка на пакет SDK" PageTemplate="generic" xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <Rule.DataSource>
+    <DataSource HasConfigurationCondition="False" ItemType="SDKReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+  </Rule.DataSource>
+  <StringProperty Name="AppXLocation" DisplayName="Расположение пакета приложения" ReadOnly="True" />
+  <BoolProperty Name="CopyLocalExpandedReferenceAssemblies" DisplayName="Копировать локальные расширенные ссылочные сборки" ReadOnly="True" />
+  <BoolProperty Name="CopyPayload" DisplayName="Копировать полезные данные" ReadOnly="True" />
+  <StringProperty Name="CopyPayloadToSubDirectory" DisplayName="Копировать полезные данные в подкаталог" ReadOnly="True" />
+  <StringProperty Name="DisplayName" ReadOnly="True" Visible="False" />
+  <BoolProperty Name="ExpandContent" DisplayName="Расширить содержимое" ReadOnly="True" />
+  <BoolProperty Name="ExpandReferenceAssemblies" DisplayName="Расширить эталонные сборки" ReadOnly="True" />
+  <StringProperty Name="FrameworkIdentity" DisplayName="FrameworkIdentity" ReadOnly="True" />
+  <StringProperty Name="IsImplicitlyDefined" ReadOnly="True" Visible="False" />
+  <StringProperty Name="Name" DisplayName="Имя" ReadOnly="True" />
+  <StringProperty Name="SDKPackageItemSpec" ReadOnly="True" Visible="False" />
+  <StringProperty Name="SDKRootFolder" DisplayName="Корень пакета SDK" ReadOnly="True" />
+  <StringProperty Name="Version" DisplayName="Версия" ReadOnly="True" />
+  <BoolProperty Name="Visible" ReadOnly="True" Visible="False" />
+</Rule>

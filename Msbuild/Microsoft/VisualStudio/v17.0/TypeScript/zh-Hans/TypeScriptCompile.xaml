@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Copyright, Microsoft Corporation, All rights reserved.-->
+<Rule Name="TypeScriptCompile" DisplayName="TypeScript 文件" PageTemplate="generic" Description="TypeScript 文件" xmlns="http://schemas.microsoft.com/build/2009/properties">
+
+  <Rule.Categories>
+    <Category Name="Advanced" DisplayName="高级"/>
+    <Category Name="Misc" DisplayName="杂项"/>
+  </Rule.Categories>
+
+  <Rule.DataSource>
+    <DataSource Persistence="ProjectFile" HasConfigurationCondition="false" ItemType="TypeScriptCompile"/>
+  </Rule.DataSource>
+
+  <DynamicEnumProperty Name="{}{ItemType}" Category="Advanced" Description="该文件与生成和部署过程的关系。" DisplayName="生成操作" F1Keyword="javascript.project.property.packageaction" EnumProvider="ItemTypes"/>
+
+  <EnumProperty Name="CopyToOutputDirectory" DisplayName="复制到输出目录" Category="Advanced" F1Keyword="javascript.project.property.copytooutputdirectory" Description="指定是否应将文件复制到输出文件夹。">
+    <EnumValue Name="Never" DisplayName="不复制"/>
+    <EnumValue Name="Always" DisplayName="始终复制"/>
+    <EnumValue Name="PreserveNewest" DisplayName="如果较新则复制"/>
+  </EnumProperty>
+
+  <StringProperty Name="Identity" DisplayName="文件名" ReadOnly="true" Category="Misc" F1Keyword="javascript.project.property.filename" Description="文件或文件夹的名称。">
+    <StringProperty.DataSource>
+      <DataSource Persistence="Intrinsic" ItemType="TypeScriptCompile" PersistedName="Identity"/>
+    </StringProperty.DataSource>
+  </StringProperty>
+
+  <StringProperty Name="FullPath" DisplayName="完整路径" ReadOnly="true" Category="Misc" F1Keyword="javascript.project.property.fullpath" Description="文件位置。">
+    <StringProperty.DataSource>
+      <DataSource Persistence="Intrinsic" ItemType="TypeScriptCompile" PersistedName="FullPath"/>
+    </StringProperty.DataSource>
+  </StringProperty>
+
+  <BoolProperty Name="Visible" Visible="false"/>
+  <StringProperty Name="DependentUpon" Visible="false"/>
+  <StringProperty Name="Link" Visible="false"/>
+  <EnumProperty Name="SubType" Visible="false">
+    <EnumValue Name="Designer"/>
+  </EnumProperty>
+</Rule>

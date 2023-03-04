@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--Copyright, Microsoft Corporation, All rights reserved.-->
+<ProjectSchemaDefinitions xmlns="http://schemas.microsoft.com/build/2009/properties" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+  <Rule Name="MeshContentTask"
+        PageTemplate="tool"
+        DisplayName="Mesh Content Pipeline"
+        SwitchPrefix=""
+        Order="300">
+
+    <Rule.Categories>
+      <Category Name="General" DisplayName="General" />
+    </Rule.Categories>
+
+    <Rule.DataSource>
+      <DataSource Persistence="ProjectFile" ItemType="MeshContentTask" Label="" HasConfigurationCondition="true" />
+    </Rule.DataSource>
+
+    <StringProperty Subtype="file" 
+                    Name="ContentOutput" 
+                    DisplayName="Content Output"
+                    Description="The output file for the content."
+                    Category="General" 
+                    Switch="" 
+                    F1Keyword="VC.Project.MeshContentTask.ContentOutput">
+    </StringProperty>
+
+  </Rule>
+
+  <ItemType
+   Name="MeshContentTask"
+   DisplayName="Mesh Content Pipeline" />
+  <FileExtension
+    Name="*.fbx"
+    ContentType="MeshContentTask" />
+  <FileExtension
+    Name="*.dae"
+    ContentType="MeshContentTask" />
+  <ContentType
+    Name="MeshContentTask"
+    DisplayName="Mesh Content Pipeline"
+    ItemType="MeshContentTask" />
+
+</ProjectSchemaDefinitions>

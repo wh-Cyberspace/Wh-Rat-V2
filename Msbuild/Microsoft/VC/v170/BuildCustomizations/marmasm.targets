@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <PropertyPageSchema
+      Include="$(MSBuildThisFileDirectory)$(MSBuildThisFileName).xml" />
+      <AvailableItemName Include="MARMASM">
+        <Targets>_MARMASM</Targets>
+      </AvailableItemName>
+  </ItemGroup>
+  <PropertyGroup>
+    <ComputeLinkInputsTargets>
+      $(ComputeLinkInputsTargets);
+      ComputeMARMASMOutput;
+    </ComputeLinkInputsTargets>
+    <ComputeLibInputsTargets>
+      $(ComputeLibInputsTargets);
+      ComputeMARMASMOutput;
+    </ComputeLibInputsTargets>
+  </PropertyGroup>
+  <UsingTask
+    TaskName="MARMASM"
+    TaskFactory="XamlTaskFactory"
+    AssemblyName="Microsoft.Build.Tasks.v4.0, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <Task>$(MSBuildThisFileDirectory)$(MSBuildThisFileName).xml</Task>
+  </UsingTask>
+          
+  <Target Name="_WriteMarmasmTlogs"
+          Condition="'@(MARMASM)' != '' and '@(SelectedFiles)' == ''">
+    <ItemGroup>
+      <MARMASM Remove="@(MARMASM)" Condition="'%(MARMASM.ExcludedFromBuild)' == 'true' or '%(MARMASM.ObjectFileName)' == ''" />
+    </ItemGroup>
+    <ItemGroup  Condition="'@(MARMASM)' != ''">
+      <_MarmasmReadTlog Include="^%(MARMASM.FullPath);%(MARMASM.AdditionalDependencies)" />
+      <_MarmasmWriteTlog Include="^%(MARMASM.FullPath);$([MSBuild]::NormalizePath('$(MSBuildProjectDirectory)', '%(MARMASM.ObjectFileName)'))" />
+    </ItemGroup>
+
+    <WriteLinesToFile
+      Condition="'@(_MarmasmReadTlog)' != ''"
+      File="$(TLogLocation)Marmasm.read.1u.tlog"
+      Lines="@(_MarmasmReadTlog->MetaData('Identity')->ToUpperInvariant());"
+      Overwrite="true"
+      Encoding="Unicode"/>
+    <WriteLinesToFile
+      Condition="'@(_MarmasmWriteTlog)' != ''"
+      File="$(TLogLocation)Marmasm.write.1u.tlog"
+      Lines="@(_MarmasmWriteTlog->MetaData('Identity')->ToUpperInvariant());"
+      Overwrite="true"
+      Encoding="Unicode"/>
+
+    <ItemGroup>
+      <_MarmasmReadTlog Remove="@(_MarmasmReadTlog)" />
+      <_MarmasmWriteTlog Remove="@(_MarmasmWriteTlog)" />
+    </ItemGroup>
+  </Target>
+  
+  <Target
+    Name="_MARMASM"
+    BeforeTargets="$(MARMASMBeforeTargets)"
+    AfterTargets="$(MARMASMAfterTargets)"
+    Condition="'@(MARMASM)' != ''"
+    Outputs="%(MARMASM.ObjectFileName)"
+    Inputs="%(MARMASM.Identity);%(MARMASM.AdditionalDependencies);$(MSBuildProjectFile)"
+    DependsOnTargets="_WriteMarmasmTlogs;_SelectedFiles">
+    <ItemGroup Condition="'@(SelectedFiles)' != ''">
+      <MARMASM Remove="@(MARMASM)" Condition="'%(Identity)' != '@(SelectedFiles)'" />
+    </ItemGroup>
+    <Message
+      Importance="High"
+      Text="%(MARMASM.ExecutionDescription)" />
+    <MARMASM
+      Condition="'@(MARMASM)' != '' and '%(MARMASM.ExcludedFromBuild)' != 'true'"
+      CommandLineTemplate="%(MARMASM.CommandLineTemplate)"
+      ObjectFileName="%(MARMASM.ObjectFileName)"
+      AdditionalOptions="%(MARMASM.AdditionalOptions)"
+      Inputs="%(MARMASM.Identity)" />
+  </Target>
+  <Target
+    Name="ComputeMARMASMOutput"
+    Condition="'@(MARMASM)' != ''">
+    <ItemGroup>
+      <Link Include="@(MARMASM->Metadata('ObjectFileName')->Distinct()->ClearMetadata())" Condition="'%(MARMASM.ExcludedFromBuild)' != 'true'"/>
+      <Lib Include="@(MARMASM->Metadata('ObjectFileName')->Distinct()->ClearMetadata())" Condition="'%(MARMASM.ExcludedFromBuild)' != 'true'"/>
+    </ItemGroup>
+  </Target>
+  <Target
+    Name="ComputeMARMASMObj"
+    Condition="'@(MARMASM)' != ''"
+    BeforeTargets="GetResolvedLinkObjs">
+    <ItemGroup>
+      <Obj Include="@(MARMASM->Metadata('ObjectFileName')->Distinct()->ClearMetadata())" Condition="'%(MARMASM.ExcludedFromBuild)' != 'true'"/>
+    </ItemGroup>
+  </Target>
+</Project>

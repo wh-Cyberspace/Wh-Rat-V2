@@ -1,0 +1,158 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+***********************************************************************************************
+Microsoft.DesktopBridge.Common.targets
+
+WARNING:  DO NOT MODIFY this file unless you are knowledgeable about MSBuild and have
+          created a backup copy.  Incorrect changes to this file will make it
+          impossible to load or build your projects from the command-line or the IDE.
+
+Copyright (C) Microsoft Corporation. All rights reserved.
+***********************************************************************************************
+-->
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup Condition="'$(DesktopBridgeSelfContained)' == 'true'">
+    <SelfContained >true</SelfContained>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(DesktopBridgeSelfContained)' == 'true'">
+    <RuntimeIdentifier Condition="'$(Platform)' == 'x86'">win-x86</RuntimeIdentifier>
+    <RuntimeIdentifier Condition="'$(Platform)' == 'Win32'">win-x86</RuntimeIdentifier>
+    <RuntimeIdentifier Condition="'$(Platform)' == 'AnyCPU'">win-x86</RuntimeIdentifier>
+    <RuntimeIdentifier Condition="'$(Platform)' == 'Any CPU'">win-x86</RuntimeIdentifier>
+    <RuntimeIdentifier Condition="'$(Platform)' == 'x64'">win-x64</RuntimeIdentifier>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(DesktopBridgeSelfContained)' == 'true' AND '$(DesktopBridgeIdentifier)' != ''">
+    <RuntimeIdentifier>$(DesktopBridgeIdentifier)</RuntimeIdentifier>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <DesktopBridgeOutputGroupsDependsOn>
+      $(DesktopBridgeOutputGroupsDependsOn);
+      BuildOnlySettings;
+      PrepareForBuild;
+      AssignTargetPaths;
+      ResolveReferences
+    </DesktopBridgeOutputGroupsDependsOn>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <DesktopBridgeCopyLocalOutputGroupDependsOn>
+      $(DesktopBridgeOutputGroupsDependsOn);
+      $(DesktopBridgeCopyLocalOutputGroupDependsOn);
+    </DesktopBridgeCopyLocalOutputGroupDependsOn>
+  </PropertyGroup>
+
+  <Target Name="DesktopBridgeCopyLocalOutputGroup" DependsOnTargets="$(DesktopBridgeCopyLocalOutputGroupDependsOn)" Returns="@(DesktopBridgeCopyLocalOutputGroupOutput)">
+    <ItemGroup>
+      <DesktopBridgeCopyLocalOutputGroupOutput Include="@(ReferenceCopyLocalPaths)" Condition="'%(ReferenceCopyLocalPaths.Extension)' != '.xml'">
+        <TargetPath>%(ReferenceCopyLocalPaths.DestinationSubDirectory)%(ReferenceCopyLocalPaths.Filename)%(ReferenceCopyLocalPaths.Extension)</TargetPath>
+      </DesktopBridgeCopyLocalOutputGroupOutput>
+    </ItemGroup>
+  </Target>
+
+  <PropertyGroup>
+    <DesktopBridgeComFilesOutputGroupDependsOn>
+      $(DesktopBridgeOutputGroupsDependsOn)
+      $(DesktopBridgeComFilesOutputGroupDependsOn);
+    </DesktopBridgeComFilesOutputGroupDependsOn>
+  </PropertyGroup>
+
+  <Target Name="DesktopBridgeComFilesOutputGroup" DependsOnTargets="$(DesktopBridgeComFilesOutputGroupDependsOn)" Returns="@(DesktopBridgeComFilesOutputGroupOutputs)">
+    <ItemGroup>
+      <DesktopBridgeComFilesOutputGroupOutputs Include="@(ReferenceComWrappersToCopyLocal)" >
+        <TargetPath>%(ReferenceComWrappersToCopyLocal.Filename)%(ReferenceComWrappersToCopyLocal.Extension)</TargetPath>
+      </DesktopBridgeComFilesOutputGroupOutputs>
+      <DesktopBridgeComFilesOutputGroupOutputs Include="@(ResolvedIsolatedComModules)" >
+        <TargetPath>%(ResolvedIsolatedComModules.Filename)%(ResolvedIsolatedComModules.Extension)</TargetPath>
+      </DesktopBridgeComFilesOutputGroupOutputs>
+      <DesktopBridgeComFilesOutputGroupOutputs Include="@(NativeReferenceFile)" >
+        <TargetPath>%(NativeReferenceFile.Filename)%(NativeReferenceFile.Extension)</TargetPath>
+      </DesktopBridgeComFilesOutputGroupOutputs>
+    </ItemGroup>
+  </Target>
+
+  <PropertyGroup Condition="'$(_WapBuildingInsideVisualStudio)' == 'true'">
+    <CoreCompileDependsOn>
+      $(CoreCompileDependsOn);
+      _WapComputeNonExistentFileProperty
+    </CoreCompileDependsOn>
+  </PropertyGroup>
+
+  <!-- When building inside VisualStudio the CoreCompile task always gets run, this target is to replicate that behavior since we set 'BuildingInsideVisualStudio' to false -->
+  <Target Name="_WapComputeNonExistentFileProperty" Condition="('$(BuildingOutOfProcess)' != 'true') and (('$(BuildingProject)' == 'false') or ('$(UseHostCompilerIfAvailable)' == 'true'))">
+    <PropertyGroup>
+      <NonExistentFile>__NonExistentSubDir__\__NonExistentFile__</NonExistentFile>
+    </PropertyGroup>
+  </Target>
+
+  <PropertyGroup>
+    <DesktopBridgePublishItemsOutputGroupDependsOn>
+      $(DesktopBridgeOutputGroupsDependsOn);
+      $(DesktopBridgePublishItemsOutputGroupDependsOn);
+      PublishItemsOutputGroup
+    </DesktopBridgePublishItemsOutputGroupDependsOn>
+  </PropertyGroup>
+
+  <Target Name="DesktopBridgePublishItemsOutputGroup"
+          Condition="'$(TargetFrameworkIdentifier)' == '.NETCoreApp'"
+          DependsOnTargets="$(DesktopBridgePublishItemsOutputGroupDependsOn)"
+          Returns="@(DesktopBridgePublishItemsOutputGroupOutputs)">
+    <ItemGroup>
+      <DesktopBridgePublishItemsOutputGroupOutputs Include="@(PublishItemsOutputGroupOutputs->'%(OutputPath)')" TargetPath="%(PublishItemsOutputGroupOutputs.RelativePath)" OutputGroup="DesktopBridgePublishItemsOutputGroup" />
+    </ItemGroup>
+  </Target>
+
+  <!-- If this project or any project that this references is a UAP project -->
+  <Target Name="_CheckForGenerateAppxPackageOnBuild" DependsOnTargets="AssignProjectConfiguration" Returns="$(ReferencesUWPProject)">
+    <PropertyGroup>
+      <ReferencesUWPProject Condition="'$(TargetPlatformIdentifier)' == 'UAP' AND ('$(OutputType)' == 'AppContainerExe' OR '$(OutputType)' == 'Exe')">true</ReferencesUWPProject>
+    </PropertyGroup>
+
+    <MSBuild
+      Condition="'$(ReferencesUWPProject)' != 'true'"
+      Projects="@(ProjectReferenceWithConfiguration)"
+      Properties="%(ProjectReferenceWithConfiguration.SetConfiguration);%(ProjectReferenceWithConfiguration.SetPlatform)"
+      Targets="_CheckForGenerateAppxPackageOnBuild"
+      SkipNonexistentTargets="true">
+      <Output TaskParameter="TargetOutputs" PropertyName="ReferencesUWPProject"/>
+    </MSBuild>
+  </Target>
+
+  <Target Name="GetDeployableContentReferenceOutputs" DependsOnTargets="AssignProjectConfiguration" Returns="@(DeployableContentReference)">
+    <ItemGroup>
+      <DeployableContentReference Include="@(ProjectReferenceWithConfiguration)"  Condition="'%(ProjectReferenceWithConfiguration.DeploymentContent)' == 'true'">
+        <SourceDeployableProjectReference>$(ProjectName)</SourceDeployableProjectReference>
+      </DeployableContentReference>
+    </ItemGroup>
+  </Target>
+
+  <PropertyGroup>
+    <DesktopBridgeFrameworkSDKRegistrationOutputGroupDependsOn>
+      $(DesktopBridgeOutputGroupsDependsOn);
+      $(DesktopBridgeFrameworkSDKRegistrationOutputGroupDependsOn)
+    </DesktopBridgeFrameworkSDKRegistrationOutputGroupDependsOn>
+  </PropertyGroup>
+
+  <Target Name="DesktopBridgeFrameworkSDKRegistrationOutputGroup" DependsOnTargets="$(DesktopBridgeFrameworkSDKRegistrationOutputGroupDependsOn)" Returns="@(DesktopBridgeFrameworkSDKRegistrationOutputGroupOutputs)">
+    <ItemGroup>
+      <DesktopBridgeFrameworkSDKRegistrationOutputGroupOutputs Include="@(FrameworkSdkReference)" />
+    </ItemGroup>
+
+    <MSBuild
+      Projects="@(ProjectReferenceWithConfiguration)"
+      Targets="_GenerateAdditionalFrameworkSDKReference;_GetRecursiveResolvedSDKReferences;DesktopBridgeFrameworkSDKRegistrationOutputGroup"
+      BuildInParallel="$(BuildInParallel)"
+      Properties="%(ProjectReferenceWithConfiguration.SetConfiguration); %(ProjectReferenceWithConfiguration.SetPlatform)"
+      Condition="'@(ProjectReferenceWithConfiguration)' != ''
+                 and '%(ProjectReferenceWithConfiguration.BuildReference)' == 'true'
+                 and '%(ProjectReferenceWithConfiguration.ReferenceOutputAssembly)' == 'true'"
+      SkipNonexistentTargets="true"
+      ContinueOnError="true">
+      <Output TaskParameter="TargetOutputs" ItemName="DesktopBridgeFrameworkSDKRegistrationOutputGroupOutputs"/>
+    </MSBuild>
+  </Target>
+
+</Project>

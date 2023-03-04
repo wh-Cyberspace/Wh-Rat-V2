@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--Copyright, Microsoft Corporation, All rights reserved.-->
+<Rule Name="CL"
+      PageTemplate="generic"
+      DisplayName="NMake"
+      SwitchPrefix="/"
+      Order="10" 
+      xmlns="http://schemas.microsoft.com/build/2009/properties" 
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+      xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+  <Rule.Categories>
+    <Category Name="IntelliSense" DisplayName="IntelliSense" Description="IntelliSense" />
+  </Rule.Categories>
+ 
+  <Rule.DataSource>
+    <DataSource Persistence="ProjectFile" ItemType="ClCompile" Label="" HasConfigurationCondition="true" />
+  </Rule.DataSource>
+
+  <StringListProperty Name="PreprocessorDefinitions" DisplayName="Preprocessor Definitions" Category="IntelliSense" Switch="D"
+                  Description="Specifies the preprocessor defines used by the source files." 
+                  F1Keyword="VC.Project.VCNMakeTool.PreprocessorDefinitions"/>
+  <StringListProperty Name="AdditionalIncludeDirectories" DisplayName="Include Search Path" Category="IntelliSense" Switch="I"
+                  Description="Specifies the include search path for resolving included files." Subtype="folder" 
+                  F1Keyword="VC.Project.VCNMakeTool.IncludeSearchPath"/>
+  <StringListProperty Name="ForcedIncludeFiles" DisplayName="Forced Includes" Category="IntelliSense" Switch="FI"
+                  Description="Specifies the files that are forced included." Subtype="folder"
+                   F1Keyword="VC.Project.VCNMakeTool.ForcedIncludes"/>
+  <StringListProperty Name="AdditionalUsingDirectories" DisplayName="Assembly Search Path" Category="IntelliSense" Switch="AI"
+                  Description="Specifies the assembly search path for resolving used .NET assemblies." Subtype="folder"
+                  F1Keyword="VC.Project.VCNMakeTool.AssemblySearchPath"/>
+  <StringListProperty Name="ForcedUsingFiles" DisplayName="Forced Using Assemblies" Category="IntelliSense" Switch="FU"
+                  Description="Specifies the assemblies that are forced using in the source files."
+                  F1Keyword="VC.Project.VCNMakeTool.ForcedUsingAssemblies" />
+  <StringProperty Name="AdditionalOptions" DisplayName="Additional Options" Category="IntelliSense"
+                  Description="Specifies additional compiler switches to be used by Intellisense when parsing C++ files" />
+</Rule>

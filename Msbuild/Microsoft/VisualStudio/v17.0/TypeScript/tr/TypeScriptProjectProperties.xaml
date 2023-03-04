@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Copyright, Microsoft Corporation, All rights reserved.-->
+<Rule Name="TypeScriptBuild" DisplayName="TypeScript" PageTemplate="generic" Description="TypeScript Build Properties" xmlns="http://schemas.microsoft.com/build/2009/properties">
+
+  <Rule.Categories>
+    <Category Name="General" DisplayName="General"/>
+    <Category Name="Output" DisplayName="Output"/>
+    <Category Name="Debugging" DisplayName="Debugging"/>
+  </Rule.Categories>
+
+  <Rule.DataSource>
+    <DataSource Persistence="ProjectFile" Label="Configuration"/>
+  </Rule.DataSource>
+
+<!-- General -->
+  <EnumProperty Name="TypeScriptTarget" DisplayName="ECMAScript sürümü" Category="General" Description="Oluşturulan JavaScript için kullanılacak ECMAScript sürümü">
+    <EnumValue Name="ES3" DisplayName="ECMAScript 3"/>
+    <EnumValue Name="ES5" DisplayName="ECMAScript 5"/>
+    <EnumValue Name="ES6" DisplayName="ECMAScript 6"/>
+    <EnumValue Name="ES2016" DisplayName="ECMAScript 2016"/>
+    <EnumValue Name="ES2017" DisplayName="ECMAScript 2017"/>
+    <EnumValue Name="ES2018" DisplayName="ECMAScript 2018"/>
+    <EnumValue Name="ES2019" DisplayName="ECMAScript 2019"/>
+    <EnumValue Name="ES2020" DisplayName="ECMAScript 2020"/>
+    <EnumValue Name="ES2021" DisplayName="ECMAScript 2021"/>
+    <EnumValue Name="ESNext" DisplayName="ECMAScript Next"/>
+  </EnumProperty>
+
+  <EnumProperty Name="TypeScriptJSXEmit" DisplayName=".tsx dosyaları için derleme modu" Category="General" Description=".tsx dosyaları için JSX kodu derleme modu belirtin. Bu, .ts dosyalarını etkilemez.">
+    <EnumProperty.DataSource> <!-- Indicates there is an interceptor used to specify the default value for TypeScriptJSXEmit -->
+      <DataSource HasConfigurationCondition="False" Persistence="ProjectFileWithInterception"/>
+    </EnumProperty.DataSource>
+    <EnumValue Name="none" DisplayName="Yok"/>
+    <EnumValue Name="preserve" DisplayName="JSX öğelerini koru"/>
+    <EnumValue Name="react" DisplayName="JSX öğeleri için React çağrısını göster"/>
+  </EnumProperty>
+  
+  <EnumProperty Name="TypeScriptModuleKind" DisplayName="Modül sistemi" Category="General" Description="Dış modül kodu oluşturma hedefi">
+    <EnumProperty.DataSource>
+      <!-- Indicates there is an interceptor used to specify the default value for TypeScriptModuleKind -->
+      <DataSource HasConfigurationCondition="False" Persistence="ProjectFileWithInterception"/>
+    </EnumProperty.DataSource>
+    <EnumValue Name="none" DisplayName="Yok"/>
+    <EnumValue Name="amd" DisplayName="AMD"/>
+    <EnumValue Name="commonjs" DisplayName="CommonJS"/>
+    <EnumValue Name="umd" DisplayName="UMD"/>
+    <EnumValue Name="system" DisplayName="Sistem"/>
+  </EnumProperty>
+
+  <BoolProperty Name="TypeScriptCompileOnSaveEnabled" DisplayName="Compile on save" Category="General" Description="Recompile sources on save"/>
+
+  <BoolProperty Name="TypeScriptNoImplicitAny" DisplayName="Do not allow implicit 'any' types" Category="General" Description="Enable warnings on expressions and declarations with an implied 'any' type"/>
+
+<!-- Output -->
+  <BoolProperty Name="TypeScriptRemoveComments" DisplayName="Remove comments from JavaScript output" Category="Output" Description="Do not emit comments to output"/>
+
+  <StringProperty Name="TypeScriptOutFile" DisplayName="JavaScript çıkışını dosyaya birleştir" Category="Output" Description="Çıkışı bir dosyaya yeniden yönlendir"/>
+
+  <StringProperty Name="TypeScriptOutDir" DisplayName="JavaScript çıkışını dizine yeniden yönlendir" Category="Output" Description="Çıkışı kaynaklardan farklı bir dizine yeniden yönlendir"/>
+
+  <BoolProperty Name="TypeScriptGeneratesDeclarations" DisplayName="Generate declaration files" Category="Output" Description="Generate corresponding d.ts file"/>
+
+   <BoolProperty Name="TypeScriptNoEmitOnError" DisplayName="Do not emit outputs if any errors are reported" Category="Output" Description="Doesn't emit output if errors are found"/>
+
+<!-- Debugging -->
+  <BoolProperty Name="TypeScriptSourceMap" DisplayName="Generate source maps" Category="Debugging" Description="Generates corresponding .map file"/>
+
+  <StringProperty Name="TypeScriptMapRoot" DisplayName="Kaynak haritalarının kök dizinini belirt" Category="Debugging" Description="Kaynak haritalarını hata ayıklanırken kaynak eşlemesi kökünde bulunacak şekilde yayar"/>
+
+  <StringProperty Name="TypeScriptSourceRoot" DisplayName="TypeScript dosyalarının kök dizinini belirt" Category="Debugging" Description="Kaynak eşlemelerini hata ayıklanırken kaynak kökünde bulunacak şekilde yayar"/>
+
+</Rule>

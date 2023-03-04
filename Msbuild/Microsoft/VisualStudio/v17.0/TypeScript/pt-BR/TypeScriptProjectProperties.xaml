@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Copyright, Microsoft Corporation, All rights reserved.-->
+<Rule Name="TypeScriptBuild" DisplayName="TypeScript" PageTemplate="generic" Description="TypeScript Build Properties" xmlns="http://schemas.microsoft.com/build/2009/properties">
+
+  <Rule.Categories>
+    <Category Name="General" DisplayName="General"/>
+    <Category Name="Output" DisplayName="Output"/>
+    <Category Name="Debugging" DisplayName="Debugging"/>
+  </Rule.Categories>
+
+  <Rule.DataSource>
+    <DataSource Persistence="ProjectFile" Label="Configuration"/>
+  </Rule.DataSource>
+
+<!-- General -->
+  <EnumProperty Name="TypeScriptTarget" DisplayName="Versão do ECMAScript" Category="General" Description="Versão do ECMAScript a ser usada para o JavaScript gerado">
+    <EnumValue Name="ES3" DisplayName="ECMAScript 3"/>
+    <EnumValue Name="ES5" DisplayName="ECMAScript 5"/>
+    <EnumValue Name="ES6" DisplayName="ECMAScript 6"/>
+    <EnumValue Name="ES2016" DisplayName="ECMAScript 2016"/>
+    <EnumValue Name="ES2017" DisplayName="ECMAScript 2017"/>
+    <EnumValue Name="ES2018" DisplayName="ECMAScript 2018"/>
+    <EnumValue Name="ES2019" DisplayName="ECMAScript 2019"/>
+    <EnumValue Name="ES2020" DisplayName="ECMAScript 2020"/>
+    <EnumValue Name="ES2021" DisplayName="ECMAScript 2021"/>
+    <EnumValue Name="ESNext" DisplayName="ECMAScript Next"/>
+  </EnumProperty>
+
+  <EnumProperty Name="TypeScriptJSXEmit" DisplayName="Modo de compilação para arquivos .tsx" Category="General" Description="Especificar o modo de compilação de código JSX para arquivos .tsx; isso não afeta arquivos .ts">
+    <EnumProperty.DataSource> <!-- Indicates there is an interceptor used to specify the default value for TypeScriptJSXEmit -->
+      <DataSource HasConfigurationCondition="False" Persistence="ProjectFileWithInterception"/>
+    </EnumProperty.DataSource>
+    <EnumValue Name="none" DisplayName="Nenhum"/>
+    <EnumValue Name="preserve" DisplayName="Preservar elementos JSX"/>
+    <EnumValue Name="react" DisplayName="Emitir chamada de Reação para elementos JSX"/>
+  </EnumProperty>
+  
+  <EnumProperty Name="TypeScriptModuleKind" DisplayName="Sistema de módulo" Category="General" Description="Destino de geração de código do módulo externo">
+    <EnumProperty.DataSource>
+      <!-- Indicates there is an interceptor used to specify the default value for TypeScriptModuleKind -->
+      <DataSource HasConfigurationCondition="False" Persistence="ProjectFileWithInterception"/>
+    </EnumProperty.DataSource>
+    <EnumValue Name="none" DisplayName="Nenhum"/>
+    <EnumValue Name="amd" DisplayName="AMD"/>
+    <EnumValue Name="commonjs" DisplayName="CommonJS"/>
+    <EnumValue Name="umd" DisplayName="UMD"/>
+    <EnumValue Name="system" DisplayName="Sistema"/>
+  </EnumProperty>
+
+  <BoolProperty Name="TypeScriptCompileOnSaveEnabled" DisplayName="Compile on save" Category="General" Description="Recompile sources on save"/>
+
+  <BoolProperty Name="TypeScriptNoImplicitAny" DisplayName="Do not allow implicit 'any' types" Category="General" Description="Enable warnings on expressions and declarations with an implied 'any' type"/>
+
+<!-- Output -->
+  <BoolProperty Name="TypeScriptRemoveComments" DisplayName="Remove comments from JavaScript output" Category="Output" Description="Do not emit comments to output"/>
+
+  <StringProperty Name="TypeScriptOutFile" DisplayName="Combinar saída de JavaScript em arquivo" Category="Output" Description="Redirecionar a saída para um arquivo"/>
+
+  <StringProperty Name="TypeScriptOutDir" DisplayName="Redirecionar a saída de JavaScript para um diretório" Category="Output" Description="Redirecionar a saída para um diretório diferente que as origens de"/>
+
+  <BoolProperty Name="TypeScriptGeneratesDeclarations" DisplayName="Generate declaration files" Category="Output" Description="Generate corresponding d.ts file"/>
+
+   <BoolProperty Name="TypeScriptNoEmitOnError" DisplayName="Do not emit outputs if any errors are reported" Category="Output" Description="Doesn't emit output if errors are found"/>
+
+<!-- Debugging -->
+  <BoolProperty Name="TypeScriptSourceMap" DisplayName="Generate source maps" Category="Debugging" Description="Generates corresponding .map file"/>
+
+  <StringProperty Name="TypeScriptMapRoot" DisplayName="Especificar o diretório raiz de mapas de origem" Category="Debugging" Description="Emite o sourcemaps de maneira que este encontre-se na raiz de soucemap durante a depuração"/>
+
+  <StringProperty Name="TypeScriptSourceRoot" DisplayName="Especificar o diretório raiz dos arquivos TypeScript" Category="Debugging" Description="Emite o sourcemaps de maneira que as origens se encontrem na raiz de origem durante a depuração"/>
+
+</Rule>

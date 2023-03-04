@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+
+  <PropertyGroup>
+    <ProjectTypeGuids>C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5</ProjectTypeGuids>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <OutputPath Condition="'$(OutputPath)'==''">bin\$(Platform)\$(Configuration)\</OutputPath>
+    <SkipCopyBuildProduct>True</SkipCopyBuildProduct>
+    <DoNotLaunchApp Condition=" '$(DoNotLaunchApp)' == '' ">false</DoNotLaunchApp>
+    <AllowLocalNetworkLoopback Condition=" '$(AllowLocalNetworkLoopback)' == '' ">true</AllowLocalNetworkLoopback>
+    <RequireAuthentication Condition=" '$(RequireAuthentication)' == '' ">true</RequireAuthentication>
+    <NetfxCoreRuntimeTargets>Empty</NetfxCoreRuntimeTargets>
+    <NetfxCoreRuntimeSettingsTargets>Empty</NetfxCoreRuntimeSettingsTargets>
+    <AppxGeneratePrisForPortableLibrariesEnabled>false</AppxGeneratePrisForPortableLibrariesEnabled>
+    <AppxHarvestWinmdRegistration>false</AppxHarvestWinmdRegistration>
+    <UseSubFolderForOutputDirDuringMultiPlatformBuild>false</UseSubFolderForOutputDirDuringMultiPlatformBuild>
+    <FilterSatelliteAssembliesForMakePri>true</FilterSatelliteAssembliesForMakePri>
+    <!-- Assembly names added to the AdditionalExplicitAssemblyReferences property will be added as references to the resolve assembly reference call by default resulting in system.core being added which we don't want -->
+    <AddAdditionalExplicitAssemblyReferences>false</AddAdditionalExplicitAssemblyReferences>
+    <!-- Explicitly disable transitive project references now that the ProjectAssetsFile is generated for WAPProj. See Microsoft.PackageDependencyResolution.targets IncludeTransitiveProjectReferences -->  
+    <DisableTransitiveProjectReferences>true</DisableTransitiveProjectReferences>
+    <!-- This property controls if solution dependencies get added to the .metaproj as ProjectReferences, we do not want these dependencies to be included as ProjectReferences -->
+    <AddSyntheticProjectReferencesForSolutionDependencies Condition="'$(WapEnableSyntheticProjectReferencesForSolutionDependencies)' != 'true'">false</AddSyntheticProjectReferencesForSolutionDependencies>
+  </PropertyGroup>
+
+  <!-- NuGet properties -->
+  <PropertyGroup>
+    <!-- Support packages through PackageReference items -->
+    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
+
+    <!-- Set up the NuGet assets file -->
+    <ProjectAssetsFile Condition="'$(ProjectAssetsFile)' == ''">$(MSBuildProjectExtensionsPath)/project.assets.json</ProjectAssetsFile>
+    <ProjectAssetsFile>$([MSBuild]::NormalizePath($(MSBuildProjectDirectory), $(ProjectAssetsFile)))</ProjectAssetsFile>
+
+    <ResolveNuGetPackages>false</ResolveNuGetPackages>
+    <UseTargetPlatformAsNuGetTargetMoniker>false</UseTargetPlatformAsNuGetTargetMoniker>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <DebuggerType Condition=" '$(DebuggerType)' == '' ">Mixed</DebuggerType>
+    <BackgroundTaskDebugEngines Condition=" '$(BackgroundTaskDebugEngines)' == '' ">CoreClr</BackgroundTaskDebugEngines>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PlatformTarget Condition="'$(PlatformTarget)' == ''">$(Platform)</PlatformTarget>
+    <DebuggerFlavor Condition="'$(DebuggerFlavor)' == ''">AppHostLocalDebugger</DebuggerFlavor>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <WapProjTasksPath Condition=" '$(WapProjTasksPath)' == '' ">$(MSBuildThisFileDirectory)Microsoft.Build.DesktopBridge.Tasks.dll</WapProjTasksPath>
+    <WapProjToolPath Condition=" '$(WapProjToolPath)' == '' ">$(MSBuildThisFileDirectory)</WapProjToolPath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <SDKIdentifier Condition="'$(SDKIdentifier)' == ''">Windows</SDKIdentifier>
+    <SDKVersion Condition="'$(SDKVersion)' == ''">10.0</SDKVersion>
+    <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
+    <WindowsAppContainer>true</WindowsAppContainer>
+    <AppxPackage>true</AppxPackage>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net451</TargetFramework>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <AssetTargetFallback>$(AssetTargetFallback);netcoreapp3.1;netcoreapp3.0;netcoreapp2.0;net462;net47;net471;net472;net48</AssetTargetFallback>
+  </PropertyGroup>
+
+  <ItemDefinitionGroup>
+    <ProjectReference>
+      <Private>false</Private>
+    </ProjectReference>
+    <AppxManifest>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </AppxManifest>
+    <PackageLayout>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </PackageLayout>
+    <PRIResource>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </PRIResource>
+    <None>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+  </ItemDefinitionGroup>
+
+  <PropertyGroup>
+    <PackageOutputGroups>
+      DesktopBridgeCopyLocalOutputGroup;
+      DesktopBridgeComFilesOutputGroup;
+      BuiltProjectOutputGroup;
+      GetCopyToOutputDirectoryItems;
+      SatelliteDllsProjectOutputGroup;
+      SatelliteDllsProjectOutputGroupDependencies;
+      DebugSymbolsProjectOutputGroup;
+      DebugSymbolsProjectOutputGroupDependencies;
+      ContentFilesProjectOutputGroup;
+      SGenFilesOutputGroup;
+    </PackageOutputGroups>
+  </PropertyGroup>
+</Project>

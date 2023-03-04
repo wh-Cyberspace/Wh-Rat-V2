@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information. -->
+<Rule Name="ResourcesPropertyPage" Description="リソース" DisplayName="リソース" PageTemplate="generic" Order="1100" xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <Rule.DataSource>
+    <DataSource Persistence="ProjectFileWithInterception" SourceOfDefaultValue="AfterContext" HasConfigurationCondition="False" />
+  </Rule.DataSource>
+  <StringProperty Name="ResourcesPagePlaceholderDescription" DisplayName="無視されました" Description="アセンブリ リソースの管理は、プロジェクト プロパティ経由では実行されなくなりました。代わりに、ソリューション エクスプローラーから RESX ファイルを直接開きます。便宜上、以下のリンクからアクセスできます。">
+    <StringProperty.ValueEditors>
+      <ValueEditor EditorType="Description" />
+    </StringProperty.ValueEditors>
+  </StringProperty>
+  <StringProperty Name="CreateOrOpenAssemblyResources" DisplayName="アセンブリ リソースを作成する/開く">
+    <StringProperty.ValueEditors>
+      <ValueEditor EditorType="LinkAction">
+        <ValueEditor.Metadata>
+          <NameValuePair Name="Action" Value="Command" />
+          <NameValuePair Name="Command" Value="CreateOrOpenAssemblyResources" />
+        </ValueEditor.Metadata>
+      </ValueEditor>
+    </StringProperty.ValueEditors>
+  </StringProperty>
+</Rule>

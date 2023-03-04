@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information. -->
+<Rule Name="SdkReference" Description="SDK 参照のプロパティ" DisplayName="SDK 参照" PageTemplate="generic" xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <Rule.DataSource>
+    <DataSource HasConfigurationCondition="False" ItemType="SDKReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+  </Rule.DataSource>
+  <StringProperty Name="AppXLocation" DisplayName="アプリ パッケージの場所" ReadOnly="True" />
+  <BoolProperty Name="CopyLocalExpandedReferenceAssemblies" DisplayName="ローカルに展開された参照アセンブリのコピー" ReadOnly="True" />
+  <BoolProperty Name="CopyPayload" DisplayName="ペイロードのコピー" ReadOnly="True" />
+  <StringProperty Name="CopyPayloadToSubDirectory" DisplayName="サブディレクトリへのペイロードのコピー" ReadOnly="True" />
+  <StringProperty Name="DisplayName" ReadOnly="True" Visible="False" />
+  <BoolProperty Name="ExpandContent" DisplayName="コンテンツの展開" ReadOnly="True" />
+  <BoolProperty Name="ExpandReferenceAssemblies" DisplayName="参照アセンブリの展開" ReadOnly="True" />
+  <StringProperty Name="FrameworkIdentity" DisplayName="FrameworkIdentity" ReadOnly="True" />
+  <StringProperty Name="IsImplicitlyDefined" ReadOnly="True" Visible="False" />
+  <StringProperty Name="Name" DisplayName="名前" ReadOnly="True" />
+  <StringProperty Name="SDKPackageItemSpec" ReadOnly="True" Visible="False" />
+  <StringProperty Name="SDKRootFolder" DisplayName="SDK ルート" ReadOnly="True" />
+  <StringProperty Name="Version" DisplayName="バージョン" ReadOnly="True" />
+  <BoolProperty Name="Visible" ReadOnly="True" Visible="False" />
+</Rule>

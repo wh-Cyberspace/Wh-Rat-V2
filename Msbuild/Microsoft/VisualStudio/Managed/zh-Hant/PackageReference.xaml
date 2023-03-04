@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information. -->
+<Rule Name="PackageReference" Description="套件參考屬性" DisplayName="套件參考" PageTemplate="generic" xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <Rule.DataSource>
+    <DataSource HasConfigurationCondition="False" ItemType="PackageReference" Persistence="ProjectFile" SourceOfDefaultValue="AfterContext" />
+  </Rule.DataSource>
+  <StringListProperty Name="Aliases" Description="包含在此套件中，以逗號分隔的組件參考別名清單。" DisplayName="別名" Separator="," />
+  <StringProperty Name="ExcludeAssets" Description="要從此參考排除的資產。" DisplayName="排除的資產" />
+  <BoolProperty Name="GeneratePathProperty" Description="表示是否要以套件根目錄的位置產生 MSBuild 屬性。產生屬性的名稱格式為 'Pkg[PackageID]'，其中 '[PackageID]' 是套件的識別碼，所有句點 '.' 均會替換為底線 '_'。" DisplayName="產生路徑屬性" />
+  <StringProperty Name="IncludeAssets" Description="要從此參考包含的資產。" DisplayName="包含的資產" />
+  <StringProperty Name="IsImplicitlyDefined" ReadOnly="True" Visible="False" />
+  <StringProperty Name="Name" ReadOnly="True" DisplayName="名稱">
+    <StringProperty.DataSource>
+      <DataSource PersistedName="{}{Identity}" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="NoWarn" Description="應對此套件隱藏的警告逗點分隔清單。" DisplayName="隱藏警告" />
+  <!-- NOTE this property will never be populated for unresolved items, but is included to make the UI consistent -->
+  <StringProperty Name="Path" Description="目前參考的套件位置。" DisplayName="路徑" ReadOnly="True" />
+  <StringProperty Name="PrivateAssets" Description="此參考中的私人資產。" DisplayName="私用資產" />
+  <StringProperty Name="Version" Description="相依性的版本。" DisplayName="版本" ReadOnly="True">
+    <StringProperty.DataSource>
+      <DataSource PersistenceStyle="Attribute" SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <BoolProperty Name="Visible" ReadOnly="True" Visible="False" />
+  <BoolProperty Name="TreatAsUsed" ReadOnly="True" Visible="False" />
+</Rule>

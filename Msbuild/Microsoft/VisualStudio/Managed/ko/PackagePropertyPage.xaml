@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information. -->
+<Rule Name="Package" Description="NuGet 패키지 생성과 관련된 속성입니다." DisplayName="패키지" PageTemplate="generic" Order="400" xmlns="http://schemas.microsoft.com/build/2009/properties">
+  <Rule.Categories>
+    <Category Name="General" DisplayName="일반" Description="패키지의 일반 설정입니다." />
+    <Category Name="License" DisplayName="라이선스" Description="패키지에 대한 라이선스를 지정합니다." />
+  </Rule.Categories>
+  <Rule.DataSource>
+    <DataSource Persistence="ProjectFileWithInterception" SourceOfDefaultValue="AfterContext" HasConfigurationCondition="False" />
+  </Rule.DataSource>
+  <BoolProperty Name="GeneratePackageOnBuild" DisplayName="빌드 시 NuGet 패키지 생성" Description="빌드 작업 중 패키지 파일을 생성합니다." Category="General" />
+  <StringProperty Name="PackageId" DisplayName="패키지 ID" Description="패키지가 있는 nuget.org 또는 모든 갤러리에서 고유해야 하는 대/소문자를 구분하지 않는 패키지 식별자입니다. ID는 URL에 유효하지 않은 공백이나 문자를 포함할 수 없으며 일반적으로 .NET 네임스페이스 규칙을 따릅니다." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147131" Category="General">
+    <StringProperty.Metadata>
+      <NameValuePair Name="DependsOn" Value="Application::AssemblyName" />
+    </StringProperty.Metadata>
+  </StringProperty>
+  <StringProperty Name="Version" DisplayName="패키지 버전" Description="major.minor.patch 패턴을 따르는 패키지의 버전입니다. 버전 번호에는 시험판 접미사가 포함될 수 있습니다." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147132" Category="General" />
+  <StringProperty Name="Authors" DisplayName="작성자" Description="nuget.org의 프로필 이름과 일치하는 패키지 작성자의 쉼표로 구분된 목록입니다. 이 목록은 nuget.org의 NuGet 갤러리에 표시되며, 동일한 작성자가 패키지를 상호 참조하는 데 사용됩니다." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147237" Category="General">
+    <StringProperty.Metadata>
+      <NameValuePair Name="DependsOn" Value="Application::AssemblyName" />
+    </StringProperty.Metadata>
+  </StringProperty>
+  <StringProperty Name="Company" DisplayName="회사" Category="General">
+    <StringProperty.Metadata>
+      <NameValuePair Name="DependsOn" Value="Package::Authors" />
+    </StringProperty.Metadata>
+  </StringProperty>
+  <StringProperty Name="Product" DisplayName="제품" Category="General">
+    <StringProperty.Metadata>
+      <NameValuePair Name="DependsOn" Value="Application::AssemblyName" />
+    </StringProperty.Metadata>
+  </StringProperty>
+  <StringProperty Name="Description" DisplayName="설명" Description="UI 표시의 패키지에 대한 설명입니다." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147238" Category="General">
+    <StringProperty.ValueEditors>
+      <ValueEditor EditorType="MultiLineString" />
+    </StringProperty.ValueEditors>
+  </StringProperty>
+  <StringProperty Name="Copyright" DisplayName="저작권" Description="패키지에 대한 저작권 정보입니다." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147133" Category="General" />
+  <StringProperty Name="PackageProjectUrl" DisplayName="프로젝트 URL" Description="nuget.org뿐만 아니라 종종 UI 표시에 표시되는 패키지 홈페이지의 URL입니다." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147240" Category="General" />
+  <StringProperty Name="PackageIcon" DisplayName="아이콘" Description="패키지의 아이콘 이미지입니다. 이미지 파일 크기는 1MB로 제한됩니다. 지원되는 파일 형식에는 JPEG 및 PNG가 포함됩니다. 128x128의 이미지 해상도를 권장합니다." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147134" Category="General" Subtype="file">
+    <StringProperty.ValueEditors>
+      <ValueEditor EditorType="FilePath">
+        <ValueEditor.Metadata>
+          <NameValuePair Name="FileTypeFilter" Value="Image files (*.png,*.jpg,*.jpeg)|*.png;*.jpg;*.jpeg|All files (*.*)|*.*" />
+        </ValueEditor.Metadata>
+      </ValueEditor>
+    </StringProperty.ValueEditors>
+    <StringProperty.DataSource>
+      <DataSource Persistence="ProjectFileWithInterception" HasConfigurationCondition="False" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="PackageReadmeFile" DisplayName="추가 정보" Description="패키지에 대한 추가 정보 문서. Markdown(.md) 파일이어야 합니다." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2168540" Category="General" Subtype="file">
+    <StringProperty.ValueEditors>
+      <ValueEditor EditorType="FilePath">
+        <ValueEditor.Metadata>
+          <NameValuePair Name="FileTypeFilter" Value="Markdown files (*.md)|*.md|All files (*.*)|*.*" />
+        </ValueEditor.Metadata>
+      </ValueEditor>
+    </StringProperty.ValueEditors>
+    <StringProperty.DataSource>
+      <DataSource Persistence="ProjectFileWithInterception" HasConfigurationCondition="False" />
+    </StringProperty.DataSource>
+  </StringProperty>
+  <StringProperty Name="RepositoryUrl" DisplayName="리포지토리 URL" Description="패키지의 소스 코드가 있고/있거나 빌드 중인 리포지토리의 URL을 지정합니다. 프로젝트 페이지에 연결하려면 대신 '프로젝트 URL' 필드를 사용하세요." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147241" Category="General" />
+  <StringProperty Name="RepositoryType" DisplayName="리포지토리 형식" Description="리포지토리 형식을 지정합니다. 기본값은 'git'입니다." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147241" Category="General" />
+  <StringProperty Name="PackageTags" DisplayName="태그" Description="패키지를 설명하고 검색 및 필터링을 통해 패키지의 검색 기능을 지원하는 세미콜론으로 구분된 태그 및 키워드 목록입니다." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147135" Category="General" />
+  <StringProperty Name="PackageReleaseNotes" DisplayName="릴리스 정보" Description="패키지 설명 대신에 Visual Studio 패키지 관리자의 [업데이트] 탭처럼 종종 UI에 사용되는, 이 패키지 릴리스의 변경 사항에 대한 설명입니다." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147242" Category="General" />
+  <DynamicEnumProperty Name="NeutralLanguage" DisplayName="어셈블리 중립 언어" EnumProvider="NeutralLanguageEnumProvider" MultipleValuesAllowed="False" Category="General" />
+  <StringProperty Name="AssemblyVersion" DisplayName="어셈블리 버전" Category="General" />
+  <StringProperty Name="FileVersion" DisplayName="파일 버전" Category="General" />
+  <!-- TODO add help URL? -->
+  <EnumProperty Name="PackageLicenseKind" DisplayName="패키지 라이선스" Description="프로젝트의 패키지에 대한 라이선스를 지정합니다." Category="License">
+    <EnumProperty.DataSource>
+      <DataSource Persistence="ProjectFileWithInterception" HasConfigurationCondition="False" />
+    </EnumProperty.DataSource>
+    <EnumValue Name="None" DisplayName="없음" />
+    <EnumValue Name="Expression" DisplayName="SPDX 라이선스 식" />
+    <EnumValue Name="File" DisplayName="포함된 파일" />
+  </EnumProperty>
+  <StringProperty Name="PackageLicenseExpression" DisplayName="라이선스 식" Description="nuget.org처럼 UI에 표시되는 SPDX 라이선스 식입니다." HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147239" Category="License">
+    <StringProperty.Metadata>
+      <NameValuePair Name="DependsOn" Value="Package::PackageLicenseKind" />
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>(has-evaluated-value "Package" "PackageLicenseKind" "Expression")</NameValuePair.Value>
+      </NameValuePair>
+    </StringProperty.Metadata>
+  </StringProperty>
+  <!-- TODO add a fwlink for this action URL -->
+  <StringProperty Name="ReadAboutSpdxExpressions" DisplayName="SPDX 라이선스 식에 대해 읽기" Category="License">
+    <StringProperty.DataSource>
+      <DataSource PersistedName="ReadAboutSpdxExpressions" Persistence="ProjectFileWithInterception" HasConfigurationCondition="False" />
+    </StringProperty.DataSource>
+    <StringProperty.ValueEditors>
+      <ValueEditor EditorType="LinkAction">
+        <ValueEditor.Metadata>
+          <NameValuePair Name="Action" Value="URL" />
+          <NameValuePair Name="URL" Value="https://go.microsoft.com/fwlink/?linkid=2166116" />
+        </ValueEditor.Metadata>
+      </ValueEditor>
+    </StringProperty.ValueEditors>
+    <StringProperty.Metadata>
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>(has-evaluated-value "Package" "PackageLicenseKind" "Expression")</NameValuePair.Value>
+      </NameValuePair>
+    </StringProperty.Metadata>
+  </StringProperty>
+  <StringProperty Name="PackageLicenseFile" DisplayName="라이선스 파일" HelpUrl="https://go.microsoft.com/fwlink/?linkid=2147239" Category="License" Subtype="file">
+    <StringProperty.Metadata>
+      <NameValuePair Name="DependsOn" Value="Package::PackageLicenseKind" />
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>(has-evaluated-value "Package" "PackageLicenseKind" "File")</NameValuePair.Value>
+      </NameValuePair>
+    </StringProperty.Metadata>
+  </StringProperty>
+  <BoolProperty Name="PackageRequireLicenseAcceptance" DisplayName="라이선스 승인 필요" Description="이 패키지를 설치할 때 사용자에게 이 라이선스에 동의하라는 메시지를 표시합니다." Category="License">
+    <BoolProperty.Metadata>
+      <NameValuePair Name="DependsOn" Value="Package::PackageLicenseKind" />
+      <NameValuePair Name="VisibilityCondition">
+        <NameValuePair.Value>(not (has-evaluated-value "Package" "PackageLicenseKind" "None"))</NameValuePair.Value>
+      </NameValuePair>
+    </BoolProperty.Metadata>
+  </BoolProperty>
+</Rule>

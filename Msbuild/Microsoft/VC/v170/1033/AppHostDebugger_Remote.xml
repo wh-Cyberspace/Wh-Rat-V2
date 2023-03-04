@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--Copyright, Microsoft Corporation, All rights reserved.
+    Remote debug properties for Windows UWP apps-->
+<Rule 
+  Name="UWPRemoteDebugger"
+  DisplayName="Remote Machine"
+  PageTemplate="debugger"
+  Order="400"
+  Description="Remote Debugger options"
+  xmlns:sys="clr-namespace:System;assembly=mscorlib"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns="http://schemas.microsoft.com/build/2009/properties">
+  
+  <Rule.Metadata>
+    <sys:Guid x:Key="DebugTargetTypeCommandGuid">FEEA6E9D-77D8-423F-9EDE-3970CBB76125</sys:Guid>
+    <sys:UInt32 x:Key="DebugTargetTypeCommandId">0x400</sys:UInt32>
+  </Rule.Metadata>
+  <Rule.DataSource>
+    <DataSource Persistence="UserFile" />
+  </Rule.DataSource>
+
+  <BoolProperty 
+    Name="DebuggerLaunchApplication" 
+    DisplayName="Launch Application" 
+    F1Keyword="VC.Project.IVCAppHostRemoteDebugPageObject.LaunchApplication"
+    Description="Specifies whether to launch my application immediately or wait to debug my application when it starts running."/>
+  <BoolProperty
+    Name="AllowLocalNetworkLoopback"
+    DisplayName="Allow Local Network Loopback"
+    F1Keyword="VC.Project.IVCAppHostLocalDebugPageObject.AllowLocalNetworkLoopback"
+    Description="When debugging a Windows Store app, allows you to use local services, debug network traffic, and use a local loopback for communicating with components on the same machine."/>
+  <EnumProperty 
+    Name="DebuggerType" 
+    DisplayName="Debugger Type" 
+    F1Keyword="VC.Project.IVCAppHostRemoteDebugPageObject.DebuggerType"
+    Description="Specifies which code type to debug.">
+    <EnumProperty.Metadata>
+      <NameValuePair Name="IsDebugType" Value="true"/>
+    </EnumProperty.Metadata>
+    <EnumValue Name="NativeOnly" DisplayName="Native Only"/>
+    <EnumValue Name="ManagedCore" DisplayName="Managed Only"/>
+    <EnumValue Name="GPUOnly" DisplayName="GPU Only (C++ AMP)"/>
+    <EnumValue Name="Script" DisplayName="Script Only"/>
+    <EnumValue Name="NativeWithManagedCore" DisplayName="Managed and Native"/>
+    <EnumValue Name="NativeWithScript" DisplayName="Script and Native"/>
+  </EnumProperty>
+  <StringProperty
+    Name="DebuggerMachineName"
+    DisplayName="Machine Name"
+    F1Keyword="VC.Project.IVCAppHostRemoteDebugPageObject.MachineName"
+    Description="Specifies the name of the machine to use when debugging remotely.">
+    <StringProperty.ValueEditors>
+      <ValueEditor EditorType="CppUniversalRemoteDebuggerPropertyEditor" DisplayName="&lt;Locate...&gt;">
+        <ValueEditor.Metadata>
+          <NameValuePair Name="AuthenticationPropertyName" Value="DebuggerRequireAuthentication" />
+        </ValueEditor.Metadata>
+      </ValueEditor>
+    </StringProperty.ValueEditors>
+  </StringProperty> 
+  <EnumProperty 
+    Name="DebuggerRequireAuthentication" 
+    DisplayName="Authentication Type"
+    F1Keyword="VC.Project.IVCAppHostRemoteDebugPageObject.Authentication"
+    Description="Specifies what kind of authentication is required when debugging on remote devices.">
+    <EnumValue Name="True" DisplayName="Windows Authentication"/>
+    <EnumValue Name="False" DisplayName="No Authentication"/>
+    <EnumValue Name="Universal" DisplayName="Universal (Unencrypted Protocol)"/>
+  </EnumProperty>
+  <DynamicEnumProperty Name="GPUDebuggerTargetType" 
+                       DisplayName="Debugging Accelerator Type" 
+                       EnumProvider="GPUTargets" 
+                       F1Keyword="VC.Project.IVCAppHostRemoteDebugPageObject.GPUDebuggerTargetType"
+                       Description="The debugging accelerator type to use for debugging the GPU code. (Available when the GPU debugger is active.)">
+    <DynamicEnumProperty.Metadata>
+      <NameValuePair Name="ParentPropertyName" Value="DebuggerType"/>
+      <NameValuePair Name="ParentPropertyValue" Value="GPUOnly"/>
+    </DynamicEnumProperty.Metadata>
+  </DynamicEnumProperty>
+  <EnumProperty Name="GPURefDebuggerBreakOnAllThreads" 
+                DisplayName="GPU Default Breakpoint Behavior"
+                Description="Sets how often the GPU debugger breaks."
+                F1Keyword="VC.Project.IVCAppHostRemoteDebugPageObject.BreakpointBehavior">
+    <EnumValue Name="GPURefBreakOncePerWarp" DisplayName="Break once per warp"
+               Description="Break once per warp" />
+    <EnumValue Name="GPURefBreakForCPUThread" DisplayName="Break for every thread (like CPU behavior)"
+               Description="Break for every thread (like CPU behavior)" />
+    <EnumProperty.Metadata>
+      <NameValuePair Name="ParentPropertyName" Value="DebuggerType"/>
+      <NameValuePair Name="ParentPropertyValue" Value="GPUOnly"/>
+    </EnumProperty.Metadata>
+  </EnumProperty>
+  <BoolProperty Name="RemoteDebuggerDeployDebugCppRuntime" DisplayName="Deploy Visual C++ Debug Runtime Libraries"
+                Description="Specifies whether to deploy the debug runtime libraries for the active platform (Win32, x64, or ARM)."
+                F1Keyword="VC.Project.IVCRemoteDebugPageObject.Remote"/>
+  <DynamicEnumProperty Name="DebuggerAmpDefaultAccelerator"
+                       DisplayName="Amp Default Accelerator"
+                       EnumProvider="AmpAccelerators"
+                       F1Keyword="VC.Project.IVCAppHostRemoteDebugPageObject.AmpDefaultAccelerator"
+                       Description="Override C++ AMP's default accelerator selection. Property does not apply when debugging managed code.">
+  </DynamicEnumProperty>
+  <StringProperty
+    Name="LayoutDir"
+    DisplayName="Package Layout Path"
+    Description="Location of the package layout where the binary output will be copied. This location may also contain non-binary assets for the project." />
+  <EnumProperty
+    Name="RemoteDeploymentType"
+    DisplayName="Advanced Remote Deployment Type"
+    Description="Specifies the type of Remote Deployment - Choose 'Copy To Device' to physically copy the package layout to remote device or 'Register From Network' to register a layout from network share.">
+    <EnumValue Name="CopyToDevice" DisplayName="Copy To Device"/>
+    <EnumValue Name="RegisterFromNetwork" DisplayName="Register From Network"/>
+  </EnumProperty>
+  <StringProperty
+    Name="PackageRegistrationPath"
+    DisplayName="Package Registration Path"
+    Description="For 'Copy To Device' deployment, this denotes the physical location on the remote device where the layout will be copied and is an optional parameter. For 'Register From Network',
+this denotes a remote network location of the package layout and is a required parameter." />
+  <BoolProperty
+    Name="RemoveNonLayoutFiles"
+    DisplayName="Remove Non-Layout Files from Device"
+    Description="Specifies whether the files that are not a part of the layout be removed from target device during deployment - This is applicable only for 'Copy To Device' deployment."/>
+  <StringProperty
+    Name="CommandLineArgs"
+    DisplayName="Command Line Arguments"
+    Description="Command line arguments passed to the debugger." />
+</Rule>
+
+
