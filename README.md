@@ -24,45 +24,33 @@ Usage of WH-Cyberspace Hacking Tool for attacking targets without prior mutual c
 
 
 1: File Manager : 
-                            Delete , Download ,
 
-                            Launch Files ,Go through 
-                            
-                            Folders  and Disks , Go 
-                            
-                            Back ,Move File to Bin
+                  Delete , Download , Launch Files ,Go through                            
+                  Folders  and Disks , Go Back ,Move File to Bin
   
 
 2: Encryption : 
-                        Can encrypt | decrypt files
 
-                        in files manager with custom
-                        
-                        key(AES , RC6 , BlowFish , 
-                        
-                        Salsa20 , Cast6 , TwoFish )
+                Can encrypt | decrypt files in files manager with custom                        
+                key(AES , RC6 , BlowFish , Salsa20 , Cast6 , TwoFish )
   
   
 3: Passwords Recovery :  
-                                    Currenly Supports most Chromium. Web Browsers
+                       
+                       Currenly Supports most Chromium. Web Browsers
                                            
   
   
 4: Tasks Manager : 
                 
-                          Kill Tasks , Refresh ,
-
-                                     Get Information
+                  Kill Tasks , Refresh , Get Information
                                      
   
   
 5: Remote Desktop Viewer (OPTIONAL) :
 
-                                     If you do not want to  
-                                     
-                                     forward second port , 
-                                     
-                                    do not use
+                                     If you do not want to  forward second port , 
+                                     do not use
   
   
 6: Change Wallpaper
@@ -70,18 +58,13 @@ Usage of WH-Cyberspace Hacking Tool for attacking targets without prior mutual c
   
 7: TaskBar :
 
-Hide , Show ,Hide Apps , 
-
-                        SHow Apps
+            Hide , Show ,Hide Apps , SHow Apps
   
   
 8: Mouse :
 
-Swap Mouse Button , Lock Left 
-
-                   Click ,Lock Right Click , Lock 
-                   
-                   Movements ,Lock All , Unlock All
+          Swap Mouse Button , Lock Left Click ,Lock Right Click 
+          Lock Movements ,Lock All , Unlock All
   
   
 9: Keyboard : 
@@ -94,11 +77,8 @@ Lock , Unlock
   
 11: Computer Power : 
 
-Log Out , Reboot , 
-
-                                    Shutdown , Hibernate,
-                                    
-                                    Suspend
+                    Log Out , Reboot , Shutdown , Hibernate,
+                    Suspend
   
 12: BSOD
   
@@ -108,31 +88,25 @@ Log Out , Reboot ,
   
 14: OS INFORMATION :
 
-Get Precious Information about OS
+                    Get Precious Information about OS
   
   
 15: Client : 
 
-Close , Close And Delete
+            Close , Close And Delete
   
   
 16: Client Size :
 
-20KB at least (depending 
-
-                           on the options you add) => 
-                           
-                           easy to encrypt and bind
+                  20KB at least (depending on the options you add)
+                  => easy to encrypt and bind
                            
   
   
 17: Builder : 
 
-X86 ,X64 (Default is 
-
-                      AnyCPU) , Stealth Mode , 
-                      
-                      Spread , Add To Startup
+                 X86 ,X64 (Default is AnyCPU) , Stealth Mode , 
+                 Spread , Add To Startup
   
   
 18: Currently DOESN'T SUPPORT DNS
@@ -152,33 +126,21 @@ X86 ,X64 (Default is
   
 23: RED VIRUS :
 
-Block Keyboard , Block 
-
-                               Mouse , add a watchdog 
-                               
-                               to kill task  manager and 
-                               
-                               set a full red screen 
-                               
-                               window To Close , you 
-                               
-                               need to reboot
+                Block Keyboard , Block Mouse , add a watchdog 
+                to kill task  manager and set a full red screen 
+                window To Close , you need to reboot
   
 24: Fork Bomb
 
 25: vProcess INFO:
 
-Handle , FilePath , ID , 
-
-          BaseAddress , Priority , 
-          
-          Handle Window , Window title
+                  Handle , FilePath , ID , BaseAddress , Priority , 
+                  Handle Window , Window title
   
 26: Delete : 
 
-    Delete Files On Desktop , Delete Files 
-
-              On Desktop + Reboot
+            Delete Files On Desktop , Delete Files 
+            On Desktop + Reboot
   
   
 28: Auto Recovery Options
@@ -189,11 +151,12 @@ Handle , FilePath , ID ,
   
 30:Auto Execute File In memory :
 
-    BE SURE IT IS A .NET EXE ,not native
+                               BE SURE IT IS A .NET EXE ,not native
   
   
 31:Monitor Rotation : 
-                     0 , 90 ,180 , 270
+                    
+                    0 , 90 ,180 , 270
   
   
 32:Empty Bin | Trash
@@ -201,14 +164,14 @@ Handle , FilePath , ID ,
    
   
   
-[+]More Update in android Section :
+[+] More Update in android Section :
   ->[Update] Better & Faster Keylogger 
   ->[Update] Screen Monitor Faster
   ->[Update] Optimize apk 
  ->[Update] Add/Remove Permission in injection 
 
 
-[+]More Update in Application Section :
+[+] More Update in Application Section :
   ->Security update 
   ->Gui Update and improve
   ->Optimize Wh Rat
