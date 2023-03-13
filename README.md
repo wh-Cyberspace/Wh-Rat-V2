@@ -201,7 +201,7 @@ Lock , Unlock
 
 
 
-# ----> WWh Rat V2.1 First Release features
+# ----> Wh Rat V2.1 First Release features
 
 [+] Files Manager ____________________________[+] Live Key log
 
