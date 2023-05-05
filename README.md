@@ -6,9 +6,9 @@
 <br>
 </p>
 
-  🏳 WH-Cyberspace (WH RAT - v2 remote administration framework inspired by Cypher rat v5 ) 🔞
+ 
 <br>
-. 
+
 Usage of WH-Cyberspace Hacking Tool for attacking targets without prior mutual consent is illegal. It's the end user's responsibility to obey all applicable local, state and federal laws. Developers assume no liability and are not responsible for any misuse or damage caused by this program. Only use for educational purposes.
   
 [![Build Status](https://travis-ci.org/rapid7/metasploit-framework.svg?branch=master)](https://github.com/wh-Cyberspace/en) [![Test Coverage](https://api.codeclimate.com/v1/badges/943e398e619c09568f3f/test_coverage)](https://github.com/wh-Cyberspace/en) 
