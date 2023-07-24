@@ -293,11 +293,11 @@ And Run
 [![IMAGE 1](https://github.com/wh-Cyberspace/Wh-Rat-V2/blob/main/img/img3.png)](https://www.youtube.com/channel/UCj6ekUzjItnjP6T7I9r1WMA?sub_confirmation=1 "Don't upload payload inbuilt Antivirus website")
 
 # ℹ INFO
-Current Framework version : 2.5.0.2
+Current Framework version : 2.6.0.3
 
 Release date : 10-10-2022
 
-latest Version Release date : 09-june-2023
+latest Version Release date : 24-july-2023
 
 
 POWER BY >> WH-Cyberspace  
