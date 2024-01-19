@@ -1,0 +1,383 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Accessibility</title>
+<style>
+html{line-height:1.15;-webkit-text-size-adjust:100%}body{margin:0}main{display:block}h1{font-size:2em;margin:.67em 0}hr{box-sizing:content-box;height:0;overflow:visible}pre{font-family:monospace,monospace;font-size:1em}a{background-color:transparent}abbr[title]{border-bottom:none;text-decoration:underline;text-decoration:underline dotted}b,strong{font-weight:bolder}code,kbd,samp{font-family:monospace,monospace;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}img{border-style:none}button,input,optgroup,select,textarea{font-family:inherit;font-size:100%;line-height:1.15;margin:0}button,input{overflow:visible}button,select{text-transform:none}button,[type="button"],[type="reset"],[type="submit"]{-webkit-appearance:button}button::-moz-focus-inner,[type="button"]::-moz-focus-inner,[type="reset"]::-moz-focus-inner,[type="submit"]::-moz-focus-inner{border-style:none;padding:0}button:-moz-focusring,[type="button"]:-moz-focusring,[type="reset"]:-moz-focusring,[type="submit"]:-moz-focusring{outline:1px dotted ButtonText}fieldset{padding:.35em .75em .625em}legend{box-sizing:border-box;color:inherit;display:table;max-width:100%;padding:0;white-space:normal}progress{vertical-align:baseline}textarea{overflow:auto}[type="checkbox"],[type="radio"]{box-sizing:border-box;padding:0}[type="number"]::-webkit-inner-spin-button,[type="number"]::-webkit-outer-spin-button{height:auto}[type="search"]{-webkit-appearance:textfield;outline-offset:-2px}[type="search"]::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}details{display:block}summary{display:list-item}template{display:none}[hidden]{display:none}
+</style>
+<style>
+html, body {
+    font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    margin: 0; 
+    height: 100%; 
+    overflow: hidden;
+}
+.header {
+    height: 65px;
+    border-bottom: 3px solid #e2e2e2;
+}
+.header b {
+    line-height: 65px;
+    font-size:1.2rem;
+	color: #0095FF;
+}
+.hsp {
+    background-color: #f4f4f4;
+    color: #464646;
+    height: 34px;
+    line-height: 34px;
+    padding-top: 5px;
+}
+.hsp b {
+    margin-left: 15px;
+}
+.els {
+    line-height: 55px;
+    height: 55px;
+    border-bottom: 1px solid #f2f2f2;
+    margin: 0px 15px 0px 15px;
+    overflow: hidden;
+}
+.els .nm {
+    float: left;
+    white-space: nowrap;
+    width: 0px;
+}
+.els .vl {
+    float: right;
+    color: #989898;
+}
+.aar {
+    width: 21px;
+    height: 21px;
+    float: right;
+    margin-top: 23px;
+	background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSJMYXllcl8xIiB4PSIwcHgiIHk9IjBweCIgdmlld0JveD0iMCAwIDEyNi42NDIgODIuNzc3IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCAxMjkgMTI5OyIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8c3R5bGUgdHlwZT0idGV4dC9jc3MiPi5zdDB7ZmlsbDojZDRkNGQ0O308L3N0eWxlPgogIDxnIHRyYW5zZm9ybT0ibWF0cml4KDEsIDAsIDAsIDEsIC01LjY1OTk2NCwgLTE5LjgwOTg3MikiPgogICAgPHBhdGggY2xhc3M9InN0MCIgZD0iTSA3MC42MTQgOTQuNjU2IEMgNjkuODExIDk1LjEzOCA2OC44MDcgOTUuMzggNjcuNzAzIDk1LjM4IEMgNjYuNTk4IDk1LjM4IDY1LjU5NSA5NS4xMzggNjQuNzkyIDk0LjY1NiBDIDYzLjE4NSA5My42OSA2My4xODUgOTIuMTIxIDY0Ljc5MiA5MS4xNTUgTCAxMTcuNCA2MC42MDkgTCA2NC43OTIgMjkuNTkyIEMgNjMuMTg1IDI4LjYyNiA2My4xODUgMjcuMDU3IDY0Ljc5MiAyNi4wOTEgQyA2Ni4zOTggMjUuMTI2IDY5LjAwOCAyNS4xMjYgNzAuNjE0IDI2LjA5MSBMIDEyNC43MTggNTguNjIzIEMgMTI2LjMyNCA1OS41ODkgMTI2LjMyNCA2MS4xNTggMTI0LjcxOCA2Mi4xMjQgTCA3MC42MTQgOTQuNjU2IFoiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDVweDsgc3Ryb2tlOiByZ2IoMzAsIDE1MSwgMjM3KTsgcGFpbnQtb3JkZXI6IGZpbGwgbWFya2Vyczsgc3Ryb2tlLWxpbmVqb2luOiByb3VuZDsgc3Ryb2tlLWxpbmVjYXA6IHJvdW5kOyBmaWxsOiByZ2IoMzAsIDE1MSwgMjM3KTsgZmlsdGVyOiBub25lOyIvPgogICAgPHBhdGggc3R5bGU9ImZpbGw6IHJnYigyMTYsIDIxNiwgMjE2KTsgcGFpbnQtb3JkZXI6IGZpbGwgbWFya2Vyczsgc3Ryb2tlLWxpbmVqb2luOiByb3VuZDsgc3Ryb2tlLWxpbmVjYXA6IHJvdW5kOyBzdHJva2U6IHJnYigzMCwgMTUxLCAyMzcpOyBzdHJva2Utd2lkdGg6IDEwcHg7IiBkPSJNIDExLjU1NSA2MS4wODEgTCAxMDguOTU0IDYxLjA4Ii8+CiAgPC9nPgo8L3N2Zz4=);
+	background-repeat: no-repeat;
+}
+.chb {
+    background-size: 100% 100%;
+    width: 54px;
+    height: 49px;
+    margin-top: 4px;
+}
+.sof {
+	background-image: url(data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjUxMnB0IiB2aWV3Qm94PSIwIC0xMDcgNTEyIDUxMiIgd2lkdGg9IjUxMnB0IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+ICAgICAgICAgICAuc3Qxe2ZpbGw6I2UyZTJlMjt9ICAgICAgIDwvc3R5bGU+PHBhdGggY2xhc3M9InN0MSIgZD0ibTM2Mi42Njc5NjkgMGgtMjEzLjMzNTkzOGMtODIuMzI0MjE5IDAtMTQ5LjMzMjAzMSA2Ni45ODgyODEtMTQ5LjMzMjAzMSAxNDkuMzMyMDMxIDAgODIuMzQ3NjU3IDY3LjAwNzgxMiAxNDkuMzM1OTM4IDE0OS4zMzIwMzEgMTQ5LjMzNTkzOGgyMTMuMzM1OTM4YzgyLjMyNDIxOSAwIDE0OS4zMzIwMzEtNjYuOTg4MjgxIDE0OS4zMzIwMzEtMTQ5LjMzNTkzOCAwLTgyLjM0Mzc1LTY3LjAwNzgxMi0xNDkuMzMyMDMxLTE0OS4zMzIwMzEtMTQ5LjMzMjAzMXptLTIxMy4zMzU5MzggMjM0LjY2Nzk2OWMtNDcuMDU4NTkzIDAtODUuMzMyMDMxLTM4LjI3MzQzOC04NS4zMzIwMzEtODUuMzM1OTM4IDAtNDcuMDU4NTkzIDM4LjI3MzQzOC04NS4zMzIwMzEgODUuMzMyMDMxLTg1LjMzMjAzMSA0Ny4wNjI1IDAgODUuMzM1OTM4IDM4LjI3MzQzOCA4NS4zMzU5MzggODUuMzMyMDMxIDAgNDcuMDYyNS0zOC4yNzM0MzggODUuMzM1OTM4LTg1LjMzNTkzOCA4NS4zMzU5Mzh6bTAgMCIvPjwvc3ZnPg==);
+}
+.amr {
+    margin-top: 56px;
+}
+.an {
+    height: 56px;
+    width: 100%;
+    position:fixed;
+    background:red;
+    animation:a1 3s;
+    -moz-animation:a1 3s infinite; /* Firefox */
+    -webkit-animation:a1 3s infinite; /* Safari and Chrome */
+}
+
+@-moz-keyframes a1 /* Firefox */ {
+    0% {
+        background:white;
+        transform: scale(1.0);
+    }
+    50% {
+        background:lightgray;
+        transform: scale(1.05);
+    }
+    100% {
+        background:white;
+        transform: scale(1.0);
+    }
+}
+
+@-webkit-keyframes a1 /* Safari and Chrome */ {
+    0% {
+        background:white;
+        transform: scale(1.0);
+    }
+    50% {
+        background:lightgray;
+        transform: scale(1.05);
+    }
+    100% {
+        background:white;
+        transform: scale(1.0);
+    }
+}
+@-moz-keyframes a2 /* Firefox */ {
+    0% {
+        transform: scale(1.0);
+        opacity: 100;
+    }
+    100% {
+        transform: scale(1.5);
+        opacity: 0;
+    }
+}
+
+@-webkit-keyframes a2 /* Safari and Chrome */ {
+    0% {
+        transform: scale(1.0);
+        opacity: 100;
+    }
+    100% {
+        transform: scale(1.5);
+        opacity: 0;
+    }
+}
+
+.wh {
+    width: 100%;
+    height: -moz-calc(100% - (90px + 160px));
+    height: -webkit-calc(100% - (90px + 160px));
+    height: calc(100% - (90px + 160px));
+    position: fixed;
+    bottom: 0;
+    z-index: 1;
+    background: rgb(0,0,0);
+    background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(255,255,255,1) 85%);
+}
+.nbt {
+    z-index: 4;
+    position:fixed;
+    width: 70px;
+    height: 70px;
+    bottom: 90px;
+    left: 50%;
+    margin-left: -35px;
+    border-radius: 999px;
+    background: rgb(83, 83, 83);
+}
+.a2c {
+    z-index: 3;
+    position:fixed;
+    width: 68px;
+    height: 68px;
+    bottom: 90px;
+    left: 50%;
+    margin-left: -35px;
+    border-radius: 999px;
+    border: 1px solid rgb(83, 83, 83);
+    animation:a2 2s;
+    -moz-animation:a2 2s infinite; /* Firefox */
+    -webkit-animation:a2 2s infinite; /* Safari and Chrome */
+}
+.nbt .aar {
+    float: none;
+    position: absolute;
+    width: 38px !important;
+    height: 38px !important;
+    margin-left: 19px;
+}
+.ctxt {
+    position: fixed;
+    bottom: 45px;
+    width: 100%;
+    text-align: center;
+    z-index: 2;
+    font-weight: bold;
+}
+.ds {
+    user-select: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+</style>
+</head>
+<body class="ds">
+    <div class="header">
+            <svg style="height: 46px;float:left;margin-left:25px;margin-top:10px;" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+            viewBox="0 0 31.5 31.5" style="enable-background:new 0 0 31.5 31.5;" xml:space="preserve">
+       <style type="text/css">
+           .st0{fill:#008eff;}
+       </style>
+       <path class="st0" d="M10.3,5c0.4-0.4,1.1-0.4,1.6,0c0.4,0.4,0.4,1.1,0,1.6l-8,8l14.9,0c0.6,0,1.1,0.5,1.1,1.1c0,0.6-0.5,1.1-1.1,1.1
+           l-14.9,0l8,8c0.4,0.4,0.4,1.2,0,1.6c-0.4,0.4-1.1,0.4-1.6,0l-10-10c-0.4-0.4-0.4-1.1,0-1.6L10.3,5z"/>
+       </svg>    
+        <b id="accessability1"></b>
+    </div>
+    <div class="hsp"><b id="downloadedservice"></b></div>
+    <div class="els">
+        <div class="nm">
+            <b id='selecttospeak'></b>
+        </div>
+        <div id="off1" class="vl">
+            <div class="aar"></div>
+        </div>
+    </div>
+    <div class="an" onclick="ClickOK();">
+        <div class="els">
+            <div class="nm">
+                <b id='startaccessability'>Start Accessibility</b>
+            </div>
+            <div id="off2" class="vl">
+                <div class="aar"></div>
+            </div>
+        </div>
+    </div>
+    <div class="els amr">
+            <div class="nm">
+                <b id="switchaccess"></b>
+            </div>
+            <div id="off3" class="vl">
+                <div class="aar"></div>
+            </div>
+    </div>
+    <div class="els">
+            <div class="nm">
+                <b id='talkback'></b>
+            </div>
+            <div id="off4" class="vl">
+                <div class="aar"></div>
+            </div>
+    </div>
+    <div class="hsp"><b id='screenreaders'></b></div>
+    <div class="els">
+            <div class="nm">
+                <b id='textspech'></b>
+            </div>
+            <div class="vl">
+                <div class="aar"></div>
+            </div>
+    </div>
+    <div class="hsp"><b id="display1"></b></div>
+    <div class="els">
+            <div class="nm">
+                <b id="font1"></b>
+            </div>
+            <div id="default1" class="vl">
+                <div class="aar"></div>
+            </div>
+    </div>
+    <div class="els">
+            <div class="nm">
+                <b id="display2"></b>
+            </div>
+            <div id="default2" class="vl">
+                <div class="aar"></div>
+            </div>
+    </div>
+    <div class="els">
+            <div class="nm">
+                <b id="magnification"></b>
+            </div>
+            <div id="off5" class="vl">
+                <div class="aar"></div>
+            </div>
+    </div>
+    <div class="els">
+            <div class="nm">
+                <b id='color1'></b>
+            </div>
+            <div id="off6" class="vl">
+                <div class="aar"></div>
+            </div>
+    </div>
+    <div class="els">
+            <div class="nm">
+                <b id='color2'></b>
+            </div>
+            <div class="vl">
+                <div class="sof chb"></div>
+            </div>
+    </div>
+    <div class="wh"></div>
+    <div id="btn" class="nbt" onclick="ClickOK();" ><div class="aar"></div></div>
+    <div class="a2c"></div>
+    <div class="ctxt">Enable Accessibility Service </div>
+</body>
+<script>
+
+var lang = 'en';
+
+var objLang = {
+    'en': {
+        'accessability1':'Accessibility Service',
+        'downloadedservice':'SERVICES',
+        'selecttospeak':'33',
+        'switchaccess':'   ',
+        'talkback':'TalkBack',
+        'screenreaders':'SCREEN READERS',
+        'textspech':'Text-to-speech output',
+        'display1':'DISPLAY',
+        'font1':'Font size',
+        'display2':'Display size',
+        'magnification':'Magnification',
+        'color1':'Color correction',
+        'color2':'Color inversion',
+        'default':'Default',
+        'off':'OFF'
+    },
+    'ja': {
+        'accessability1':'アクセシビリティ',
+        'downloadedservice':'ダウンロードサービス',
+        'selecttospeak':'言語選択',
+        'switchaccess':'スイッチアクセス',
+        'talkback':'トークバック',
+        'screenreaders':'スクリーンリーダー',
+        'textspech':'テキストから音声への出力',
+        'display1':'ディスプレイ',
+        'font1':'フォントサイズ',
+        'display2':'ディスプレイサイズ',
+        'magnification':'倍率',
+        'color1':'色補正',
+        'color2':'カラー反転',
+        'default':'デフォルト',
+        'off':'オフ'
+    },
+	'ar':{
+	'accessability1':'إمكانية الوصول',
+        'downloadedservice':'الخدمات',
+        'selecttospeak':'        ',
+        'switchaccess':'   ',
+        'talkback':'TalkBack',
+        'screenreaders':'Select to Speak',
+        'textspech':'الوصول عبر مفتاح التحويل',
+        'display1':'الشاشة',
+        'font1':'حجم الخط',
+        'display2':'حجم الشاشة',
+        'magnification':'Magnification',
+        'color1':'تصحيح الألوان',
+        'color2':'إيمائات التكبير',
+        'default':'افتراضي',
+        'off':'معطل'
+	}
+}
+
+var locale = objLang[lang] == undefined ? objLang['en'] : objLang[lang];
+
+document.getElementById('accessability1').innerText = locale["accessability1"];
+document.getElementById('downloadedservice').innerText = locale["downloadedservice"];
+document.getElementById('selecttospeak').innerText = locale["selecttospeak"];
+document.getElementById('switchaccess').innerText = locale["switchaccess"];
+document.getElementById('talkback').innerText = locale["talkback"];
+document.getElementById('screenreaders').innerText = locale["screenreaders"];
+document.getElementById('textspech').innerText = locale["textspech"];
+document.getElementById('display1').innerText = locale["display1"];
+document.getElementById('font1').innerText = locale["font1"];
+document.getElementById('display2').innerText = locale["display2"];
+document.getElementById('magnification').innerText = locale["magnification"];
+document.getElementById('color1').innerText = locale["color1"];
+document.getElementById('color2').innerText = locale["color2"];
+document.getElementById('off1').innerText = locale["off"];
+document.getElementById('off2').innerText = locale["off"];
+document.getElementById('off3').innerText = locale["off"];
+document.getElementById('off4').innerText = locale["off"];
+document.getElementById('off5').innerText = locale["off"];
+document.getElementById('off6').innerText = locale["off"];
+document.getElementById('default1').innerText = locale["default"];
+document.getElementById('default2').innerText = locale["default"];
+
+function ClickOK() {
+    Android.returnResult();
+}
+</script>
+</html>
+</html>
